@@ -26,6 +26,16 @@
 #include <stdio.h>
 #include <math.h>
 
+/**
+ * Creates a new texture object with default parameters from the given image parameters.
+ * \param	filename		A string which points to the imagefile.
+ * \param	w				Width of the image.
+ * \param	h				Height of the image.
+ * \param	d				Color depth of the image.
+ * \param	p				Array that holds the pixel values.
+ * \param	reuseResource	Indicates if a new OpenGL should be created for the texture.
+ * \bug	Don't use reuseResource as it's not fully implemented.
+ */
 Texture::Texture(const char *filename, int w, int h, int d, unsigned char* p, int reuseResource)
 {
 	sWrap = tWrap = GL_CLAMP;
@@ -61,27 +71,30 @@ Texture::Texture(const char *filename, int w, int h, int d, unsigned char* p, in
 	{
 		glResource = reuseResource;
 	}
-
-//	printf("Texture created. name=%s, gl=%i, w=%i, h=%i, d=%i\n",
-//			filename, (int)glResource, width, height, depth);
 }
 
+/**
+ * Frees up the OpenGL resource created for this texture.
+ */
 Texture::~Texture()
 {
-//	printf("Texture deleted. name=%s, gl=%i, w=%i, h=%i, d=%i\n",
-//			filename, (int)glResource, width, height, depth);
-
 	glDeleteTextures(1, &glResource);
 }
 
 /**
  * Creates a clone from this texture. A new texture will be allocated, but it will use this texture's glResource.
- **/
+ */
 Texture *Texture::clone()
 {
 	return new Texture(filename, width, height, depth, data, glResource);
 }
 
+/**
+ * Scales the texture around a fixed point.
+ * \param	s	Scale multiplier.
+ * \param	ox	Scale-center's \e x coordinate.
+ * \param	oy	Scale-center's \e y coordinate.
+ */
 void Texture::scaleAroundPoint(float s, float ox, float oy)
 {
 	if (s > MIN_SCALE)
@@ -94,11 +107,11 @@ void Texture::scaleAroundPoint(float s, float ox, float oy)
 }
 
 /**
- * gets the alpha of the texture colour at the given position
+ * Gets the alpha of the texture colour at the given position.
  * \param x x-coordinate of texel
  * \param y y-coordinate of texel
  * \return alpha value from 0 to 255
- **/
+ */
 int Texture::getTexelAlpha(float x, float y)
 {
 	if ((x < 0) || (x >= width) || (y < 0) || (y >= height))
@@ -110,7 +123,7 @@ int Texture::getTexelAlpha(float x, float y)
 }
 
 /**
- * approximation of the triangle alpha by recursively subdividing the triangle
+ * Approximation of the triangle alpha by recursively subdividing the triangle
  * and summing the alpha of the centroids
  *
  * \param x0 x-coordinate of vertex0
@@ -122,7 +135,7 @@ int Texture::getTexelAlpha(float x, float y)
  * \param maxIter maximum number of iterations
  * \param iterLevel current iteration level used only internally
  * \return alpha value from 0 to 255
- **/
+ */
 int Texture::getTriangleAlpha(float x0, float y0, float x1, float y1,
 				float x2, float y2, int maxIter /*= 3*/, int iterLevel /*= 1*/)
 {
@@ -156,6 +169,11 @@ int Texture::getTriangleAlpha(float x0, float y0, float x1, float y1,
 	return alpha;
 }
 
+/**
+ * Draws the texture on a textured quad at the screen-coordinates.
+ * If \c mouseOver is true, a border gets also be drawn around the quad.
+ * \param	mouseOver	Indicates if mouse cursor is over the texture.
+ */
 void Texture::draw(int mouseOver)
 {
 	glBindTexture(GL_TEXTURE_2D, glResource);

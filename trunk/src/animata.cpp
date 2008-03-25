@@ -1127,8 +1127,7 @@ void AnimataWindow::setBoneTempo(float p)
  * \param area bone range
  * \param falloff bone strength falloff for attached vertices
  **/
-void AnimataWindow::setAttachPrefsFromUI(float area /* = FLT_MAX*/, \
-		float falloff /* = FLT_MAX */)
+void AnimataWindow::setAttachPrefsFromUI(float area /* = FLT_MAX*/, float falloff /* = FLT_MAX */)
 {
 	cSkeleton->setSelectedBoneParameters(NULL, FLT_EPSILON, -1, area, falloff);
 	cSkeleton->selectVerticesInRange(cMesh);

@@ -36,66 +36,90 @@
 
 #define MIN_SCALE 0.1f
 
+/// Represent a texture that can be attached to a Mesh.
 class Texture
 {
 	private:
-		unsigned char	*data;
-		int				depth;
+		unsigned char	*data;			///< pixel values of the texture
+		int				depth;			///< color depth value
 
-		float			scale;
+		float			scale;			///< scale multiplier for the size
 
-		GLuint			glResource;
+		GLuint			glResource;		///< OpenGL resource of the texture
 
-		int				sWrap;
-		int				tWrap;
+		int				sWrap;			///< \c GL_TEXTURE_WRAP_S OpenGL parameter
+		int				tWrap;			///< \c GL_TEXTURE_WRAP_T OpenGL parameter
 
-		int				minFilter;
-		int				magFilter;
+		int				minFilter;		///< \c GL_TEXTURE_MIN_FILTER OpenGL parameter
+		int				magFilter;		///< \c GL_TEXTURE_MAG_FILTER OpenGL parameter
+
+		const char		*filename;		///< filename from which the texture is created
 
 		int getTexelAlpha(float x, float y);
 
-		const char		*filename;
-
 	public:
 
-		static const int BORDER = 0;
+		static const int BORDER = 0;	///< size of the border around the texture when mouse over 
 
-		float		x;
-		float		y;
+		float		x;					///< \e x coordinate of the position in world coordinate-system
+		float		y;					///< \e y coordinate of the position in world coordinate-system
 
-		float		viewx;
-		float		viewy;
+		float		viewx;				///< \e x coordinate of the position in screen coordinate-system
+		float		viewy;				///< \e y coordinate of the position in screen coordinate-system
 
-		int			width;
-		int			height;
+		int			width;				///< width of the texture
+		int			height;				///< height og the texture
 
 		Texture(const char *filename, int w, int h, int d, unsigned char* d, int reuseResource = 0);
 		~Texture();
 
-		/// draws the texture
 		void draw(int mouseOver = 0);
-
-		/// clones this texture to a new texture which uses the old glResource
-		Texture *clone();
-
-		inline unsigned char* getData() { return data; }
-
-		/// return texture scaling value
-		inline float getScale(void) { return scale; }
-		/// sets texture scaling value
-		inline void setScale(float s) { scale = s; }
-		void scaleAroundPoint(float s, float ox, float oy);
-
-		inline int getWidth() { return width; }
-		inline int getHeight() { return height; }
-		inline GLuint getGlResource() { return glResource; }
 
 		int getTriangleAlpha(float x0, float y0, float x1, float y1,
 				float x2, float y2, int maxIter = 3, int iterLevel = 1);
 
-		/// returns texture filename
+		void scaleAroundPoint(float s, float ox, float oy);
+
+		/**
+		 * Returns an array holding pixel values of the texture.
+		 * \retval	unsigned char*	Array of the pixel values.
+		 */
+		inline unsigned char* getData() { return data; }
+
+		/**
+		 * Returns scale multiplier of the texture.
+		 * \retval	float	Scale multiplier.
+		 */
+		inline float getScale(void) { return scale; }
+		/**
+		 * Sets scale multiplier value.
+		 * \param	s	New scale multiplier.
+		 */
+		inline void setScale(float s) { scale = s; }
+
+		/**
+		 * Returns width of the texture.
+		 * \retval	int	Width of the texture.
+		 */
+		inline int getWidth() { return width; }
+		/**
+		 * Returns height of the texture.
+		 * \retval	int	Height of the texture.
+		 */
+		inline int getHeight() { return height; }
+		/**
+		 * Returns the OpenGL resource which holds the texture.
+		 * \retval	GLuint	OpenGL resource that represent the texture.
+		 */
+		inline GLuint getGlResource() { return glResource; }
+
+		/**
+		 * Returns the filename from which the texture was created.
+		 * \retval const char* String of the filename.
+		 */
 		inline const char *getFilename(void) { return filename; }
 
+		Texture *clone();
 };
 
 #endif

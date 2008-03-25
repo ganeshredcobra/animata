@@ -26,48 +26,69 @@
 
 #include "Vector3D.h"
 
-/// camera class, manages projection and modelview matrices
+/// Camera class, manages projection and modelview matrices.
 class Camera
 {
 	private:
+
 		Vector3D	target;			///< position of the target
 		Vector3D	orientation;	///< orientation of the camera
-		Vector3D	upvector;		///< vector defining the up
+		Vector3D	upvector;		///< vector defining the up vector of the camera
 
 		float		distance;		///< distance from the target
 		float		fov;			///< vertical field of view in degrees
 
 		int			width;			///< width of the camerapicture at distance
 		int			height;			///< height of the camerapicture at distance
-		double		aspect;
+		double		aspect;			///< aspect of the camerapicture
 
-		Camera		*parent;		///< the camera which this will clone, this will show the same picture as the parent
+		Camera		*parent;		///< the camera whose picture gets cloned by this
 		int			pictureWidth;	///< width of the parent's picture
 		int			pictureHeight;	///< height of the parent's picture
 
-		float		zNear;
-		float		zFar;
+		float		zNear;			///< distance of the near plane from the camera
+		float		zFar;			///< distance of the far plane from the camera
 
-		bool		init;			///< shows if the camera target has been already set
+		bool		init;			///< shows if the camera target has already been set
 
 	public:
+
 		Camera();
 
 		void setSize(int w, int h);
 		void setAspect(int w, int h);
 
-		inline void setParent(Camera *c) { parent = c; }
-
-		void setupViewport();
+		void setupModelView();
 		void setupPerspective();
 		void setupOrtho();
 		void setupPickingProjection(int x, int y, int radius);
+		void setupViewport();
 
-		void setupModelView();
-
+		/**
+		 * Sets the parent camera to a given one.
+		 * This will show the same picture as the parent.
+		 * \param	c	The new parent camera.
+		 */
+		inline void setParent(Camera *c) { parent = c; }
+		/**
+		 * Returns the position of the camera-target.
+		 * \retval	Vector3D	3D position of the camera-target.
+		 */
 		inline Vector3D *getTarget() { return &target; }
+		/**
+		 * Returns the width at the distance from the target of the camera picture.
+		 * \retval	int	Width of the picture.
+		 */
 		inline int getWidth() { return width; }
+		/**
+		 * Returns the height at the distance from the target of the camera picture.
+		 * \retval	int	Height of the picture.
+		 */
 		inline int getHeight() { return height; }
+		/**
+		 * Returns the distance from the camera-target.
+		 * \retval	float	Distance from the target.
+		 */
 		inline float getDistance() { return distance; }
 };
 
