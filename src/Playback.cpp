@@ -148,3 +148,4 @@ void Playback::hide()
 
 	Fl_Window::hide();
 }
+
