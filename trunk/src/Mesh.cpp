@@ -595,7 +595,7 @@ void Mesh::clearSelection(void)
  * Vertices, faces and faces with textures attached to the mesh gets drawn based on the actual AnimataSettings::display_elements.
  *
  * There are three drawing modes at this time.
- * 	- GL_FEEDBACK\n
+ *	- GL_FEEDBACK\n
  *		Only draws a point to every vertex of the mesh, to get their exact position that can be used to set their screen coordinates.
  *	- Playback::RENDER_PLAYBACK\n
  *		Same as the default mode, but no mouseOver for the primitives.

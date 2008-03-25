@@ -56,3 +56,4 @@ void Face::attachTexture(Texture *t)
 		v[i]->texCoord.y = (v[i]->coord.y - t->y) / sy;
 	}
 }
+

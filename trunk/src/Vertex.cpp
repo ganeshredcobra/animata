@@ -41,3 +41,4 @@ void Vertex::flipSelection(void)
 {
 	selected = !selected;
 }
+
