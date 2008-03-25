@@ -38,21 +38,24 @@
 #include "Layer.h"
 #include "animata.h"
 
+/// Playback window class.
+/// Show the same sized image as the main application window,
+/// but can display different primitive types as the actives in the main window.
 class Playback : public Fl_Gl_Window
 {
 	private:
 
-		Camera		*camera;
-		Layer		*rootLayer;
+		Camera		*camera;			///< Camera which displays the playback window's picture. It's \a parent is set to AnimataWindow::camera.
+		Layer		*rootLayer;			///< The root of all layers, same as AnimataWindow::rootLayer.
 
-		bool		fullscreen;
-		int			ox, oy, ow, oh;
+		bool		fullscreen;			///< fullscreen flag
+		int			ox, oy, ow, oh;		///< last position of the playback window before it has been but to fullscreen
 
-		void		*glContext;
+		void		*glContext;			///< OpenGL context of this window
 
 	public:
 
-		static const unsigned RENDER_PLAYBACK = GL_SELECT + 1;
+		static const unsigned RENDER_PLAYBACK = GL_SELECT + 1;	///< Constant for drawing functions to render only the playback picture.
 
 		Playback(int x, int y, int w, int h, const char* l = NULL);
 		~Playback();
@@ -63,8 +66,16 @@ class Playback : public Fl_Gl_Window
 		void show();
 		void hide();
 
+		/**
+		 * Returns the camera of the playback window.
+		 * \retval	Camera*	A pointer to the camera object.
+		 */
 		inline Camera *getCamera() { return camera; }
 
+		/**
+		 * Sets the \a rootLayer to the given one.
+		 * \param	r	The new rootLayer.
+		 */
 		inline void setRootLayer(Layer *r) { rootLayer = r; }
 };
 

@@ -24,17 +24,36 @@
 #ifndef __DRAWABLE_H__
 #define __DRAWABLE_H__
 
+/// This class gets inherited by primitives which can be selected by Selection::doSelection()
 class Drawable
 {
 	public:
 
 		virtual ~Drawable() {}
 
-		// draw the primitive
+		/**
+		 * Pure virtual function for drawing the primitive.
+		 * \param	mode	Various rendering modes implemented by children classes.
+		 * \param	active	Shows if the primitive is on the active layer, so it can be drawn in a different way if not active.
+		 *					Default value is 1.
+		 */
 		virtual void draw(GLenum mode, int active = 1) = 0;
-		// select the ith element which has the given type
+
+		/**
+		 * Selects the i-th subelement of the primitive with the given type.
+		 * \param	i		The number of the subelement in it's array.
+		 * \param	type	Type of the subelement. This helps when the primitive has more subelement.
+		 */
 		virtual void select(unsigned i, int type) = 0;
-		// select ith element if inside the given circle
+
+		/**
+		 * Selects the i-th subelement of the primitive with the given type in the given circle.
+		 * \param	i		The number of the subelement in it's array.
+		 * \param	type	Type of the subelement. This helps when the primitive has more subelement.
+		 * \param	xc		\e x coordinate of the selection circle's center.
+		 * \param	yc		\e y coordinate of the selection circle's center.
+		 * \param	r		Radius of the selection circle's center.
+		 */
 		virtual void circleSelect(unsigned i, int type, int xc, int yc, float r) = 0;
 };
 

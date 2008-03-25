@@ -161,11 +161,11 @@ class AnimataWindow : public Fl_Gl_Window
 		/* FIXME: use multimap instead of vectors and store only named elements */
 		/* the following vectors are needed to reach the elements quickly
 		 * without traversing the whole hierarcy recursively */
-		/**< vector of all layers without the hierarchical structure */
+		/** vector of all layers without the hierarchical structure */
 		std::vector<Layer *> *allLayers;
-		/**< vector of all bones without the hierarchical structure */
+		/** vector of all bones without the hierarchical structure */
 		std::vector<Bone *> *allBones;
-		/**< vector of all joints without the hierarchical structure */
+		/** vector of all joints without the hierarchical structure */
 		std::vector<Joint *> *allJoints;
 
 		Layer			*cLayer; /**< current layer */

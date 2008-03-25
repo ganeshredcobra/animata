@@ -29,6 +29,9 @@
 #include "animataUI.h"
 #include "Transform.h"
 
+/**
+ * Creates a new TextureManager object and allocates memory for holding textures in the \a textures vector.
+ */
 TextureManager::TextureManager()
 {
 	textures = new std::vector<Texture*>;
@@ -36,6 +39,9 @@ TextureManager::TextureManager()
 	pTexture = NULL;
 }
 
+/**
+ * Removes every texture from the \a textures vector and deletes them also.
+ */
 TextureManager::~TextureManager()
 {
 	if (textures)
@@ -50,8 +56,8 @@ TextureManager::~TextureManager()
 
 /**
  * Returns the texture which was created from the given file.
- * \param filename filename of texture
- * \return pointer to texture or NULL if does not exist
+ * \param filename Filename of texture.
+ * \return Pointer to texture or NULL if does not exist.
  **/
 Texture *TextureManager::getTexture(const char *filename)
 {
@@ -66,7 +72,7 @@ Texture *TextureManager::getTexture(const char *filename)
 
 /**
  * Adds an already allocated texture to the TextureManager.
- * \param t the texture to add
+ * \param t The texture to add.
  **/
 void TextureManager::addTexture(Texture* t)
 {
@@ -75,7 +81,7 @@ void TextureManager::addTexture(Texture* t)
 
 /**
  * Removes the given texture if it presents in the TextureManager.
- * \param t the texture to remove
+ * \param t The texture to remove.
  **/
 void TextureManager::removeTexture(Texture* t)
 {
@@ -93,7 +99,7 @@ void TextureManager::removeTexture(Texture* t)
 
 /**
  * Allocates a new texture based on the given ImageBox if neccessary, and adds it to the TextureManager.
- * If there is already a texture with the same image as the one in the ImageBox, use its glResource.
+ * \todo If there is already a texture with the same image as the one in the ImageBox, use its glResource.
  * \param box the imagebox as the source for the texture
  * \return the newly allocated texture
  **/
@@ -120,6 +126,11 @@ Texture *TextureManager::createTexture(ImageBox *box)
 	return texture;
 }
 
+/**
+ * Draws only the texture of the mesh on the currently active layer.
+ * First the screen coordinates get computed by Transform::project(), then the texture gets draw in the resulting position.
+ * \param	mode	Render mode. Screen coordinates gets computed only if mode is not \c GL_RENDER.
+ */
 void TextureManager::draw(int mode)
 {
 	unsigned hit = selector->getHitCount();

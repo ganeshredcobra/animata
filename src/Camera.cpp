@@ -33,6 +33,16 @@
 	#include <GL/glu.h>
 #endif
 
+/**
+ * Creates a new camera with default parameters.
+ * - \a target = (0, 0, 0)
+ * - \a orientation = (0, 0, 0)
+ * - \a upvector = (0, -1, 0)
+ * - \a distance = 150
+ * - \a fov = 90
+ * - \a zNear = 0.1
+ * - \a zFar = 1000
+ */
 Camera::Camera()
 {
 	target.set(0.f, 0.f, 0.f);
@@ -54,10 +64,11 @@ Camera::Camera()
 }
 
 /**
- * sets the projection parameters by defining the width and height of the view at distance
- * repositions the target if needed
- * /param w width of the view
- * /param h height of the view
+ * Sets up the camera-picture's aspect, and calculates the picture's size.
+ * Positions the camera's target if it hasn't been already positioned.
+ * If this \a parent of this camera is already set every calculation will be based on the parent's parameters.
+ * /param w Width of the view.
+ * /param h Height of the view.
  **/
 void Camera::setSize(int w, int h)
 {
@@ -100,6 +111,12 @@ void Camera::setSize(int w, int h)
 	setupPerspective();
 }
 
+/**
+ * Calculates the aspect of the picture based on the given parameters.
+ * The vertical field-of-view gets also calculated and stored, what is required for an undistorted picture.
+ * \param	w	Width of the picture at camera distance from the target.
+ * \param	h	Height of the picture at camera distance from the target.
+ */
 void Camera::setAspect(int w, int h)
 {
 	aspect = h > 0 ? (double)w / (double)h : 1.0;
@@ -112,10 +129,10 @@ void Camera::setAspect(int w, int h)
 }
 
 /**
- * sets up the projection matrix by perspective transformation
- * also the vertical fov is stored after it is computed from the dimension of the view
- * in the beginning the projection matrix is cleared
-**/
+ * Sets up the projection matrix by perspective transformation.
+ * Also the viewport is set.
+ * In the beginning the projection matrix gets cleared.
+ */
 void Camera::setupPerspective()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -127,10 +144,10 @@ void Camera::setupPerspective()
 }
 
 /**
- * sets up the projection matrix by orthographic transformation
- * also the vertical fov is stored after it is computed from the dimension of the view
- * in the beginning the projection matrix is cleared
-**/
+ * Sets up the projection matrix by orthographic transformation.
+ * Also the viewport is set.
+ * In the beginning the projection matrix gets cleared.
+ */
 void Camera::setupOrtho()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -143,12 +160,12 @@ void Camera::setupOrtho()
 }
 
 /**
- * sets up the projection matrix used by picking functions
- * this is done via multiplying the a special picking matrix onto the current projection matrix
- * /param x x coordinate of picking position
- * /param y y coordinate of picking position
- * /param radius the radius around the given point where picking can occure
- **/
+ * Sets up the projection matrix which will be used by picking functions.
+ * This is done via multiplying the a special picking matrix onto the current projection matrix.
+ * /param	x	\e x coordinate of the picking position
+ * /param	y	\e y coordinate of the picking position
+ * /param	radius	The radius around the given point where picking occures.
+ */
 void Camera::setupPickingProjection(int x, int y, int radius)
 {
 	// get the boundaries of actual viewport
@@ -165,9 +182,9 @@ void Camera::setupPickingProjection(int x, int y, int radius)
 }
 
 /**
- * sets up the modelview matrix by lookAt, based on the camera properties
- * in the beginning the modelview matrix is cleared
- **/
+ * Sets up the modelview matrix by gluLookAt(), based on the camera properties \a target, \a distance and \a upvector.
+ * In the beginning the modelview matrix gets cleared.
+ */
 void Camera::setupModelView()
 {
 	glMatrixMode(GL_MODELVIEW);
@@ -178,6 +195,9 @@ void Camera::setupModelView()
 			  upvector.x, upvector.y, upvector.z);
 }
 
+/**
+ * Sets up the viewport to be the exact size as the camera-picture at \a distance.
+ */
 void Camera::setupViewport()
 {
 //	glViewport(0, 0, pictureWidth, pictureHeight);

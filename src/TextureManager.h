@@ -28,17 +28,17 @@
 #include "Texture.h"
 #include "ImageBox.h"
 
-/// holds textures
+/// Holds and manages textures.
 class TextureManager
 {
 	private:
 
 		std::vector<Texture*>* textures;	///< textures vector holding all the textures
 
-		Texture *pTexture;					///< texture below the mousepointer
-		Texture *activeTexture;			///< texture attached to the mesh on currently active layer
+		Texture *pTexture;					///< texture below the mouse cursor
+		Texture *activeTexture;				///< texture attached to the mesh on currently active layer
 
-		/// adds an already allocated texture
+		/// Adds an already allocated texture to the manager.
 		void addTexture(Texture* t);
 
 	public:
@@ -57,10 +57,20 @@ class TextureManager
 
 		void draw(int mode);
 
-		/// returns the textures vector
+		/**
+		 * Returns the \a textures vector holding all the textures uploaded to the manager.
+		 * \retval	std::vector<Texture*>* Texture vector.
+		 */
 		inline std::vector<Texture*>* getTextures() { return textures; }
-
+		/**
+		 * Returns texture currently under the mouse cursor.
+		 * \retval Texture* Texture below the mouse cursor.
+		 */
 		inline Texture *getPointedTexture() { return pTexture; }
+		/**
+		 * Returns texture attached to the mesh on the currently active layer.
+		 * \retval Texture* Texture attached to the mesh on the active layer.
+		 */
 		inline Texture *getActiveTexture() { return activeTexture; }
 };
 

@@ -24,6 +24,14 @@
 #include "Playback.h"
 #include "animataUI.h"
 
+/**
+ * Creates a new playback window.
+ * \param x \e x position of window.
+ * \param y \e y position of window.
+ * \param w Window width.
+ * \param h Window height.
+ * \param l Pointer to label string.
+ */
 Playback::Playback(int x, int y, int w, int h, const char* l) :
 	Fl_Gl_Window(x, y, w, h, l)
 {
@@ -36,11 +44,18 @@ Playback::Playback(int x, int y, int w, int h, const char* l) :
 	glContext = NULL;
 }
 
+/**
+ * Destroys the window and frees up memory allocated by \a camera.
+ */
 Playback::~Playback()
 {
 	delete camera;
 }
 
+/**
+ * Draws the playback picture in the window.
+ * Rendering is done in \a RENDER_PLAYBACK mode.
+ */
 void Playback::draw()
 {
 	if (!valid())
@@ -65,6 +80,10 @@ void Playback::draw()
 		rootLayer->draw(RENDER_PLAYBACK);
 }
 
+/**
+ * Event handler for playback window.
+ * Used for switching between fullscreen and windowed mode.
+ */
 int Playback::handle(int event)
 {
 	switch(event)
@@ -107,7 +126,8 @@ int Playback::handle(int event)
 }
 
 /**
- * Overriders Fl_Gl_Window::show() so it wont create a new opengl context every time
+ * Overrides Fl_Gl_Window::show() so it wont create a new opengl context every time.
+ * \todo This function is not implemented.
  */
 void Playback::show()
 {
@@ -119,8 +139,8 @@ void Playback::show()
 }
 
 /**
- * Overrides Fl_Gl_Window::hide() so the opengl context wont be destroyed
- * if this context is destroyed, the editor context stops
+ * Overrides Fl_Gl_Window::hide() so the opengl context wont be destroyed.
+ * If the context is destroyed, the editor context also stops on Mac OSX.
  */
 void Playback::hide()
 {

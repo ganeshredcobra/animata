@@ -43,7 +43,7 @@ void Transform::setMatrices()
  *
  * \param x \e x coordiate of the point
  * \param y \e y coordiate of the point
- * \param z \w z coordiate of the point
+ * \param z \e z coordiate of the point
  */
 Vector3D Transform::project(float x, float y, float z)
 {
