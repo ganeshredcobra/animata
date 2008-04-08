@@ -40,7 +40,6 @@ Joint::Joint(float x, float y)
 	dragged = false;
 	selected = false;
 	dragTS = -1;
-	osc = false;
 
 	setName("");
 }
