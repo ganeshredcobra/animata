@@ -188,31 +188,43 @@ void AnimataUI::cb_threshold(Fl_Value_Slider* o, void* v) {
 }
 
 void AnimataUI::cb_jointName_i(Fl_Input* o, void*) {
-  editorBox->setJointPrefsFromUI(o->value());
+  tempStorage.str = o->value();
+editorBox->setJointPrefsFromUI(PREFS_JOINT_NAME, &tempStorage);
 }
 void AnimataUI::cb_jointName(Fl_Input* o, void* v) {
   ((AnimataUI*)(o->parent()->parent()->parent()->parent()->parent()->user_data()))->cb_jointName_i(o,v);
 }
 
 void AnimataUI::cb_jointX_i(Fl_Value_Input* o, void*) {
-  editorBox->setJointPrefsFromUI(NULL, o->value());
+  tempStorage.f = o->value();
+editorBox->setJointPrefsFromUI(PREFS_JOINT_X, &tempStorage);
 }
 void AnimataUI::cb_jointX(Fl_Value_Input* o, void* v) {
   ((AnimataUI*)(o->parent()->parent()->parent()->parent()->parent()->user_data()))->cb_jointX_i(o,v);
 }
 
 void AnimataUI::cb_jointY_i(Fl_Value_Input* o, void*) {
-  editorBox->setJointPrefsFromUI(NULL, FLT_MAX, o->value());
+  tempStorage.f = o->value();
+editorBox->setJointPrefsFromUI(PREFS_JOINT_Y, &tempStorage);
 }
 void AnimataUI::cb_jointY(Fl_Value_Input* o, void* v) {
   ((AnimataUI*)(o->parent()->parent()->parent()->parent()->parent()->user_data()))->cb_jointY_i(o,v);
 }
 
 void AnimataUI::cb_jointFixed_i(Fl_Check_Button* o, void*) {
-  editorBox->setJointPrefsFromUI(NULL, FLT_MAX, FLT_MAX, o->value());
+  tempStorage.i = o->value();
+editorBox->setJointPrefsFromUI(PREFS_JOINT_FIXED, &tempStorage);
 }
 void AnimataUI::cb_jointFixed(Fl_Check_Button* o, void* v) {
   ((AnimataUI*)(o->parent()->parent()->parent()->parent()->parent()->user_data()))->cb_jointFixed_i(o,v);
+}
+
+void AnimataUI::cb_jointOSC_i(Fl_Check_Button* o, void*) {
+  tempStorage.i = o->value();
+editorBox->setJointPrefsFromUI(PREFS_JOINT_OSC, &tempStorage);
+}
+void AnimataUI::cb_jointOSC(Fl_Check_Button* o, void* v) {
+  ((AnimataUI*)(o->parent()->parent()->parent()->parent()->parent()->user_data()))->cb_jointOSC_i(o,v);
 }
 
 void AnimataUI::cb_boneName_i(Fl_Input* o, void*) {
@@ -592,6 +604,7 @@ AnimataUI::AnimataUI() {
         o->selection_color((Fl_Color)30);
         o->labelsize(11);
         o->labelcolor(FL_BACKGROUND2_COLOR);
+        o->hide();
         { Fl_Button* o = new Fl_Button(15, 535, 90, 20, "Create Vertex");
           o->type(102);
           o->box(FL_BORDER_BOX);
@@ -678,7 +691,6 @@ AnimataUI::AnimataUI() {
         o->selection_color((Fl_Color)30);
         o->labelsize(11);
         o->labelcolor(FL_BACKGROUND2_COLOR);
-        o->hide();
         { Fl_Button* o = new Fl_Button(15, 535, 90, 20, "Create Joint");
           o->type(102);
           o->box(FL_BORDER_BOX);
@@ -737,7 +749,6 @@ AnimataUI::AnimataUI() {
           { Fl_Group* o = jointPrefs = new Fl_Group(135, 535, 570, 110);
             o->color((Fl_Color)30);
             o->selection_color((Fl_Color)30);
-            o->hide();
             { Fl_Box* o = new Fl_Box(140, 539, 43, 16, "Joint");
               o->color((Fl_Color)30);
               o->selection_color((Fl_Color)30);
@@ -788,11 +799,21 @@ AnimataUI::AnimataUI() {
               o->labelcolor(FL_BACKGROUND2_COLOR);
               o->callback((Fl_Callback*)cb_jointFixed);
             }
+            { Fl_Check_Button* o = jointOSC = new Fl_Check_Button(185, 610, 50, 20, "OSC");
+              o->box(FL_BORDER_BOX);
+              o->down_box(FL_BORDER_BOX);
+              o->color((Fl_Color)30);
+              o->selection_color((Fl_Color)3);
+              o->labelsize(10);
+              o->labelcolor(FL_BACKGROUND2_COLOR);
+              o->callback((Fl_Callback*)cb_jointOSC);
+            }
             o->end();
           }
           { Fl_Group* o = bonePrefs = new Fl_Group(135, 535, 640, 110);
             o->color((Fl_Color)30);
             o->selection_color((Fl_Color)30);
+            o->hide();
             { Fl_Box* o = new Fl_Box(140, 539, 43, 16, "Bone");
               o->labelfont(1);
               o->labelsize(12);

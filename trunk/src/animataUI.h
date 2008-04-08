@@ -102,6 +102,11 @@ private:
   void cb_jointFixed_i(Fl_Check_Button*, void*);
   static void cb_jointFixed(Fl_Check_Button*, void*);
 public:
+  Fl_Check_Button *jointOSC;
+private:
+  void cb_jointOSC_i(Fl_Check_Button*, void*);
+  static void cb_jointOSC(Fl_Check_Button*, void*);
+public:
   Fl_Group *bonePrefs;
   Fl_Input *boneName;
 private:

@@ -52,6 +52,7 @@
 #include "Camera.h"
 #include "OSCManager.h"
 #include "ImageBox.h"
+#include "Preferences.h"
 
 /**
  * Operational modes set by pressing buttons on the GUI.
@@ -93,13 +94,6 @@ enum ANIMATA_DISPLAY_ELEMENTS
 	DISPLAY_OUTPUT_JOINT = 0x40000,
 	DISPLAY_OUTPUT_BONE = 0x80000,
 	DISPLAY_OUTPUT_TEXTURE = 0x100000
-};
-
-enum ANIMATA_PREFERENCES
-{
-	PREFS_LAYER_NAME,
-	PREFS_LAYER_ALPHA,
-	PREFS_LAYER_VISIBILITY
 };
 
 /// Various settings coming from the GUI.
@@ -168,6 +162,9 @@ class AnimataWindow : public Fl_Gl_Window
 		/** vector of all joints without the hierarchical structure */
 		std::vector<Joint *> *allJoints;
 
+		/** vector of all joints needed to be send via OSC */
+		std::vector<Joint *> *oscJoints;
+
 		Layer			*cLayer; /**< current layer */
 		Mesh			*cMesh;	 /**< mesh of current layer */
 		Skeleton		*cSkeleton; /**< skeleton of current layer */
@@ -176,6 +173,7 @@ class AnimataWindow : public Fl_Gl_Window
 		IO				*io; /**< handles scene saving/loading */
 
 		OSCListener		*oscListener; /**< handles osc messages */
+		OSCSender		*oscSender; /**< transmits osc messages */
 
 		Camera			*camera;
 
@@ -236,8 +234,7 @@ class AnimataWindow : public Fl_Gl_Window
 		int handle(int);
 
 		void setBonePrefsFromUI(const char *name = NULL, float stiffness = 0, float length = 1);
-		void setJointPrefsFromUI(const char *name = NULL,
-				float x = FLT_MAX, float y = FLT_MAX, int fixed = -1);
+		void setJointPrefsFromUI(enum ANIMATA_PREFERENCES prefParam, void *value);
 		void setAttachPrefsFromUI(float area = FLT_MAX, float falloff = FLT_MAX);
 		void setAttachUIPrefs(Bone *b);
 
@@ -309,8 +306,17 @@ class AnimataWindow : public Fl_Gl_Window
 		inline void addToAllJoints(Joint *j) { allJoints->push_back(j); }
 		/// Deletes joint from the vector of all joints.
 		void deleteFromAllJoints(Joint *joint);
-		/// Returns the vector storing all bones.
+		/// Returns the vector storing all joints.
 		inline std::vector<Joint *> *getAllJoints() { return allJoints; }
+
+		/** Adds joint to vector of OSC joints.
+		 * \param j joint pointer to add
+		 **/
+		inline void addToOSCJoints(Joint *j) { oscJoints->push_back(j); }
+		/// Deletes joint from the vector of OSC joints.
+		void deleteFromOSCJoints(Joint *joint);
+		/// Returns the vector storing OSC joints.
+		inline std::vector<Joint *> *getOSCJoints() { return oscJoints; }
 
 		void lock(void);
 		void unlock(void);

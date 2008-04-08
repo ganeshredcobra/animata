@@ -543,3 +543,80 @@ int OSCListener::patternMatch(const char *str, const char *p)
 	return !*str;
 }
 
+
+OSCSender::OSCSender(char *hostName)
+{
+	thread = 0;
+	IpEndpointName host(hostName, OSC_SEND_PORT);
+
+	ops = new osc::OutboundPacketStream(buffer, IP_MTU_SIZE);
+	socket = new UdpTransmitSocket(host);
+}
+
+OSCSender::~OSCSender()
+{
+	stop();
+}
+
+void *OSCSender::threadFunc(void *p)
+{
+	static_cast<OSCSender *>(p)->threadTask();
+	return 0;
+}
+
+void OSCSender::start(void)
+{
+	if (thread == 0)
+	{
+		threadRunning = true;
+		pthread_create(&thread, NULL, &threadFunc, this);
+		pthread_mutex_init(&mutex, NULL);
+	}
+}
+
+void OSCSender::stop(void)
+{
+	if (thread)
+	{
+		// send a break to make the sender exit
+		threadRunning = false;
+		pthread_join(thread, NULL);	// wait until the thread is complete
+		pthread_mutex_destroy(&mutex);
+		thread = 0;
+	}
+}
+
+void OSCSender::threadTask(void)
+{
+	while (threadRunning)
+	{
+		ops->Clear();
+		(*ops) << osc::BeginBundle();
+		std::vector<Joint *> *oscJoints = ui->editorBox->getOSCJoints();
+		std::vector<Joint *>::iterator ji = oscJoints->begin();
+		for (; ji < oscJoints->end(); ji++)
+		{
+			Joint *j = *ji;
+			(*ops) << osc::BeginMessage( "/joint" ) <<
+				j->getName() <<
+				j->x << j->y << osc::EndMessage;
+		}
+		(*ops) << osc::EndBundle;
+		socket->Send(ops->Data(), ops->Size());
+
+		// send messages 25 times per second approximately
+		usleep(40000);
+	}
+}
+
+
+void OSCSender::lock(void)
+{
+	pthread_mutex_lock(&mutex);
+}
+
+void OSCSender::unlock(void)
+{
+	pthread_mutex_unlock(&mutex);
+}
+

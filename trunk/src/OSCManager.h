@@ -31,9 +31,14 @@
 #include "osc/OscPacketListener.h"
 #include "ip/UdpSocket.h"
 
+#include "osc/OscOutboundPacketStream.h"
+#include "ip/IpEndpointName.h"
+
 #include "Layer.h"
 
+#define OSC_HOST "localhost"
 #define OSC_RECEIVE_PORT 7110
+#define OSC_SEND_PORT 7111
 
 /// Handles OSC messages.
 class OSCListener : public osc::OscPacketListener
@@ -76,6 +81,45 @@ class OSCListener : public osc::OscPacketListener
 
 		/// Sets root layers to be able to control the behaviour of layer data.
 		void setRootLayer(Layer *root);
+
+};
+
+#define IP_MTU_SIZE 1536
+
+/// Sends OSC messages.
+class OSCSender
+{
+	private:
+
+		/// Helper function to call class method threadTask() from a thread.
+		static void *threadFunc(void *p);
+
+		/// Threads function running an OSC sender forever.
+		void threadTask(void);
+
+		pthread_t thread;
+		pthread_mutex_t mutex;
+
+		bool threadRunning; //< true if the thread is running
+
+		char buffer[IP_MTU_SIZE];
+		osc::OutboundPacketStream *ops;
+		UdpTransmitSocket *socket;
+
+	public:
+
+		OSCSender(char *host);
+		~OSCSender();
+
+		/// Starts OSC sender in a new thread.
+		void start(void);
+		/// Stops OSC sender.
+		void stop(void);
+
+		/// Protects access to a shared data resources.
+		void lock(void);
+		/// Unlocks mutex, allowing access to shared data.
+		void unlock(void);
 
 };
 #endif

@@ -188,13 +188,10 @@ void Skeleton::endMoveSelectedBones(void)
 
 /**
  * Sets the parameters of the selected joint.
- * \param name set name if it is not NULL
- * \param x set x-coordinate if it is not FLT_MAX
- * \param y set y-coordinate if it is not FLT_MAX
- * \param fixed set fixed state if it is not -1
+ * \param prefParam parameter to set
+ * \param value parameter value cast to (void *)
  **/
-void Skeleton::setSelectedJointParameters(const char *name,
-		float x, float y, int fixed)
+void Skeleton::setSelectedJointParameters(enum ANIMATA_PREFERENCES prefParam, void *value)
 {
 	for (unsigned i = 0; i < joints->size(); i++)
 	{
@@ -202,14 +199,39 @@ void Skeleton::setSelectedJointParameters(const char *name,
 
 		if (j->selected)
 		{
-			if (name)
-				j->setName(name);
-			if (x < FLT_MAX)
-				j->x = x;
-			if (y < FLT_MAX)
-				j->y = y;
-			if (fixed != -1)
-				j->fixed = fixed;
+			switch (prefParam)
+			{
+				case PREFS_JOINT_NAME:
+					j->setName(*((const char **)value));
+					break;
+				case PREFS_JOINT_X:
+					j->x = *((float *)value);
+					break;
+				case PREFS_JOINT_Y:
+					j->y = *((float *)value);
+					break;
+				case PREFS_JOINT_FIXED:
+					j->fixed = *((int *)value);
+					break;
+				case PREFS_JOINT_OSC:
+					{
+						int osc = *((int *)value);
+						j->osc = osc;
+						// add or remove the joint from the vector of joints
+						// needed to be sent via OSC
+						if (osc)
+						{
+							ui->editorBox->addToOSCJoints(j);
+						}
+						else
+						{
+							ui->editorBox->deleteFromOSCJoints(j);
+						}
+						break;
+					}
+				default:
+					break;
+			}
 		}
 	}
 }
