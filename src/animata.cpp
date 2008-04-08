@@ -70,12 +70,14 @@ AnimataWindow::AnimataWindow(int x, int y, int w, int h, const char* l) :
 	allLayers = NULL;
 	allBones = NULL;
 	allJoints = NULL;
+	oscJoints = NULL;
 
 	pthread_mutex_init(&mutex, NULL);
 
 	io = new IO();
 
 	oscListener = new OSCListener();
+	oscSender = new OSCSender(OSC_HOST);
 }
 
 /**
@@ -87,6 +89,7 @@ void AnimataWindow::startup(void)
 	/* the calls here require a valid AnimataUI pointer, *ui, so they cannot
 	 * be in the constructor */
 	oscListener->start();
+	oscSender->start();
 	newScene();
 }
 
@@ -97,6 +100,7 @@ AnimataWindow::~AnimataWindow()
 	pthread_mutex_destroy(&mutex);
 
 	delete oscListener;
+	delete oscSender;
 
 	delete selector;
 
@@ -135,6 +139,12 @@ void AnimataWindow::cleanup(void)
 	{
 		delete allJoints;
 		allJoints = NULL;
+	}
+
+	if (oscJoints)
+	{
+		delete oscJoints;
+		oscJoints = NULL;
 	}
 
 	pointedVertex = pointedPrevVertex = pointedPrevPrevVertex = NULL;
@@ -192,6 +202,21 @@ void AnimataWindow::deleteFromAllJoints(Joint *joint)
 	allJoints->erase(pos);
 }
 
+/** Deletes joint from vector of OSC joints.
+ * \param joint pointer to joint
+ **/
+void AnimataWindow::deleteFromOSCJoints(Joint *joint)
+{
+	std::vector<Joint *>::iterator pos;
+
+	// find position of joint in vector
+	pos = std::find(oscJoints->begin(), oscJoints->end(), joint);
+	if (pos == oscJoints->end()) // not a member
+		return;
+
+	oscJoints->erase(pos);
+}
+
 void AnimataWindow::saveScene(const char *filename)
 {
 	io->save(filename, rootLayer);
@@ -203,6 +228,7 @@ void AnimataWindow::loadScene(const char *filename)
 	allLayers = new std::vector<Layer *>;
 	allBones = new std::vector<Bone *>;
 	allJoints = new std::vector<Joint *>;
+	oscJoints = new std::vector<Joint *>;
 
 	Layer *layer = io->load(filename);
 
@@ -229,6 +255,8 @@ void AnimataWindow::loadScene(const char *filename)
 		allBones = NULL;
 		delete allJoints;
 		allJoints = NULL;
+		delete oscJoints;
+		oscJoints = NULL;
 		newScene();
 	}
 
@@ -274,6 +302,7 @@ void AnimataWindow::newScene(void)
 	allLayers = new std::vector<Layer *>;
 	allBones = new std::vector<Bone *>;
 	allJoints = new std::vector<Joint *>;
+	oscJoints = new std::vector<Joint *>;
 
 	rootLayer = new Layer();
 
@@ -1052,20 +1081,19 @@ void AnimataWindow::setJointUIPrefs(Joint *j)
 	ui->jointX->value(j->x);
 	ui->jointY->value(j->y);
 	ui->jointFixed->value(j->fixed);
+	ui->jointOSC->value(j->osc);
 	// TODO: check if tab switching is needed
 	ui->skeletonPrefTabs->value(ui->jointPrefs);
 }
 
 /**
  * Sets joint parameters from the user interface.
- * \param name name of joint
- * \param x x-coordinate of joint
- * \param y y-coordinate of joint
- * \param fixed 1 if the position of the joint is fixed
+ * \param prefParam parameter to set
+ * \param value parameter value cast to (void *)
  **/
-void AnimataWindow::setJointPrefsFromUI(const char *name, float x, float y, int fixed)
+void AnimataWindow::setJointPrefsFromUI(enum ANIMATA_PREFERENCES prefParam, void *value)
 {
-	cSkeleton->setSelectedJointParameters(name, x, y, fixed);
+	cSkeleton->setSelectedJointParameters(prefParam, value);
 }
 
 /**

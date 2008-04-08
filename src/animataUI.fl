@@ -15,7 +15,7 @@ class AnimataUI {open
   } {
     Fl_Window window {
       label animata open
-      xywh {369 50 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
+      xywh {614 44 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
       code0 {\#include <stdlib.h>}
       code1 {\#include "animata.h"}
       code2 {\#include <Fl/Fl_File_Chooser.h>}
@@ -182,8 +182,8 @@ for(int i = 1; i <= count; i++)
           }
         }
         Fl_Group {} {
-          label Mesh open
-          xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7
+          label Mesh
+          xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {
           Fl_Button {} {
@@ -219,7 +219,7 @@ o->clear();}
 if(texture)
 	editorBox->getMesh()->attachTexture(texture);
 
-o->clear();} selected
+o->clear();}
             xywh {15 573 90 20} type Toggle box BORDER_BOX down_box BORDER_BOX color 30 selection_color 3 labelsize 10 labelcolor 7
             code0 {\#include <vector>}
           }
@@ -242,8 +242,8 @@ o->clear();} selected
           }
         }
         Fl_Group {} {
-          label Skeleton
-          xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
+          label Skeleton open
+          xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7
           code0 {o->resizable(NULL);}
         } {
           Fl_Button {} {
@@ -276,11 +276,11 @@ o->clear();} selected
             callback cb_Create
             xywh {15 625 90 20} type Radio box BORDER_BOX down_box BORDER_BOX color 30 selection_color 3 labelsize 10 labelcolor 7
           }
-          Fl_Tabs skeletonPrefTabs {open
+          Fl_Tabs skeletonPrefTabs {
             xywh {135 535 640 110} box NO_BOX color 30 selection_color 30
           } {
             Fl_Group jointPrefs {
-              xywh {135 535 570 110} color 30 selection_color 30 hide
+              xywh {135 535 570 110} color 30 selection_color 30
             } {
               Fl_Box {} {
                 label Joint
@@ -288,27 +288,37 @@ o->clear();} selected
               }
               Fl_Input jointName {
                 label {Name:}
-                callback {editorBox->setJointPrefsFromUI(o->value());}
+                callback {tempStorage.str = o->value();
+editorBox->setJointPrefsFromUI(PREFS_JOINT_NAME, &tempStorage);}
                 xywh {185 560 200 20} box BORDER_BOX color 30 selection_color 30 labelsize 10 labelcolor 7 when 1 textsize 12 textcolor 22
               }
               Fl_Value_Input jointX {
                 label {Pos: x }
-                callback {editorBox->setJointPrefsFromUI(NULL, o->value());}
+                callback {tempStorage.f = o->value();
+editorBox->setJointPrefsFromUI(PREFS_JOINT_X, &tempStorage);}
                 xywh {185 585 50 20} box BORDER_BOX color 30 selection_color 30 labelsize 10 labelcolor 7 when 8 textsize 10 textcolor 16
               }
               Fl_Value_Input jointY {
                 label {y }
-                callback {editorBox->setJointPrefsFromUI(NULL, FLT_MAX, o->value());}
+                callback {tempStorage.f = o->value();
+editorBox->setJointPrefsFromUI(PREFS_JOINT_Y, &tempStorage);}
                 xywh {250 585 50 20} box BORDER_BOX color 30 selection_color 30 labelsize 10 labelcolor 7 when 8 textsize 10 textcolor 16
               }
               Fl_Check_Button jointFixed {
                 label fixed
-                callback {editorBox->setJointPrefsFromUI(NULL, FLT_MAX, FLT_MAX, o->value());}
+                callback {tempStorage.i = o->value();
+editorBox->setJointPrefsFromUI(PREFS_JOINT_FIXED, &tempStorage);}
                 xywh {310 585 50 20} box BORDER_BOX down_box BORDER_BOX color 30 selection_color 3 labelsize 10 labelcolor 7
+              }
+              Fl_Check_Button jointOSC {
+                label OSC
+                callback {tempStorage.i = o->value();
+editorBox->setJointPrefsFromUI(PREFS_JOINT_OSC, &tempStorage);} selected
+                xywh {185 610 50 20} box BORDER_BOX down_box BORDER_BOX color 30 selection_color 3 labelsize 10 labelcolor 7
               }
             }
             Fl_Group bonePrefs {
-              xywh {135 535 640 110} color 30 selection_color 30
+              xywh {135 535 640 110} color 30 selection_color 30 hide
             } {
               Fl_Box {} {
                 label Bone

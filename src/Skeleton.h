@@ -30,6 +30,7 @@
 #include "Vector2D.h"
 #include "Joint.h"
 #include "Bone.h"
+#include "Preferences.h"
 
 /// Skeleton attached to the mesh
 class Skeleton : public Drawable
@@ -46,8 +47,8 @@ class Skeleton : public Drawable
 		void endMoveSelectedJoints(void);
 		void endMoveSelectedBones(void);
 
-		void setSelectedJointParameters(const char *name,
-				float x, float y, int fixed);
+		void setSelectedJointParameters(enum ANIMATA_PREFERENCES prefParam,
+				void *value);
 		void setSelectedBoneParameters(const char *str = NULL,
 			float s = FLT_EPSILON, float lengthMultiply = -1, float aRad = FLT_MAX,
 			float falloff = FLT_MAX);

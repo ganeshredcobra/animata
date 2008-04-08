@@ -37,13 +37,14 @@ class Joint
 		bool selected; ///< selection state
 		bool dragged; ///< set to true if the joint is dragged
 
+		bool osc; ///< joint parameters are transmitted via osc if true
+
 		/** timestamp of last drag, needed when joints are moved as part of a
 		 * bone to move joints only once per frame
 		 */
 		int dragTS;
 
 		Joint(float x, float y);
-
 
 		const char *getName(void);
 		void setName(const char *str);
