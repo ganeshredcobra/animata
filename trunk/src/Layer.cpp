@@ -289,6 +289,7 @@ Layer *Layer::makeLayer()
 void Layer::addSublayer(Layer *sublayer)
 {
 	layers->push_back(sublayer);
+	sublayer->setParent(this);
 }
 
 /**
