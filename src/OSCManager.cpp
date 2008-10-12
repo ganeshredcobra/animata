@@ -171,6 +171,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				// skip unnamed layers
 				if (layerName[0] == 0)
 					continue;
+
 				if (strcmp(layerName, namePattern) == 0)
 				{
 					(*l)->setVisibility(val);
@@ -191,8 +192,15 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 					if (patternMatch(layerName, namePattern))
 					{
 						(*l)->setVisibility(val);
+						found = 1;
 					}
 				}
+			}
+
+			if (!found)
+			{
+				std::cerr << "OSC error: " << m.AddressPattern() << ": "
+					<< "layer is not found" << "\n";
 			}
 		}
 		else if (strcmp(m.AddressPattern(), "/layeralpha") == 0)
@@ -234,8 +242,15 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 					if (patternMatch(layerName, namePattern))
 					{
 						(*l)->setAlpha(val);
+						found = 1;
 					}
 				}
+			}
+
+			if (!found)
+			{
+				std::cerr << "OSC error: " << m.AddressPattern() << ": "
+					<< "layer is not found" << "\n";
 			}
 		}
 	}
