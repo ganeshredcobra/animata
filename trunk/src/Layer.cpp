@@ -53,6 +53,10 @@ Layer::Layer(Layer *p)
 	visible = true;
 
 	calcTransformationMatrix();
+
+	// add layer to vector of all layers
+	if (ui) // FIXME: ui should not be NULL ever!
+		ui->editorBox->addToAllLayers(this);
 }
 
 /**
@@ -269,10 +273,6 @@ Layer *Layer::makeLayer()
 {
 	Layer *l = new Layer(this);
 	//l->setParent(this);
-
-	// add layer to vector of all layers
-	if (ui) // FIXME: ui should not be NULL ever!
-		ui->editorBox->addToAllLayers(l);
 
 	if (!layers)
 		layers = new std::vector<Layer *>;
