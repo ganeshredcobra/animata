@@ -603,21 +603,24 @@ void OSCSender::stop(void)
 
 void OSCSender::threadTask(void)
 {
-	while (threadRunning)
+	while (threadRunning && (ui != NULL))
 	{
 		ops->Clear();
 		(*ops) << osc::BeginBundle();
 		std::vector<Joint *> *oscJoints = ui->editorBox->getOSCJoints();
-		std::vector<Joint *>::iterator ji = oscJoints->begin();
-		for (; ji < oscJoints->end(); ji++)
+		if (oscJoints != NULL)
 		{
-			Joint *j = *ji;
-			(*ops) << osc::BeginMessage( "/joint" ) <<
-				j->getName() <<
-				j->x << j->y << osc::EndMessage;
+			std::vector<Joint *>::iterator ji = oscJoints->begin();
+			for (; ji < oscJoints->end(); ji++)
+			{
+				Joint *j = *ji;
+				(*ops) << osc::BeginMessage( "/joint" ) <<
+					j->getName() <<
+					j->x << j->y << osc::EndMessage;
+			}
+			(*ops) << osc::EndBundle;
+			socket->Send(ops->Data(), ops->Size());
 		}
-		(*ops) << osc::EndBundle;
-		socket->Send(ops->Data(), ops->Size());
 
 		// send messages 25 times per second approximately
 		usleep(40000);
