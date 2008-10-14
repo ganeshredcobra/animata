@@ -155,6 +155,8 @@ class Layer
 		 **/
 		inline void depth(float z) { this->z += z; calcTransformationMatrix(); }
 
+		void scaleAroundPoint(float s, float ox, float oy);
+
 		void setup(float x, float y, float z, float alpha, float scale);
 };
 

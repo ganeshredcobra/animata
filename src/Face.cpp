@@ -45,6 +45,9 @@ Vector2D Face::center(void)
 
 void Face::attachTexture(Texture *t)
 {
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
 	float scale = t->getScale();
 
 	float sx = (float)t->width * scale;
@@ -52,8 +55,11 @@ void Face::attachTexture(Texture *t)
 
 	for(unsigned int i = 0; i < 3; i++)
 	{
-		v[i]->texCoord.x = (v[i]->coord.x - t->x) / sx;
-		v[i]->texCoord.y = (v[i]->coord.y - t->y) / sy;
+		// v[i]->texCoord.x = (v[i]->coord.x - t->x) / sx;
+		// v[i]->texCoord.y = (v[i]->coord.y - t->y) / sy;
+
+		v[i]->texCoord.x = (v[i]->view.x - t->x) / sx;
+		v[i]->texCoord.y = (viewport[3] - v[i]->view.y - t->y) / sy;
 	}
 }
 

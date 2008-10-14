@@ -34,8 +34,6 @@
 
 #include "Vector2D.h"
 
-#define MIN_SCALE 0.1f
-
 /// Represent a texture that can be attached to a Mesh.
 class Texture
 {

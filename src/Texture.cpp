@@ -26,6 +26,8 @@
 #include <stdio.h>
 #include <math.h>
 
+#define MIN_SCALE 0.1f
+
 /**
  * Creates a new texture object with default parameters from the given image parameters.
  * \param	filename		A string which points to the imagefile.
@@ -92,9 +94,10 @@ Texture *Texture::clone()
 /**
  * Scales the texture around a fixed point.
  * \param	s	Scale multiplier.
- * \param	ox	Scale-center's \e x coordinate.
- * \param	oy	Scale-center's \e y coordinate.
+ * \param	ox	Scale-center's \e x coordinate in the texture's coordinate system.
+ * \param	oy	Scale-center's \e y coordinate in the texture's coordinate system.
  */
+// TODO: same as in Layer.cpp, if it's needed somewhere else, put it into a central place
 void Texture::scaleAroundPoint(float s, float ox, float oy)
 {
 	if (s > MIN_SCALE)

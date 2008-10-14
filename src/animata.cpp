@@ -668,12 +668,7 @@ void AnimataWindow::handleLeftMousePress(void)
 	// only allow selection of a texture if no vertex is selected
 	if (!pointedVertex)
 	{
-		if ((selectedTexture = textureManager->getPointedTexture()))
-		{
-			// use offset to precise texture movement
-			offsetX = (int)(mouseX - selectedTexture->x);
-			offsetY = (int)(mouseY - selectedTexture->y);
-		}
+		selectedTexture = textureManager->getPointedTexture();
 	}
 
 	switch (ui->settings.mode)
@@ -987,8 +982,10 @@ void AnimataWindow::handleMouseDrag(void)
 		case ANIMATA_MODE_TEXTURE_SCALE:
 			if(selectedTexture)
 			{
-				selectedTexture->scaleAroundPoint(selectedTexture->getScale() +
-						(float)(viewDist.y) / 100.f, offsetX, offsetY);
+				// the scale center has to be transformed into the texture coordinate space
+				selectedTexture->scaleAroundPoint(selectedTexture->getScale() + (float)(viewDist.y) / 100.f,
+													(dragMouseX - selectedTexture->x) / selectedTexture->getScale(),
+													(dragMouseY - selectedTexture->y) / selectedTexture->getScale());
 			}
 			break;
 
@@ -998,7 +995,10 @@ void AnimataWindow::handleMouseDrag(void)
 			break;
 
 		case ANIMATA_MODE_LAYER_SCALE:
-			cLayer->resize(viewDist.y/100.f);
+			// the scale center has to be transformed into the layer coordinate space
+			cLayer->scaleAroundPoint(cLayer->getScale() + (float)(viewDist.y) / 100.f,
+											(dragMouseX - cLayer->getX()) / cLayer->getScale(),
+											(dragMouseY - cLayer->getY()) / cLayer->getScale());
 			break;
 
 		case ANIMATA_MODE_LAYER_DEPTH:

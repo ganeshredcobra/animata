@@ -29,6 +29,8 @@
 #include <stdio.h>
 #include <float.h>
 
+#define MIN_SCALE 0.1f
+
 int Layer::layerCount = 0;
 
 /**
@@ -138,6 +140,25 @@ void Layer::setup(float x, float y, float z, float alpha, float scale)
 
 	calcTransformationMatrix();
 }
+
+/**
+ * Changes the layer's scale around a given point relative to the layer's transformation space.
+ * \param	s	new value of the layer's scale
+ * \param	ox	scale center's x coordinate inside the layer's coordinate system
+ * \param	oy	scale center's y coordinate inside the layer's coordinate system
+ **/
+// TODO: same as in Texture.cpp, if it's needed somewhere else, put it into a central place
+void Layer::scaleAroundPoint(float s, float ox, float oy)
+{
+	if (s > MIN_SCALE)
+	{
+		x -= ox * (s - scale);
+		y -= oy * (s - scale);
+
+		scale = s;
+	}
+}
+
 
 /**
  * Draws layer.
