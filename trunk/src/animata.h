@@ -128,7 +128,6 @@ class AnimataWindow : public Fl_Gl_Window
 		int prevMouseX, prevMouseY;
 		/** mouse coordinates where the dragging started */
 		int dragMouseX, dragMouseY;
-		int offsetX, offsetY;
 		bool dragging; /**< set to true while dragging the mouse */
 
 		/** transformed mouse coordinates, based on current layers transformation */

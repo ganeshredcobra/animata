@@ -317,12 +317,24 @@ void Mesh::triangulateFaceProc(int p0, int p1, int p2)
 		Texture *t = attachedTexture;
 		float scale = t->getScale();
 
+		/*
 		float t0x = t->width * ((v0->coord.x - t->x) / ((float)t->width * scale));
 		float t0y = t->height * ((v0->coord.y - t->y) / ((float)t->height * scale));
 		float t1x = t->width * ((v1->coord.x - t->x) / ((float)t->width * scale));
 		float t1y = t->height * ((v1->coord.y - t->y) / ((float)t->height * scale));
 		float t2x = t->width * ((v2->coord.x - t->x) / ((float)t->width * scale));
 		float t2y = t->height * ((v2->coord.y - t->y) / ((float)t->height * scale));
+		*/
+
+		GLint viewport[4];
+		glGetIntegerv(GL_VIEWPORT, viewport);
+
+		float t0x = t->width * ((v0->coord.x - t->x) / ((float)t->width * scale));
+		float t0y = t->height * ((viewport[3] -v0->coord.y - t->y) / ((float)t->height * scale));
+		float t1x = t->width * ((v1->coord.x - t->x) / ((float)t->width * scale));
+		float t1y = t->height * ((viewport[3] - v1->coord.y - t->y) / ((float)t->height * scale));
+		float t2x = t->width * ((v2->coord.x - t->x) / ((float)t->width * scale));
+		float t2y = t->height * ((viewport[3] - v2->coord.y - t->y) / ((float)t->height * scale));
 
 		int alpha = attachedTexture->getTriangleAlpha(t0x, t0y,
 				t1x, t1y, t2x, t2y, 4);
@@ -356,12 +368,24 @@ void Mesh::triangulateFaceProcSelected(int p0, int p1, int p2)
 		Texture *t = attachedTexture;
 		float scale = t->getScale();
 
+		/*
 		float t0x = t->width * ((v0->coord.x - t->x) / ((float)t->width * scale));
 		float t0y = t->height * ((v0->coord.y - t->y) / ((float)t->height * scale));
 		float t1x = t->width * ((v1->coord.x - t->x) / ((float)t->width * scale));
 		float t1y = t->height * ((v1->coord.y - t->y) / ((float)t->height * scale));
 		float t2x = t->width * ((v2->coord.x - t->x) / ((float)t->width * scale));
 		float t2y = t->height * ((v2->coord.y - t->y) / ((float)t->height * scale));
+		*/
+
+		GLint viewport[4];
+		glGetIntegerv(GL_VIEWPORT, viewport);
+
+		float t0x = t->width * ((v0->coord.x - t->x) / ((float)t->width * scale));
+		float t0y = t->height * ((viewport[3] -v0->coord.y - t->y) / ((float)t->height * scale));
+		float t1x = t->width * ((v1->coord.x - t->x) / ((float)t->width * scale));
+		float t1y = t->height * ((viewport[3] - v1->coord.y - t->y) / ((float)t->height * scale));
+		float t2x = t->width * ((v2->coord.x - t->x) / ((float)t->width * scale));
+		float t2y = t->height * ((viewport[3] - v2->coord.y - t->y) / ((float)t->height * scale));
 
 		int alpha = attachedTexture->getTriangleAlpha(t0x, t0y,
 				t1x, t1y, t2x, t2y, 4);
