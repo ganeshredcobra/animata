@@ -371,8 +371,11 @@ void AnimataWindow::drawScene(void)
 	camera->setupPerspective();
 	camera->setupModelView();
 
-	textureManager->draw(GL_FEEDBACK);
-	rootLayer->draw(GL_RENDER);
+	// textureManager->draw(GL_FEEDBACK);
+	// rootLayer->draw(GL_RENDER);
+	textureManager->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
+	rootLayer->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
+	rootLayer->draw(RENDER_WIREFRAME);	
 }
 
 /**

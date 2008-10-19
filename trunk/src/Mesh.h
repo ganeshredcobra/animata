@@ -124,7 +124,7 @@ class Mesh : public Drawable
 		 */
 		inline void setTextureAlpha(float alpha) { textureAlpha = alpha; }
 
-		virtual void draw(GLenum mode, int active = 1);
+		virtual void draw(int mode, int active = 1);
 		virtual void select(unsigned i, int type);
 		virtual void circleSelect(unsigned i, int type, int xc, int yc, float r);
 };

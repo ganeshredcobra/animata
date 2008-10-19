@@ -103,11 +103,11 @@ void Selection::doPick(Camera *camera, Layer *layer, TextureManager *textureMana
 	glLoadIdentity();
 
 //	textureManager->getActiveTexture()->draw();
-	textureManager->draw(GL_RENDER);
+	textureManager->draw(RENDER_TEXTURE);
 
 	// draw only the current layer, no sublayers
-	layer->getMesh()->draw(GL_RENDER);
-	layer->getSkeleton()->draw(GL_RENDER);
+	layer->getMesh()->draw(RENDER_TEXTURE | RENDER_WIREFRAME);
+	layer->getSkeleton()->draw(RENDER_TEXTURE | RENDER_WIREFRAME);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
@@ -119,7 +119,6 @@ void Selection::doPick(Camera *camera, Layer *layer, TextureManager *textureMana
 	// go back to render mode, and process selection buffer
 	hits = glRenderMode(GL_RENDER);
 	processHits(hits, selectBuffer);
-
 }
 
 void Selection::processHits(unsigned hits, GLuint buffer[])
@@ -206,7 +205,7 @@ void Selection::doSelect(Drawable *node, unsigned type, float x, float y, float 
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	node->draw(GL_RENDER);
+	node->draw(RENDER_TEXTURE | RENDER_WIREFRAME);
 
 	// restore the projection matrix
 	glMatrixMode(GL_PROJECTION);
@@ -273,7 +272,7 @@ void Selection::doCircleSelect(Drawable *node, unsigned type, int xc, int yc, in
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	node->draw(GL_RENDER);
+	node->draw(RENDER_TEXTURE | RENDER_WIREFRAME);
 
 	// restore the projection matrix
 	glMatrixMode(GL_PROJECTION);
@@ -443,7 +442,7 @@ void Selection::doFeedback(Layer *layer)
 	glRenderMode(GL_FEEDBACK);
 
 	// draw mesh in feedback mode
-	layer->getMesh()->draw(GL_FEEDBACK);
+	layer->getMesh()->draw(RENDER_FEEDBACK);
 	size = glRenderMode(GL_RENDER);
 
 	// process the feedback buffer and set the vertex positions
@@ -455,7 +454,7 @@ void Selection::doFeedback(Layer *layer)
 	glRenderMode(GL_FEEDBACK);
 
 	// draw skeleton in feedback mode
-	layer->getSkeleton()->draw(GL_FEEDBACK);
+	layer->getSkeleton()->draw(RENDER_FEEDBACK);
 	size = glRenderMode(GL_RENDER);
 
 	// process the feedback buffer and set the joint positions

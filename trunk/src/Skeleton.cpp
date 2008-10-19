@@ -543,11 +543,11 @@ void Skeleton::setJointViewCoords(float *coords, unsigned int size)
 
 /**
  * Draws the skeleton.
- * \param mode GL_RENDER, GL_FEEDBACK or Playback::RENDER_PLAYBACK, determines
+ * \param mode bitmask of RENDER_WIREFRAME, RENDER_FEEDBACK or RENDER_OUTPUT, determines
  *		how the primitives are drawn.
  * \param active active state
  **/
-void Skeleton::draw(GLenum mode, int active)
+void Skeleton::draw(int mode, int active)
 {
 	unsigned hit = 0;
 	SelectItem *selected = NULL;
@@ -584,9 +584,9 @@ void Skeleton::draw(GLenum mode, int active)
 		selected++;
 	}
 
-	if (mode != GL_FEEDBACK &&
-		(mode != Playback::RENDER_PLAYBACK && ui->settings.display_elements & DISPLAY_EDITOR_BONE) ||
-		(mode == Playback::RENDER_PLAYBACK && ui->settings.display_elements & DISPLAY_OUTPUT_BONE))
+	if ((mode & RENDER_WIREFRAME) &&
+		((!(mode & RENDER_OUTPUT) && ui->settings.display_elements & DISPLAY_EDITOR_BONE) ||
+		((mode & RENDER_OUTPUT) && ui->settings.display_elements & DISPLAY_OUTPUT_BONE)))
 	{
 		glLoadName(Selection::SELECT_BONE);	/* type of primitive */
 		glPushName(0);						/* id of primitive */
@@ -597,16 +597,16 @@ void Skeleton::draw(GLenum mode, int active)
 
 			glLoadName(i);
 
-			if(mode != Playback::RENDER_PLAYBACK)
-				bone->draw(bone == pBone, active);
-			else
+			if(mode & RENDER_OUTPUT)
 				bone->draw(false);
+			else
+				bone->draw(bone == pBone, active);
 		}
 
 		glPopName();
 	}
 
-	if(mode == GL_FEEDBACK)
+	if(mode & RENDER_FEEDBACK)
 	{
 		for (unsigned i = 0; i < joints->size(); i++)
 		{
@@ -618,8 +618,9 @@ void Skeleton::draw(GLenum mode, int active)
 			glEnd();
 		}
 	}
-	else if ((mode != Playback::RENDER_PLAYBACK && ui->settings.display_elements & DISPLAY_EDITOR_JOINT) ||
-			 (mode == Playback::RENDER_PLAYBACK && ui->settings.display_elements & DISPLAY_OUTPUT_JOINT))
+	else if ((mode & RENDER_WIREFRAME) &&
+			 ((!(mode & RENDER_OUTPUT) && ui->settings.display_elements & DISPLAY_EDITOR_JOINT) ||
+			 ((mode & RENDER_OUTPUT) && ui->settings.display_elements & DISPLAY_OUTPUT_JOINT)))
 	{
 		glLoadName(Selection::SELECT_JOINT);	/* type of primitive */
 		glPushName(0);							/* id of primitive */
@@ -630,10 +631,10 @@ void Skeleton::draw(GLenum mode, int active)
 
 			glLoadName(i);
 
-			if(mode != Playback::RENDER_PLAYBACK)
-				joint->draw(joint == pJoint, active);
-			else
+			if(mode & RENDER_OUTPUT)
 				joint->draw(false);
+			else
+				joint->draw(joint == pJoint, active);
 		}
 
 		glPopName();
