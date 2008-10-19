@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0107 
+version 1.0108 
 header_name {.h} 
 code_name {.cpp}
 decl {class Fl_Eval_Slider;} {public
@@ -15,7 +15,7 @@ class AnimataUI {open
   } {
     Fl_Window window {
       label animata open
-      xywh {614 44 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
+      xywh {368 50 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
       code0 {\#include <stdlib.h>}
       code1 {\#include "animata.h"}
       code2 {\#include <Fl/Fl_File_Chooser.h>}
@@ -131,7 +131,7 @@ editorBox->take_focus();} open
         private xywh {0 500 2048 160} box BORDER_BOX color 21 selection_color 3 align 0 resizable
       } {
         Fl_Group imagePanel {
-          label Image open
+          label Image
           xywh {0 520 2048 140} color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(imageScrollArea);}
         } {
@@ -242,8 +242,8 @@ o->clear();}
           }
         }
         Fl_Group {} {
-          label Skeleton open
-          xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7
+          label Skeleton
+          xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {
           Fl_Button {} {
@@ -313,7 +313,7 @@ editorBox->setJointPrefsFromUI(PREFS_JOINT_FIXED, &tempStorage);}
               Fl_Check_Button jointOSC {
                 label OSC
                 callback {tempStorage.i = o->value();
-editorBox->setJointPrefsFromUI(PREFS_JOINT_OSC, &tempStorage);} selected
+editorBox->setJointPrefsFromUI(PREFS_JOINT_OSC, &tempStorage);}
                 xywh {185 610 50 20} box BORDER_BOX down_box BORDER_BOX color 30 selection_color 3 labelsize 10 labelcolor 7
               }
             }
@@ -454,8 +454,8 @@ settings.gravityY = cos(a);}
           }
         }
         Fl_Group {} {
-          label Layer
-          xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
+          label Layer open
+          xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7
           code0 {o->resizable(NULL);}
         } {
           Fl_Button {} {
@@ -713,12 +713,12 @@ if (n)
 	}
 }
 
-window->redraw();} open
+window->redraw();} open selected
           xywh {640 20 215 501} box BORDER_BOX color 30 selection_color 31 labeltype NO_LABEL labelcolor 7 when 1
           code0 {\#include "FLU/Flu_Tree_Browser.h"}
           code1 {layerTree->auto_branches(true); layerTree->insertion_mode(FLU_INSERT_BACK);}
           code2 {layerTree->always_open(true); /* root node is always open */}
-          code3 {layerTree->selection_drag_mode(FLU_DRAG_TO_MOVE); /* FIXME */}
+          code3 {layerTree->selection_drag_mode(FLU_DRAG_TO_MOVE); layerTree->allow_dnd(true); /* FIXME */}
           class Flu_Tree_Browser
         } {}
       }
@@ -739,7 +739,7 @@ window->show();} {}
   Function {resize(int x, int y, int w, int h)} {} {
     code {window->resize(x, y, w, h);} {}
   }
-  Function {loadImage(const char *filename)} {open return_type {ImageBox *}
+  Function {loadImage(const char *filename)} {return_type {ImageBox *}
   } {
     code {if (!filename)
 	return NULL;
@@ -787,7 +787,8 @@ delete playback;} {}
   }
   decl {Fl_File_Chooser *fileChooser;} {public
   }
-  Function {refreshLayerTree(Layer *root)} {} {
+  Function {refreshLayerTree(Layer *root)} {open
+  } {
     code {clearLayerTree();
 
 Flu_Tree_Browser::Node* rootNode = layerTree->get_root();
@@ -810,7 +811,7 @@ layers->redraw();} {}
     code {layerTree->clear();
 layerTree->redraw();} {}
   }
-  Function {addLayerNodeRecursive(Layer *layer, Flu_Tree_Browser::Node *node)} {private
+  Function {addLayerNodeRecursive(Layer *layer, Flu_Tree_Browser::Node *node)} {open private
   } {
     code {Flu_Tree_Browser::Node *newNode = node->add(layer->getName());
 

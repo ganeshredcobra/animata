@@ -77,7 +77,7 @@ void Playback::draw()
 	camera->setupModelView();
 
 	if(rootLayer)
-		rootLayer->draw(RENDER_PLAYBACK);
+		rootLayer->draw(RENDER_OUTPUT | RENDER_TEXTURE | RENDER_WIREFRAME);
 }
 
 /**

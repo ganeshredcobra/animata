@@ -163,7 +163,7 @@ void Layer::scaleAroundPoint(float s, float ox, float oy)
 /**
  * Draws layer.
  **/
-void Layer::draw(GLenum mode)
+void Layer::draw(int mode)
 {
 	if (!visible)
 		return;
@@ -195,18 +195,19 @@ void Layer::draw(GLenum mode)
 		  (ui->settings.mode <= ANIMATA_MODE_LAYER_DEPTH)) ||
 		 /* FIXME: camera & view have no ANIMATA_MODE set */
 		 (ui->settings.mode == ANIMATA_MODE_NONE)) ||
-		mode == Playback::RENDER_PLAYBACK) &&
+		mode & RENDER_OUTPUT) &&
 		/* don't draw the layer if its behind the camera */
 		-transformation[14] < distance)
 	{
 		mesh->setTextureAlpha(getAccumulatedAlpha());
 
-		// TODO: only do feedback in editorwindow's draw. do not compute it again in the playback window
+		if (mode & RENDER_FEEDBACK)
+		{
+			// set the transformation matrices for setVertexViewCoords() and setJointViewCoords() in doFeedback
+			Transform::setMatrices();
 
-		// set the transformation matrices for setVertexViewCoords() and setJointViewCoords() in doFeedback
-		Transform::setMatrices();
-
-		selector->doFeedback(this);
+			selector->doFeedback(this);
+		}
 
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
@@ -218,8 +219,8 @@ void Layer::draw(GLenum mode)
 		glPushMatrix();
 		glLoadIdentity();
 
-		mesh->draw(mode, this == ui->editorBox->getCurrentLayer());
-		skeleton->draw(mode, this == ui->editorBox->getCurrentLayer());
+		mesh->draw(mode & ~RENDER_FEEDBACK, this == ui->editorBox->getCurrentLayer());
+		skeleton->draw(mode & ~RENDER_FEEDBACK, this == ui->editorBox->getCurrentLayer());
 
 		glMatrixMode(GL_MODELVIEW);
 		glPopMatrix();

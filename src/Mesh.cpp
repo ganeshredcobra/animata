@@ -618,19 +618,21 @@ void Mesh::clearSelection(void)
  * Draws the mesh.
  * Vertices, faces and faces with textures attached to the mesh gets drawn based on the actual AnimataSettings::display_elements.
  *
- * There are three drawing modes at this time.
- *	- GL_FEEDBACK\n
+ * There are four drawing modes at this time, which can be combined by bitwise or.
+ *	- RENDER_FEEDBACK\n
  *		Only draws a point to every vertex of the mesh, to get their exact position that can be used to set their screen coordinates.
- *	- Playback::RENDER_PLAYBACK\n
- *		Same as the default mode, but no mouseOver for the primitives.
- *	- everything else identifies the default mode
+ *	- RENDER_WIREFRAME\n
+ *		Draws vertex and face outlines.
+ *	- RENDER_TEXTURE\n
+ *		Draws textured faces if there is a texture attached to the mesh.
+ *	- RENDER_OUTPUT\n
+ *		Indicates that the draw happens in the output window, there is no need for mouseOver for the primitives.
  *
  * \param	mode	In which mode to draw the mesh.
  * \param	active	Flag represents whether the mesh is on the active Layer.
  */
-void Mesh::draw(GLenum mode, int active)
+void Mesh::draw(int mode, int active)
 {
-
 	unsigned hit = 0;
 	SelectItem *selected = NULL;
 
@@ -668,51 +670,37 @@ void Mesh::draw(GLenum mode, int active)
 		selected++;
 	}
 
-	if (mode != GL_FEEDBACK &&
-		(mode != Playback::RENDER_PLAYBACK && ui->settings.display_elements & DISPLAY_EDITOR_TEXTURE) ||
-		(mode == Playback::RENDER_PLAYBACK && ui->settings.display_elements & DISPLAY_OUTPUT_TEXTURE))
+	if (attachedTexture && (mode & RENDER_TEXTURE) &&
+		((!(mode & RENDER_OUTPUT) && ui->settings.display_elements & DISPLAY_EDITOR_TEXTURE) ||
+		((mode & RENDER_OUTPUT) && ui->settings.display_elements & DISPLAY_OUTPUT_TEXTURE)))
 	{
-		if (attachedTexture)
-		{
-			glColor3f(1.f, 1.f, 1.f);
-			glEnable(GL_TEXTURE_2D);
-			glBindTexture(GL_TEXTURE_2D, attachedTexture->getGlResource());
-		}
+		glColor3f(1.f, 1.f, 1.f);
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, attachedTexture->getGlResource());
 
 		for (unsigned int i = 0; i < faces->size(); i++)
 		{
 			Face *face = (*faces)[i];
 
-			if (attachedTexture)
-			{
-				glColor4f(1.f, 1.f, 1.f, textureAlpha);
-				glBegin(GL_TRIANGLES);
-					glTexCoord2f(face->v[0]->texCoord.x, face->v[0]->texCoord.y);
-					glVertex2f(face->v[0]->view.x, face->v[0]->view.y);
-					glTexCoord2f(face->v[1]->texCoord.x, face->v[1]->texCoord.y);
-					glVertex2f(face->v[1]->view.x, face->v[1]->view.y);
-					glTexCoord2f(face->v[2]->texCoord.x, face->v[2]->texCoord.y);
-					glVertex2f(face->v[2]->view.x, face->v[2]->view.y);
-				glEnd();
-				glColor3f(1.f, 1.f, 1.f);
-			}
-			else
-			{
-				if(mode != Playback::RENDER_PLAYBACK)
-					drawFace(face, face == pFace, active);
-				else
-					drawFace(face);
-			}
+			glColor4f(1.f, 1.f, 1.f, textureAlpha);
+			glBegin(GL_TRIANGLES);
+				glTexCoord2f(face->v[0]->texCoord.x, face->v[0]->texCoord.y);
+				glVertex2f(face->v[0]->view.x, face->v[0]->view.y);
+				glTexCoord2f(face->v[1]->texCoord.x, face->v[1]->texCoord.y);
+				glVertex2f(face->v[1]->view.x, face->v[1]->view.y);
+				glTexCoord2f(face->v[2]->texCoord.x, face->v[2]->texCoord.y);
+				glVertex2f(face->v[2]->view.x, face->v[2]->view.y);
+			glEnd();
+			glColor3f(1.f, 1.f, 1.f);
 		}
 
 		glDisable(GL_TEXTURE_2D);
 	}
 
-	if (mode != GL_FEEDBACK &&
-		(mode != Playback::RENDER_PLAYBACK && ui->settings.display_elements & DISPLAY_EDITOR_TRIANGLE) ||
-		(mode == Playback::RENDER_PLAYBACK && ui->settings.display_elements & DISPLAY_OUTPUT_TRIANGLE))
+	if ((mode & RENDER_WIREFRAME) &&
+		((!(mode & RENDER_OUTPUT) && ui->settings.display_elements & DISPLAY_EDITOR_TRIANGLE) ||
+		((mode & RENDER_OUTPUT) && ui->settings.display_elements & DISPLAY_OUTPUT_TRIANGLE)))
 	{
-
 		glLoadName(Selection::SELECT_TRIANGLE);	// type of the primitive
 		glPushName(0);							// id of the primitive
 
@@ -722,15 +710,15 @@ void Mesh::draw(GLenum mode, int active)
 
 			glLoadName(i);
 
-			if(mode != Playback::RENDER_PLAYBACK)
-				drawFace(face, face == pFace, active);
-			else
+			if(mode & RENDER_OUTPUT)
 				drawFace(face);
+			else
+				drawFace(face, face == pFace, active);
 		}
 		glPopName();
 	}
 
-	if(mode == GL_FEEDBACK)
+	if(mode & RENDER_FEEDBACK)
 	{
 		for(unsigned int i = 0; i < vertices->size(); i++)
 		{
@@ -742,8 +730,9 @@ void Mesh::draw(GLenum mode, int active)
 			glEnd();
 		}
 	}
-	else if ((mode != Playback::RENDER_PLAYBACK && ui->settings.display_elements & DISPLAY_EDITOR_VERTEX) ||
-			 (mode == Playback::RENDER_PLAYBACK && ui->settings.display_elements & DISPLAY_OUTPUT_VERTEX))
+	else if ((mode & RENDER_WIREFRAME) &&
+			 ((!(mode & RENDER_OUTPUT) && ui->settings.display_elements & DISPLAY_EDITOR_VERTEX) ||
+			 ((mode & RENDER_OUTPUT) && ui->settings.display_elements & DISPLAY_OUTPUT_VERTEX)))
 	{
 		glLoadName(Selection::SELECT_VERTEX);	// type of the primitive
 		glPushName(0);							// id of the primitive
@@ -754,10 +743,10 @@ void Mesh::draw(GLenum mode, int active)
 
 			glLoadName(i);
 
-			if(mode != Playback::RENDER_PLAYBACK)
-				vertex->draw(vertex == pVertex, active);
-			else
+			if(mode & RENDER_OUTPUT)
 				vertex->draw(false);
+			else
+				vertex->draw(vertex == pVertex, active);
 		}
 
 		glPopName();

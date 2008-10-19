@@ -64,7 +64,7 @@ class Skeleton : public Drawable
 
 		void setJointViewCoords(float *coords, unsigned int size);
 
-		virtual void draw(GLenum mode, int active = 1);
+		virtual void draw(int mode, int active = 1);
 		virtual void select(unsigned i, int type);
 		virtual void circleSelect(unsigned i, int type, int xc, int yc, float r);
 

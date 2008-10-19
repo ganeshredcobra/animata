@@ -37,7 +37,7 @@ class Drawable
 		 * \param	active	Shows if the primitive is on the active layer, so it can be drawn in a different way if not active.
 		 *					Default value is 1.
 		 */
-		virtual void draw(GLenum mode, int active = 1) = 0;
+		virtual void draw(int mode, int active = 1) = 0;
 
 		/**
 		 * Selects the i-th subelement of the primitive with the given type.

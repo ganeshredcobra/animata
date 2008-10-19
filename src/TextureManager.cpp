@@ -129,7 +129,7 @@ Texture *TextureManager::createTexture(ImageBox *box)
 /**
  * Draws only the texture of the mesh on the currently active layer.
  * First the screen coordinates get computed by Transform::project(), then the texture gets draw in the resulting position.
- * \param	mode	Render mode. Screen coordinates gets computed only if mode is not \c GL_RENDER.
+ * \param	mode	Render mode. Screen coordinates gets computed only if mode is \c RENDER_FEEDBACK.
  */
 void TextureManager::draw(int mode)
 {
@@ -162,12 +162,6 @@ void TextureManager::draw(int mode)
 		glColor3f(1.f, 1.f, 1.f);
 		glEnable(GL_TEXTURE_2D);
 
-/*
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
-		glLoadIdentity();
-*/
-
 		glLoadName(Selection::SELECT_TEXTURE);
 		glPushName(0);
 		for(unsigned int i = 0; i < textures->size(); i++)
@@ -175,12 +169,12 @@ void TextureManager::draw(int mode)
 			Texture* texture = (*textures)[i];
 
 			// draw the texture only for the mesh on the current layer
-			if(ui->editorBox->getMesh()->getAttachedTexture() == texture)
+			if (ui->editorBox->getMesh()->getAttachedTexture() == texture)
 			{
 				activeTexture = texture;
 				glLoadName(i);
 
-				if(mode != GL_RENDER)
+				if (mode & RENDER_FEEDBACK)
 				{
 					Transform::setMatrices();
 
@@ -203,9 +197,12 @@ void TextureManager::draw(int mode)
 					glLoadIdentity();
 				}
 
-				texture->draw(pTexture == texture);
+				if (mode & RENDER_TEXTURE)
+				{
+					texture->draw(pTexture == texture);
+				}
 
-				if(mode != GL_RENDER)
+				if (mode & RENDER_FEEDBACK)
 				{
 					glMatrixMode(GL_MODELVIEW);
 					glPopMatrix();
@@ -216,8 +213,6 @@ void TextureManager::draw(int mode)
 			}
 		}
 		glPopName();
-
-//		glPopMatrix();
 
 		glDisable(GL_TEXTURE_2D);
 	}

@@ -55,7 +55,7 @@ class Playback : public Fl_Gl_Window
 
 	public:
 
-		static const unsigned RENDER_PLAYBACK = GL_SELECT + 1;	///< Constant for drawing functions to render only the playback picture.
+//		static const unsigned RENDER_PLAYBACK = RENDER_LAST;	///< Constant for drawing functions to render only the playback picture.
 
 		Playback(int x, int y, int w, int h, const char* l = NULL);
 		~Playback();

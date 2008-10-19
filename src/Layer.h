@@ -74,7 +74,7 @@ class Layer
 
 		int deleteSublayer(Layer *layer);
 
-		void draw(GLenum mode);
+		void draw(int mode);
 
 		void simulate(int times = 1);
 
