@@ -14,6 +14,11 @@ env = Environment()
 
 platform = env['PLATFORM']
 
+if platform == 'darwin':
+	AddOption('--app', action='store_true', help='Build OSX application')
+	if GetOption('app'):
+		STATIC = 1
+
 BuildDir('build', 'src', duplicate = 0)
 
 SConscript('build/SConscript',
@@ -21,11 +26,8 @@ SConscript('build/SConscript',
 		'ANIMATA_MAJOR_VERSION', 'ANIMATA_MINOR_VERSION', 'DEBUG',
 		'PROFILE', 'STATIC'])
 
-
 # packaging / installing
-# FIXME: make app and dmg only if required
-'''
-if platform == 'darwin':
+if GetOption('app') and platform == 'darwin':
 	from scripts.macos.osxbundle import *
 	TOOL_BUNDLE(env)
 	env.Replace(FRAMEWORKS = Split('AGL OpenGL Carbon ApplicationServices'))
@@ -41,4 +43,4 @@ if platform == 'darwin':
 	DMGFILES = [Dir('Animata.app'), Dir('examples')]
 	env.Alias('dmg', env.DiskImage('Animata-' + ANIMATA_VERSION + '.dmg',
 		DMGFILES))
-'''
+
