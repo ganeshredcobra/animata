@@ -27,7 +27,7 @@ SConscript('build/SConscript',
 		'PROFILE', 'STATIC'])
 
 # packaging / installing
-if GetOption('app') and platform == 'darwin':
+if platform == 'darwin' and GetOption('app'): 
 	from scripts.macos.osxbundle import *
 	TOOL_BUNDLE(env)
 	env.Replace(FRAMEWORKS = Split('AGL OpenGL Carbon ApplicationServices'))
