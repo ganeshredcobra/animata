@@ -2,6 +2,14 @@
 
 #include "animataUI.h"
 
+void AnimataUI::cb_window_i(Fl_Double_Window*, void*) {
+  if (Fl::event()==FL_SHORTCUT && Fl::event_key()==FL_Escape) 
+   return; // ignore Escape;
+}
+void AnimataUI::cb_window(Fl_Double_Window* o, void* v) {
+  ((AnimataUI*)(o->user_data()))->cb_window_i(o,v);
+}
+
 void AnimataUI::cb_New_i(Fl_Menu_*, void*) {
   editorBox->newScene();
 }
@@ -522,7 +530,7 @@ AnimataUI::AnimataUI() {
     window->box(FL_BORDER_BOX);
     window->color(FL_FOREGROUND_COLOR);
     window->selection_color(FL_BACKGROUND2_COLOR);
-    window->user_data((void*)(this));
+    window->callback((Fl_Callback*)cb_window, (void*)(this));
     { Fl_Menu_Bar* o = new Fl_Menu_Bar(0, 0, 900, 20);
       o->box(FL_BORDER_BOX);
       o->down_box(FL_BORDER_BOX);

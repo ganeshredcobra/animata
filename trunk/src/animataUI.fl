@@ -14,7 +14,9 @@ class AnimataUI {open
   Function {AnimataUI()} {open
   } {
     Fl_Window window {
-      label animata open
+      label animata
+      callback {if (Fl::event()==FL_SHORTCUT && Fl::event_key()==FL_Escape) 
+   return; // ignore Escape} open selected
       xywh {368 50 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
       code0 {\#include <stdlib.h>}
       code1 {\#include "animata.h"}
@@ -713,7 +715,7 @@ if (n)
 	}
 }
 
-window->redraw();} open selected
+window->redraw();} open
           xywh {640 20 215 501} box BORDER_BOX color 30 selection_color 31 labeltype NO_LABEL labelcolor 7 when 1
           code0 {\#include "FLU/Flu_Tree_Browser.h"}
           code1 {layerTree->auto_branches(true); layerTree->insertion_mode(FLU_INSERT_BACK);}
