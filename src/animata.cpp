@@ -375,7 +375,7 @@ void AnimataWindow::drawScene(void)
 	// rootLayer->draw(GL_RENDER);
 	textureManager->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
 	rootLayer->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
-	rootLayer->draw(RENDER_WIREFRAME);	
+	rootLayer->draw(RENDER_WIREFRAME);
 }
 
 /**
