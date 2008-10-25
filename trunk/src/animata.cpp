@@ -365,14 +365,9 @@ void AnimataWindow::setupOpenGL()
 /// Draws the scene
 void AnimataWindow::drawScene(void)
 {
-//	camera->setupOrtho();
-//	textureManager->draw();
-
 	camera->setupPerspective();
 	camera->setupModelView();
 
-	// textureManager->draw(GL_FEEDBACK);
-	// rootLayer->draw(GL_RENDER);
 	textureManager->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
 	rootLayer->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
 	rootLayer->draw(RENDER_WIREFRAME);
@@ -828,7 +823,13 @@ void AnimataWindow::handleLeftMousePress(void)
 
 void AnimataWindow::handleRightMousePress()
 {
+	prevMouseX = dragMouseX = mouseX = Fl::event_x();
+	prevMouseY = dragMouseY = mouseY = Fl::event_y();
 
+	// transform the mouse coordinates based on the transformation of the current layer
+	Vector2D p = transformMouseToWorld(mouseX, mouseY);
+	transDragMouse.x = transMouse.x = p.x;
+	transDragMouse.y = transMouse.y = p.y;
 }
 
 void AnimataWindow::handleLeftMouseRelease()
@@ -909,12 +910,13 @@ void AnimataWindow::handleLeftMouseRelease()
 			glColor3f(1, 0, 0);
 			break;
 	}
+
 	dragging = false;
 }
 
 void AnimataWindow::handleRightMouseRelease()
 {
-
+	dragging = false;
 }
 
 void AnimataWindow::handleMouseMotion(void)
@@ -934,6 +936,7 @@ void AnimataWindow::handleMouseDrag(void)
 	mouseY = Fl::event_y();
 
 	dragging = true;
+	Vector2D dragTrans = transformMouseToWorld(dragMouseX, dragMouseY);
 
 	// transform the mouse coordinates based on the transformation of the current layer
 	Vector2D p1 = transformMouseToWorld(mouseX, mouseY);
@@ -945,6 +948,12 @@ void AnimataWindow::handleMouseDrag(void)
 	Vector2D viewDist(mouseX - prevMouseX, mouseY - prevMouseY);
 	Vector2D worldDist(p1.x - p2.x, p1.y - p2.y);
 
+	if (!Fl::event_button1())
+	{
+		Vector3D *target = camera->getTarget();
+		camera->setTarget(new Vector3D(target->x - worldDist.x, target->y - worldDist.y, 0));
+	}
+	else
 	switch (ui->settings.mode)
 	{
 		case ANIMATA_MODE_MESH_SELECT:
@@ -999,9 +1008,12 @@ void AnimataWindow::handleMouseDrag(void)
 
 		case ANIMATA_MODE_LAYER_SCALE:
 			// the scale center has to be transformed into the layer coordinate space
+			/*
 			cLayer->scaleAroundPoint(cLayer->getScale() + (float)(viewDist.y) / 100.f,
 											(dragMouseX - cLayer->getX()) / cLayer->getScale(),
 											(dragMouseY - cLayer->getY()) / cLayer->getScale());
+			*/
+			cLayer->scaleAroundPoint(cLayer->getScale() + (float)(viewDist.y) / 100.f, dragTrans.x, dragTrans.y);
 			break;
 
 		case ANIMATA_MODE_LAYER_DEPTH:
@@ -1016,6 +1028,11 @@ void AnimataWindow::handleMouseDrag(void)
 	prevMouseY = mouseY;
 }
 
+void AnimataWindow::handleMouseWheel(void)
+{
+	camera->setDistance(camera->getDistance() + Fl::event_dy());
+}
+
 /**
  * Event handler.
  **/
@@ -1026,11 +1043,9 @@ int AnimataWindow::handle(int event)
 		case FL_MOVE:
 			handleMouseMotion();
 			return 1;
-			break;
 		case FL_DRAG:
 			handleMouseDrag();
 			return 1;
-			break;
 		case FL_PUSH:
 			if(Fl::event_button() == FL_LEFT_MOUSE)
 			{
@@ -1055,12 +1070,13 @@ int AnimataWindow::handle(int event)
 				return 1;
 			}
 			break;
+		case FL_MOUSEWHEEL:
+			handleMouseWheel();
+			return 1;
 		case FL_FOCUS:
 			return 1;
-			break;
 		case FL_UNFOCUS:
 			return 1;
-			break;
 		case FL_KEYDOWN:
 			// FIXME: if window looses its focus, it wont get any keyboard event
 			// should the main parent window check for keyboard events?

@@ -69,7 +69,7 @@ void Playback::draw()
 	// playbackwindow's context on windows
 	// setting the viewport in the editorwindow causes to change it in the
 	// playbackwindow too
-	camera->setupViewport();
+	// camera->setupViewport();
 
 	glClearColor(0, 0, 0, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -77,7 +77,7 @@ void Playback::draw()
 	camera->setupModelView();
 
 	if(rootLayer)
-		rootLayer->draw(RENDER_OUTPUT | RENDER_TEXTURE | RENDER_WIREFRAME);
+		rootLayer->draw(RENDER_FEEDBACK | RENDER_OUTPUT | RENDER_TEXTURE | RENDER_WIREFRAME);
 }
 
 /**

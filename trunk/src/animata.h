@@ -192,6 +192,7 @@ class AnimataWindow : public Fl_Gl_Window
 		void handleRightMouseRelease(void);
 		void handleMouseMotion(void);
 		void handleMouseDrag(void);
+		void handleMouseWheel(void);
 
 		/// Erases scene and initialises values.
 		void cleanup(void);

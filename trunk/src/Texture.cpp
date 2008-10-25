@@ -181,6 +181,7 @@ void Texture::draw(int mouseOver)
 {
 	glBindTexture(GL_TEXTURE_2D, glResource);
 
+/*
 	if(mouseOver)
 	{
 		glColor3f(1.f, 1.f, 0.f);
@@ -201,6 +202,30 @@ void Texture::draw(int mouseOver)
 		glTexCoord2f(1.f, 1.f); glVertex2f(viewx + (float)width * scale, (viewy - (float)height * scale));
 		glTexCoord2f(0.f, 1.f); glVertex2f(viewx, (viewy - (float)height * scale));
 	glEnd();
+*/
+
+// /*
+	if(mouseOver)
+	{
+		glColor3f(1.f, 1.f, 0.f);
+		glDisable(GL_TEXTURE_2D);
+		glBegin(GL_LINE_LOOP);
+			glVertex2f(viewTopLeft.x - BORDER, viewTopLeft.y + BORDER);
+			glVertex2f(viewBottomRight.x + BORDER, viewTopLeft.y + BORDER);
+			glVertex2f(viewBottomRight.x + BORDER, viewBottomRight.y - BORDER);
+			glVertex2f(viewTopLeft.x - BORDER, viewBottomRight.y - BORDER);
+		glEnd();
+		glEnable(GL_TEXTURE_2D);
+		glColor3f(1.f, 1.f, 1.f);
+	}
+
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.f, 0.f); glVertex2f(viewTopLeft.x, viewTopLeft.y);
+		glTexCoord2f(1.f, 0.f); glVertex2f(viewBottomRight.x, viewTopLeft.y);
+		glTexCoord2f(1.f, 1.f); glVertex2f(viewBottomRight.x, viewBottomRight.y);
+		glTexCoord2f(0.f, 1.f); glVertex2f(viewTopLeft.x, viewBottomRight.y);
+	glEnd();
+// */
 
 /*
 	GLint viewport[4];

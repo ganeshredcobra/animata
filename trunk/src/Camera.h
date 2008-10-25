@@ -75,6 +75,9 @@ class Camera
 		 * \retval	Vector3D	3D position of the camera-target.
 		 */
 		inline Vector3D *getTarget() { return &target; }
+
+		inline void setTarget(Vector3D *t) { target.x = t->x; target.y = t->y; }
+
 		/**
 		 * Returns the width at the distance from the target of the camera picture.
 		 * \retval	int	Width of the picture.
@@ -90,6 +93,8 @@ class Camera
 		 * \retval	float	Distance from the target.
 		 */
 		inline float getDistance() { return distance; }
+
+		inline void setDistance(float d) { distance = d; }
 };
 
 #endif

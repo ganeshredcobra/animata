@@ -102,8 +102,8 @@ void Selection::doPick(Camera *camera, Layer *layer, TextureManager *textureMana
 	glPushMatrix();
 	glLoadIdentity();
 
-//	textureManager->getActiveTexture()->draw();
-	textureManager->draw(RENDER_TEXTURE);
+	if (layer->getMesh()->getAttachedTexture())
+		layer->getMesh()->getAttachedTexture()->draw();
 
 	// draw only the current layer, no sublayers
 	layer->getMesh()->draw(RENDER_TEXTURE | RENDER_WIREFRAME);

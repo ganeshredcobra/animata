@@ -62,11 +62,12 @@ class Texture
 		float		x;					///< \e x coordinate of the position in world coordinate-system
 		float		y;					///< \e y coordinate of the position in world coordinate-system
 
-		float		viewx;				///< \e x coordinate of the position in screen coordinate-system
-		float		viewy;				///< \e y coordinate of the position in screen coordinate-system
-
 		int			width;				///< width of the texture
-		int			height;				///< height og the texture
+		int			height;				///< height of the texture
+
+		Vector2D	viewTopLeft;
+		Vector2D	viewBottomRight;
+
 
 		Texture(const char *filename, int w, int h, int d, unsigned char* d, int reuseResource = 0);
 		~Texture();
