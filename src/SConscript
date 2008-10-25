@@ -17,9 +17,9 @@ SOURCES  = ['animata.cpp', 'Vector2D.cpp', 'Vertex.cpp', 'Face.cpp', 'Mesh.cpp',
 			'animataUI.cpp']
 
 XMLLIB = ['libs/FLU/Flu_Tree_Browser.cpp', 'libs/FLU/flu_pixmaps.cpp',
-			'libs/FLU/FluSimpleString.cpp', 'libs/tinyxml/tinyxml.cpp',
-			'libs/tinyxml/tinystr.cpp', 'libs/tinyxml/tinyxmlerror.cpp',
-			'libs/tinyxml/tinyxmlparser.cpp']
+			'libs/FLU/FluSimpleString.cpp',
+			'libs/tinyxml/tinyxml.cpp', 'libs/tinyxml/tinystr.cpp',
+			'libs/tinyxml/tinyxmlerror.cpp', 'libs/tinyxml/tinyxmlparser.cpp']
 
 OSCLIB = ['libs/oscpack/osc/OscOutboundPacketStream.cpp',
 			'libs/oscpack/osc/OscPrintReceivedElements.cpp',

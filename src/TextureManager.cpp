@@ -176,12 +176,23 @@ void TextureManager::draw(int mode)
 
 				if (mode & RENDER_FEEDBACK)
 				{
+					glMatrixMode(GL_MODELVIEW);
+					glPushMatrix();
+					glMultMatrixf(ui->editorBox->getCurrentLayer()->getTransformationMatrix()->f);
+
 					Transform::setMatrices();
 
-					Vector3D view = Transform::project(texture->x, texture->y, 0);
-					texture->viewx = view.x;
-					texture->viewy = view.y;
+					glMatrixMode(GL_MODELVIEW);
+					glPopMatrix();
 
+					Vector3D view0 = Transform::project(texture->x, texture->y, 0);
+					texture->viewTopLeft.set(view0.x, view0.y);
+					Vector3D view1 = Transform::project(texture->x + texture->width, texture->y + texture->height, 0);
+					texture->viewBottomRight.set(view1.x, view1.y);
+				}
+
+				if (mode & RENDER_TEXTURE)
+				{
 					// get the boundaries of actual viewport
 					GLint viewport[4];
 					glGetIntegerv(GL_VIEWPORT, viewport);
@@ -195,20 +206,14 @@ void TextureManager::draw(int mode)
 					glMatrixMode(GL_MODELVIEW);
 					glPushMatrix();
 					glLoadIdentity();
-				}
 
-				if (mode & RENDER_TEXTURE)
-				{
 					texture->draw(pTexture == texture);
-				}
 
-				if (mode & RENDER_FEEDBACK)
-				{
 					glMatrixMode(GL_MODELVIEW);
 					glPopMatrix();
 
 					glMatrixMode(GL_PROJECTION);
-					glPopMatrix();
+					glPopMatrix();					
 				}
 			}
 		}

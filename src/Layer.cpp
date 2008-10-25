@@ -157,6 +157,8 @@ void Layer::scaleAroundPoint(float s, float ox, float oy)
 
 		scale = s;
 	}
+
+	calcTransformationMatrix();
 }
 
 
