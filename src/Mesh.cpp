@@ -616,17 +616,21 @@ void Mesh::clearSelection(void)
 
 /**
  * Draws the mesh.
- * Vertices, faces and faces with textures attached to the mesh gets drawn based on the actual AnimataSettings::display_elements.
+ * Vertices, faces and faces with textures attached to the mesh get drawn
+ * based on the actual AnimataSettings::display_elements.
  *
- * There are four drawing modes at this time, which can be combined by bitwise or.
+ * There are four drawing modes at this time, which can be combined by
+ * bitwise or.
  *	- RENDER_FEEDBACK\n
- *		Only draws a point to every vertex of the mesh, to get their exact position that can be used to set their screen coordinates.
+ *		Only draws a point to every vertex of the mesh, to get their exact
+ *		position that can be used to set their screen coordinates.
  *	- RENDER_WIREFRAME\n
  *		Draws vertex and face outlines.
  *	- RENDER_TEXTURE\n
  *		Draws textured faces if there is a texture attached to the mesh.
  *	- RENDER_OUTPUT\n
- *		Indicates that the draw happens in the output window, there is no need for mouseOver for the primitives.
+ *		Indicates that the drawing happens in the output window, there is no
+ *		need for mouseOver for the primitives.
  *
  * \param	mode	In which mode to draw the mesh.
  * \param	active	Flag represents whether the mesh is on the active Layer.
