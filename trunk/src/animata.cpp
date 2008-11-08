@@ -951,7 +951,9 @@ void AnimataWindow::handleMouseDrag(void)
 	if (!Fl::event_button1())
 	{
 		Vector3D *target = camera->getTarget();
-		camera->setTarget(new Vector3D(target->x - worldDist.x, target->y - worldDist.y, 0));
+		Vector3D cameraTarget(target->x - worldDist.x, target->y - worldDist.y, 0);
+		camera->setTarget(&cameraTarget);
+		ui->playback->getCamera()->setTarget(&cameraTarget);
 	}
 	else
 	switch (ui->settings.mode)
@@ -1030,7 +1032,9 @@ void AnimataWindow::handleMouseDrag(void)
 
 void AnimataWindow::handleMouseWheel(void)
 {
-	camera->setDistance(camera->getDistance() + Fl::event_dy());
+	float d = camera->getDistance() + Fl::event_dy();
+	camera->setDistance(d);
+	ui->playback->getCamera()->setDistance(d);
 }
 
 /**
