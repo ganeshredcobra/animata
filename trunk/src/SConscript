@@ -78,9 +78,12 @@ if '-O2' in flags['CCFLAGS']:
 # link fltk dependencies statically 
 if platform == 'darwin':
 	if STATIC:
-		flags['LIBS'].remove('png')
-		flags['LIBS'].remove('jpeg')
-		flags['LIBS'].remove('z')
+		if ('png' in flags['LIBS']):
+			flags['LIBS'].remove('png')
+		if ('jpeg' in flags['LIBS']):
+			flags['LIBS'].remove('jpeg')
+		if ('z' in flags['LIBS']):
+			flags['LIBS'].remove('z')
 		flags['LIBS'].append((File('/opt/local/lib/libpng.a'),
 					File('/opt/local/lib/libjpeg.a'),
 					File('/opt/local/lib/libz.a')))
