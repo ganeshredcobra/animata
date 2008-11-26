@@ -57,7 +57,7 @@ class Texture
 
 	public:
 
-		static const int BORDER = 0;	///< size of the border around the texture when mouse over 
+		static const int BORDER = 0;	///< size of the border around the texture when mouse over
 
 		float		x;					///< \e x coordinate of the position in world coordinate-system
 		float		y;					///< \e y coordinate of the position in world coordinate-system
@@ -69,7 +69,7 @@ class Texture
 		Vector2D	viewBottomRight;
 
 
-		Texture(const char *filename, int w, int h, int d, unsigned char* d, int reuseResource = 0);
+		Texture(const char *filename, int w, int h, int d, unsigned char* p, int reuseResource = 0);
 		~Texture();
 
 		void draw(int mouseOver = 0);
