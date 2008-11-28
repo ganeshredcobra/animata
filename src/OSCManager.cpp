@@ -61,8 +61,6 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			float val;
 			args >> namePattern >> val >> osc::EndMessage;
 
-			//std::cout << "/anibone " << namePattern << " " << val << "\n";
-
 			// FIXME: locking?, bones should not be deleted while this is
 			// running
 			lock();
