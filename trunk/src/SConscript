@@ -42,9 +42,6 @@ CCFLAGS = '-Wall -Wno-unknown-pragmas -Wno-long-long ' \
 				(ANIMATA_MAJOR_VERSION, ANIMATA_MINOR_VERSION) 
 LINKFLAGS = ''
 
-if platform != 'cygwin':
-	CCFLAGS += '-Wno-variadic-macros '
-
 if PROFILE:
 	DEBUG = 1
 	CCFLAGS += '-pg '

@@ -986,14 +986,22 @@ void AnimataWindow::handleMouseDrag(void)
 			break;
 
 		case ANIMATA_MODE_TEXTURE_POSITION:
+			/*
 			if (selectedTexture)
 			{
 				selectedTexture->x += viewDist.x;
 				selectedTexture->y += viewDist.y;
 			}
 			break;
+			*/
+			// TEXTURE_POSITION is the same as LAYER_MOVE now
+		case ANIMATA_MODE_LAYER_MOVE:
+			// FIXME: scale shouldn't alter distance when moving layers
+			cLayer->move(worldDist.x * cLayer->getScale(), worldDist.y * cLayer->getScale());
+			break;
 
 		case ANIMATA_MODE_TEXTURE_SCALE:
+			/*
 			if(selectedTexture)
 			{
 				// the scale center has to be transformed into the texture coordinate space
@@ -1002,12 +1010,8 @@ void AnimataWindow::handleMouseDrag(void)
 													(dragMouseY - selectedTexture->y) / selectedTexture->getScale());
 			}
 			break;
-
-		case ANIMATA_MODE_LAYER_MOVE:
-			// FIXME: scale shouldn't alter distance when moving layers
-			cLayer->move(worldDist.x * cLayer->getScale(), worldDist.y * cLayer->getScale());
-			break;
-
+			*/
+			// TEXTURE_SCALE is the same as LAYER_SCALE now
 		case ANIMATA_MODE_LAYER_SCALE:
 			// the scale center has to be transformed into the layer coordinate space
 			/*
