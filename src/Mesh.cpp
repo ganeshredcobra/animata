@@ -23,6 +23,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <algorithm>
 
 #include "animata.h"
 #include "animataUI.h"
