@@ -33,6 +33,7 @@
 #include <iomanip>
 #include <ctime>
 
+#include <string.h>
 
 namespace osc{
 

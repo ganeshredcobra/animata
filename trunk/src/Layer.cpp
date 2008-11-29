@@ -21,13 +21,14 @@
 
 */
 
+#include <stdio.h>
+#include <float.h>
+#include <algorithm>
+
 #include "Layer.h"
 #include "animata.h"
 #include "animataUI.h"
 #include "Transform.h"
-
-#include <stdio.h>
-#include <float.h>
 
 #define MIN_SCALE 0.1f
 

@@ -24,6 +24,7 @@
 #include <math.h>
 #include <float.h>
 #include <unistd.h>
+#include <algorithm>
 #include <iterator>
 
 #include "animata.h"

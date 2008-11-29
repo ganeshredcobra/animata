@@ -29,6 +29,10 @@
 
 #include "Texture.h"
 
+#ifndef PATH_MAX
+	#define PATH_MAX 4096
+#endif
+
 class ImageBox : public Fl_Box
 {
 		Fl_Image* origImage;

@@ -22,6 +22,7 @@
 */
 
 #include <libgen.h> // basename, dirname
+#include <algorithm>
 #include <iterator>
 
 #include "animata.h"
