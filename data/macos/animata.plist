@@ -4,21 +4,20 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>CFBundleIdentifier</key>
-	<string>hu.kitchenbudapest.animata</string>
 	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
+	<string>%BUNDLE_EXECUTABLE%</string>
 	<key>CFBundleIconFile</key>
-	<string>animata.icns</string>
+	<string>%ICONFILE%</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>Animata</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>NMNT</string>
 	<key>CFBundleVersion</key>
-	<string>004</string>
+	<string>%SHORTVERSION%</string>
 </dict>
 </plist>
+
