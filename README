@@ -44,6 +44,9 @@ scons
 To run the software, type ./animata in the build directory.
 
 
+On OS X you can also open Animata.xcodeproj and compile and run the Animata Target.
+
+
 Where to get more information
 -----------------------------
 
