@@ -31,10 +31,10 @@
 class Mesh;
 typedef void (Mesh::*FACE_PROC)(int p0, int p1, int p2);
 
-class Line
+class aLine
 {
 	public:
-		Line(Vector2D *p0, Vector2D *p1);
+		aLine(Vector2D *p0, Vector2D *p1);
 		float eval(Vector2D *p) const;
 	private:
 		float a, b, c;
