@@ -30,7 +30,7 @@
 #include "Subdiv.h"
 
 // computes the normalized line equation through the points p0 and p1.
-Line::Line(Vector2D *p0, Vector2D *p1)
+aLine::aLine(Vector2D *p0, Vector2D *p1)
 {
 	Vector2D t;
 	t.x = p1->x - p0->x;
@@ -42,7 +42,7 @@ Line::Line(Vector2D *p0, Vector2D *p1)
 }
 
 // plugs point p into the line equation.
-float Line::eval(Vector2D *p) const
+float aLine::eval(Vector2D *p) const
 {
 	return (a*p->x + b*p->y + c);
 }
@@ -197,7 +197,7 @@ int Subdivision::on_edge(Vector2D *p, Edge *e)
 	if ((t1 > t3) || (t2 > t3))
 		return 0;
 
-	Line line(orig, dest);
+	aLine line(orig, dest);
 	return (fabs(line.eval(p)) < EPS);
 }
 
