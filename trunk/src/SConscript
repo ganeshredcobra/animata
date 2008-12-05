@@ -102,7 +102,7 @@ if platform == 'posix':
 if not GetOption('clean'):
 	conf = Configure(env)
 	for (lib, headers) in LIBS:
-		if not conf.CheckLibWithHeader(lib, headers, 'c++', autoadd = 0):
+		if not conf.CheckLibWithHeader(lib, headers, 'c++', autoadd = 1):
 			print "error: '%s' must be installed!" % lib
 			Exit(1)
 	env = conf.Finish()
