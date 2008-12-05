@@ -15,8 +15,8 @@ class Fl_Eval_Slider;
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Button.H>
-#include <Fl/Fl_JPEG_Image.h>
-#include <Fl/Fl_PNG_Image.h>
+#include <Fl/Fl_JPEG_Image.H>
+#include <Fl/Fl_PNG_Image.H>
 #include "ImageBox.h"
 #include <FL/Fl_Scroll.H>
 #include <FL/Fl_Pack.H>
