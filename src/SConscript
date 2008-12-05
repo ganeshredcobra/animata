@@ -35,6 +35,7 @@ SOURCES += XMLLIB + OSCLIB
 
 CCFLAGS = '-Wall -Wno-unknown-pragmas -Wno-long-long ' \
 			'-pedantic ' \
+			'-pthread ' \
 			'-Wno-format -DTIXML_USE_STL ' \
 			'-DOSC_HOST_LITTLE_ENDIAN ' \
 			'-DANIMATA_MAJOR_VERSION=%s ' \

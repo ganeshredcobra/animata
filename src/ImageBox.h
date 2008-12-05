@@ -24,8 +24,8 @@
 #ifndef __IMAGEBOX_H__
 #define __IMAGEBOX_H__
 
-#include <Fl/Fl_Box.h>
-#include <Fl/Fl_Image.h>
+#include <FL/Fl_Box.H>
+#include <FL/Fl_Image.H>
 
 #include "Texture.h"
 
