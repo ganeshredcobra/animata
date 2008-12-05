@@ -121,6 +121,7 @@ class Bone
 		/// Gets attachment falloff.
 		inline float getFalloff(void) { return falloff; }
 		void recalculateWeights(void);
+		float getViewRadius();
 
 	private:
 		float dOrig;	//< original length of bone

@@ -72,11 +72,8 @@ Camera::Camera()
  **/
 void Camera::setSize(int w, int h)
 {
-	width = w;
-	height = h;
-
-	pictureWidth = w;
-	pictureHeight = h;
+	width = pictureWidth = w;
+	height = pictureHeight = h;
 
 	if(!init)
 	{
