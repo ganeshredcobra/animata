@@ -241,9 +241,9 @@ void Bone::draw(int mouseOver, int active)
 	{
 		int cx = (int)((j0->vx + j1->vx) * .5f);
 		int cy = (int)((j0->vy + j1->vy) * .5f);
-		int r = (int)(getRadius());
-		//printf("bone draw %d %f\n", r, attachRadiusMult);
-		//fflush(stdout);
+		// cannot use getRadius(), as it isn't view dependent, like joint.vx and joint.vy
+		// int r = (int)(getRadius());
+		int r = (int)(getViewRadius());
 
 		if (selected)
 		{
@@ -294,6 +294,17 @@ Vector2D Bone::getCenter(void)
 {
 	Vector2D c((j0->vx + j1->vx) * .5f, (j0->vy + j1->vy) * .5f);
 	return c;
+}
+
+/**
+ * Gets radius of vertex selection circle in view coordinate-system.
+ * \return The radius of the selection circle in view coordinate-system.
+ */
+float Bone::getViewRadius()
+{
+	// distance has to be recalculated every time as it's based on the view position of the joints
+	float dView = sqrt((j1->vx-j0->vx)*(j1->vx-j0->vx) + (j1->vy-j0->vy)*(j1->vy-j0->vy));
+	return dView * 0.5f * attachRadiusMult;
 }
 
 /**

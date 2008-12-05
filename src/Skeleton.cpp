@@ -469,8 +469,11 @@ void Skeleton::selectVerticesInRange(Mesh *mesh)
 		{
 			if (b->getAttachedVerticesCount() == 0)
 			{
+				// selection happens in screen coordinate system, just like the drawSelectionBox in animata.cpp
+				// so get the view radius as in Bone.draw()
 				Vector2D v = b->getCenter();
-				float r = b->getRadius();
+				// float r = b->getRadius();
+				float r = b->getViewRadius();
 				selector->doCircleSelect(mesh, Selection::SELECT_VERTEX,
 						(int)v.x, (int)v.y, (int)r);
 			}

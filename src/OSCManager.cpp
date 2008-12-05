@@ -251,6 +251,110 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 					<< "layer is not found" << "\n";
 			}
 		}
+		else if (strcmp(m.AddressPattern(), "/layerpos") == 0)
+		{
+			osc::ReceivedMessageArgumentStream args = m.ArgumentStream();
+			const char *namePattern;
+			float x;
+			float y;
+			args >> namePattern >> x >> y >> osc::EndMessage;
+
+			// get all layers
+			std::vector<Layer *> *layers = ui->editorBox->getAllLayers();
+
+			int found = 0;
+			// try to find exact match for layer names first
+			std::vector<Layer *>::iterator l = layers->begin();
+			for (; l < layers->end(); l++)
+			{
+				const char *layerName = (*l)->getName();
+				// skip unnamed layers
+				if (layerName[0] == 0)
+					continue;
+				if (strcmp(layerName, namePattern) == 0)
+				{
+					(*l)->setX(x);
+					(*l)->setY(y);
+					found = 1;
+				}
+			}
+
+			// if exact match is not found try regular expression match
+			if (!found)
+			{
+				std::vector<Layer *>::iterator l = layers->begin();
+				for (; l < layers->end(); l++)
+				{
+					const char *layerName = (*l)->getName();
+					// skip unnamed layers
+					if (layerName[0] == 0)
+						continue;
+					if (patternMatch(layerName, namePattern))
+					{
+						(*l)->setX(x);
+						(*l)->setY(y);
+						found = 1;
+					}
+				}
+			}
+
+			if (!found)
+			{
+				std::cerr << "OSC error: " << m.AddressPattern() << ": "
+					<< "layer is not found" << "\n";
+			}
+		}
+		else if (strcmp(m.AddressPattern(), "/layerdeltapos") == 0)
+		{
+			osc::ReceivedMessageArgumentStream args = m.ArgumentStream();
+			const char *namePattern;
+			float x;
+			float y;
+			args >> namePattern >> x >> y >> osc::EndMessage;
+
+			// get all layers
+			std::vector<Layer *> *layers = ui->editorBox->getAllLayers();
+
+			int found = 0;
+			// try to find exact match for layer names first
+			std::vector<Layer *>::iterator l = layers->begin();
+			for (; l < layers->end(); l++)
+			{
+				const char *layerName = (*l)->getName();
+				// skip unnamed layers
+				if (layerName[0] == 0)
+					continue;
+				if (strcmp(layerName, namePattern) == 0)
+				{
+					(*l)->move(x, y);
+					found = 1;
+				}
+			}
+
+			// if exact match is not found try regular expression match
+			if (!found)
+			{
+				std::vector<Layer *>::iterator l = layers->begin();
+				for (; l < layers->end(); l++)
+				{
+					const char *layerName = (*l)->getName();
+					// skip unnamed layers
+					if (layerName[0] == 0)
+						continue;
+					if (patternMatch(layerName, namePattern))
+					{
+						(*l)->move(x, y);
+						found = 1;
+					}
+				}
+			}
+
+			if (!found)
+			{
+				std::cerr << "OSC error: " << m.AddressPattern() << ": "
+					<< "layer is not found" << "\n";
+			}
+		}
 	}
 	catch (osc::Exception& e)
 	{
