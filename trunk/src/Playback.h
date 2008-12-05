@@ -32,8 +32,8 @@
 	#include <GL/glu.h>
 #endif
 
-#include <Fl/Fl.h>
-#include <Fl/Fl_Gl_Window.h>
+#include <FL/Fl.H>
+#include <FL/Fl_Gl_Window.H>
 #include "Camera.h"
 #include "Layer.h"
 #include "animata.h"
