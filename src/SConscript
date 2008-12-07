@@ -118,3 +118,12 @@ if platform == 'darwin':
 	AddPostAction(TARGET,
 		'%s -t APPL -o $TARGET /opt/local/include/FL/mac.r' % REZ)
 
+# run
+
+import os
+if platform == 'posix':
+	env['ENV']['DISPLAY'] = os.environ['DISPLAY']
+	env['ENV']['LIBGL_DRIVERS_PATH'] = os.environ['LIBGL_DRIVERS_PATH']
+
+env.AlwaysBuild(env.Alias('run', [TARGET], '%s' % env.File(TARGET).abspath))
+

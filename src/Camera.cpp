@@ -21,7 +21,6 @@
 
 */
 
-#include "Camera.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -32,6 +31,8 @@
 	#include <GL/gl.h>
 	#include <GL/glu.h>
 #endif
+
+#include "Camera.h"
 
 /**
  * Creates a new camera with default parameters.

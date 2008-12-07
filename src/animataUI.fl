@@ -133,12 +133,12 @@ editorBox->take_focus();} open
         private xywh {0 500 2048 160} box BORDER_BOX color 21 selection_color 3 align 0 resizable
       } {
         Fl_Group imagePanel {
-          label {&1 Image} open
+          label {&1 Image}
           tooltip {Add, move and scale image textures in this tab.} xywh {0 520 2048 140} color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(imageScrollArea);}
         } {
           Fl_Group imageButtons {
-            label {Image Buttons} open
+            label {Image Buttons}
             xywh {5 530 105 120} labeltype NO_LABEL
             code0 {o->resizable(NULL);}
           } {
@@ -155,7 +155,7 @@ for(int i = 1; i <= count; i++)
 {
 	const char *filename = fileChooser->value(i);
 	loadImage(filename);
-}} selected
+}}
               tooltip {(A)} xywh {15 606 90 20} box BORDER_BOX shortcut 0x61 color 30 selection_color 3 labelsize 10 labelcolor 7
               code0 {\#include <Fl/Fl_JPEG_Image.H>}
               code1 {\#include <Fl/Fl_PNG_Image.H>}
@@ -189,7 +189,7 @@ settings.mode = (ANIMATA_MODES)(unsigned)v;
           }
         }
         Fl_Group {} {
-          label {&2 Mesh} open
+          label {&2 Mesh}
           tooltip {Create the mesh in this tab.} xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {
@@ -249,7 +249,7 @@ o->clear();}
           }
         }
         Fl_Group {} {
-          label {&3 Skeleton} open
+          label {&3 Skeleton}
           tooltip {Create the skeleton in this tab.} xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7
           code0 {o->resizable(NULL);}
         } {
@@ -283,7 +283,7 @@ o->clear();}
             callback cb_Create
             tooltip {(D)} xywh {15 625 90 20} type Radio box BORDER_BOX down_box BORDER_BOX shortcut 0x64 color 30 selection_color 3 labelsize 10 labelcolor 7 when 1
           }
-          Fl_Tabs skeletonPrefTabs {open
+          Fl_Tabs skeletonPrefTabs {
             xywh {135 535 640 110} box NO_BOX color 30 selection_color 30
           } {
             Fl_Group jointPrefs {
@@ -428,7 +428,7 @@ o->clear();}
           }
         }
         Fl_Group {} {
-          label {&4 Automata} open
+          label {&4 Automata}
           tooltip {Set up animation settings in this tab.} xywh {0 525 2048 135} box BORDER_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {
@@ -461,7 +461,7 @@ settings.gravityY = cos(a);}
           }
         }
         Fl_Group {} {
-          label {&5 Layer} open
+          label {&5 Layer}
           tooltip {Set up layering in this tab.} xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {
@@ -584,7 +584,7 @@ editorBox->setLayerPrefsFromUI(PREFS_LAYER_VISIBILITY, &tempStorage);}
           code0 {o->resizable(NULL);}
         } {}
         Fl_Group {} {
-          label {&7 View} open
+          label {&7 View}
           tooltip {Set up views in this tab.} xywh {0 525 2048 135} box BORDER_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {
@@ -733,10 +733,10 @@ window->redraw();} open
     code {fileChooser = new Fl_File_Chooser(".", "Image Files (*.{jpg,png})", 1, "choose");
 playback = new Playback(0, 0, 640, 480);
 playback->getCamera()->setParent(editorBox->getCamera());
-//editorBox->getCamera()->setClone(playback->getCamera()->setCloned());} {}
+//editorBox->getCamera()->setClone(playback->getCamera()->setCloned());} {selected
+    }
   }
-  Function {show()} {open
-  } {
+  Function {show()} {} {
     code {settings.mode = ANIMATA_MODE_TEXTURE_POSITION;
 imagePanel->set_visible();
 window->show();} {}
@@ -795,8 +795,7 @@ delete playback;} {}
   }
   decl {Fl_File_Chooser *fileChooser;} {public
   }
-  Function {refreshLayerTree(Layer *root)} {open
-  } {
+  Function {refreshLayerTree(Layer *root)} {} {
     code {clearLayerTree();
 
 Flu_Tree_Browser::Node* rootNode = layerTree->get_root();
@@ -858,7 +857,7 @@ if(subLayers)
   decl {union { int i; float f; const char *str; } tempStorage /* temporary storage space for returning values as void * */;} {}
 } 
 
-class Fl_Eval_Slider {open : {public Fl_Slider}
+class Fl_Eval_Slider {: {public Fl_Slider}
 } {
   decl {\#include <FL/fl_draw.H>} {}
   decl {uchar textfont_, textsize_;} {}
