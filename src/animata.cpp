@@ -158,7 +158,14 @@ void AnimataWindow::cleanup(void)
 	filename[0] = 0; // empty filename
 }
 
-/** Deletes layer from vector of all layers.
+void AnimataWindow::addToAllLayers(Layer *l)
+{
+	allLayers->push_back(l);
+	std::sort(allLayers->begin(), allLayers->end(), Layer::zorder);
+}
+
+/**
+ * Deletes layer from vector of all layers.
  * \param layer pointer to layer
  **/
 void AnimataWindow::deleteFromAllLayers(Layer *layer)
@@ -173,7 +180,8 @@ void AnimataWindow::deleteFromAllLayers(Layer *layer)
 	allLayers->erase(pos);
 }
 
-/** Deletes bone from vector of all bones.
+/**
+ * Deletes bone from vector of all bones.
  * \param bone pointer to bone
  **/
 void AnimataWindow::deleteFromAllBones(Bone *bone)
@@ -188,7 +196,8 @@ void AnimataWindow::deleteFromAllBones(Bone *bone)
 	allBones->erase(pos);
 }
 
-/** Deletes joint from vector of all joints.
+/**
+ * Deletes joint from vector of all joints.
  * \param joint pointer to joint
  **/
 void AnimataWindow::deleteFromAllJoints(Joint *joint)
@@ -203,7 +212,8 @@ void AnimataWindow::deleteFromAllJoints(Joint *joint)
 	allJoints->erase(pos);
 }
 
-/** Deletes joint from vector of OSC joints.
+/**
+ * Deletes joint from vector of OSC joints.
  * \param joint pointer to joint
  **/
 void AnimataWindow::deleteFromOSCJoints(Joint *joint)
@@ -370,8 +380,21 @@ void AnimataWindow::drawScene(void)
 	camera->setupModelView();
 
 	textureManager->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
-	rootLayer->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
-	rootLayer->draw(RENDER_WIREFRAME);
+	// rootLayer->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
+	// rootLayer->draw(RENDER_WIREFRAME);
+
+	std::vector<Layer *>::iterator l = allLayers->begin();
+	for (; l < allLayers->end(); l++)
+	{
+		(*l)->drawWithoutRecursion(RENDER_FEEDBACK | RENDER_TEXTURE);
+	}
+
+	l = allLayers->begin();
+	for (; l < allLayers->end(); l++)
+	{
+		(*l)->drawWithoutRecursion(RENDER_WIREFRAME);
+	}
+
 }
 
 /**
@@ -567,6 +590,17 @@ void AnimataWindow::setCurrentLayer(Layer *l)
 	cSkeleton = cLayer->getSkeleton();
 	cMesh = cLayer->getMesh();
 	cMatrix = cLayer->getTransformationMatrix();
+}
+
+void AnimataWindow::setSelectedLayers(Layer *l, int num)
+{
+	Layer *layer = l;
+	selectedLayers.clear();
+
+	for (int i = 0; i < num; i++, layer++)
+	{
+		selectedLayers.push_back(layer);
+	}
 }
 
 /**
@@ -1025,6 +1059,7 @@ void AnimataWindow::handleMouseDrag(void)
 
 		case ANIMATA_MODE_LAYER_DEPTH:
 			cLayer->depth(viewDist.y);
+			std::sort(allLayers->begin(), allLayers->end(), Layer::zorder);
 			break;
 
 		default:
@@ -1209,15 +1244,29 @@ void AnimataWindow::setAttachUIPrefs(Bone *b)
  **/
 void AnimataWindow::setLayerPrefsFromUI(enum ANIMATA_PREFERENCES prefParam, void *value)
 {
+	// std::vector<Layer *>::iterator l = selectedLayers.begin();
+
 	switch (prefParam)
 	{
 		case PREFS_LAYER_NAME:
+			/*
+			for (; l < selectedLayers.end(); l++)
+				(*l)->setName(*((const char **)value));
+			*/
 			cLayer->setName(*((const char **)value));
 			break;
 		case PREFS_LAYER_ALPHA:
+			/*
+			for (; l < selectedLayers.end(); l++)
+				(*l)->setAlpha(*((float *)value));
+			*/
 			cLayer->setAlpha(*((float *)value));
 			break;
 		case PREFS_LAYER_VISIBILITY:
+			/*
+			for (; l < selectedLayers.end(); l++)
+				(*l)->setVisibility(*((int *)value));
+			*/
 			cLayer->setVisibility(*((int *)value));
 			break;
 		default:

@@ -159,6 +159,8 @@ class AnimataWindow : public Fl_Gl_Window
 		TextureManager	*textureManager;
 		Layer			*rootLayer; /**< the root of all the layers */
 
+		std::vector<Layer *> selectedLayers;
+
 		/* FIXME: use multimap instead of vectors and store only named elements */
 		/* the following vectors are needed to reach the elements quickly
 		 * without traversing the whole hierarcy recursively */
@@ -283,6 +285,7 @@ class AnimataWindow : public Fl_Gl_Window
 		 * \param l layer to be the current
 		 **/
 		void setCurrentLayer(Layer *l);
+		void setSelectedLayers(Layer *l, int num);
 
 		void createAttachedTexture(ImageBox *box);
 
@@ -292,10 +295,11 @@ class AnimataWindow : public Fl_Gl_Window
 		 **/
 		inline Layer *getRootLayer() { return rootLayer; }
 
-		/** Adds layer to vector of all layers.
+		/**
+		 * Adds layer to vector of all layers.
 		 * \param l layer pointer to add
 		 **/
-		inline void addToAllLayers(Layer *l) { allLayers->push_back(l); }
+		void addToAllLayers(Layer *l);
 		void deleteFromAllLayers(Layer *layer);
 		/// Returns the vector storing all layers.
 		inline std::vector<Layer *> *getAllLayers() { return allLayers; }

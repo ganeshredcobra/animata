@@ -166,7 +166,7 @@ void Layer::scaleAroundPoint(float s, float ox, float oy)
 /**
  * Draws layer.
  **/
-void Layer::draw(int mode)
+void Layer::drawWithoutRecursion(int mode)
 {
 	if (!visible)
 		return;
@@ -178,8 +178,11 @@ void Layer::draw(int mode)
 	// this will also translate and scale sublayers
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
+	/*
 	glTranslatef(x, y, z);
 	glScalef(scale, scale, 1);
+	*/
+	glMultMatrixf(transformation.f);
 
 	float distance = ui->editorBox->getCamera()->getDistance();
 
@@ -215,7 +218,6 @@ void Layer::draw(int mode)
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
 		glLoadIdentity();
-//		glOrtho(0, viewport[2], 0, viewport[3], 0, 1);
 		glOrtho(viewport[0], viewport[2] + viewport[0], viewport[1], viewport[3] + viewport[1], 0, 1);
 
 		glMatrixMode(GL_MODELVIEW);
@@ -232,6 +234,10 @@ void Layer::draw(int mode)
 		glPopMatrix();
 	}
 
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+
+	/*
 	// then draw sublayers
 	std::vector<Layer *>::iterator l = layers->begin();
 	for (; l < layers->end(); l++)
@@ -242,6 +248,7 @@ void Layer::draw(int mode)
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
+	*/
 }
 
 /**

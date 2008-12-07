@@ -88,13 +88,28 @@ class Camera
 		 * \retval	int	Height of the picture.
 		 */
 		inline int getHeight() { return height; }
+		
 		/**
 		 * Returns the distance from the camera-target.
 		 * \retval	float	Distance from the target.
 		 */
 		inline float getDistance() { return distance; }
-
+		/**
+		 * Sets the distance to the camera-target.
+		 * \param	d	The new target distance.
+		 */
 		inline void setDistance(float d) { distance = d; }
+
+		/**
+		 * Return the vertical field of view of the camera.
+		 * \retval	float	The vertical fov of the camera.
+		 */
+		inline float getFOV() { return fov; }
+		/**
+		 * Sets the vertival field of view of the camera.
+		 * \param	f	The new vertiacal fov.
+		 */
+		inline void setFOV(float f) { fov = f; }
 };
 
 #endif

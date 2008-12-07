@@ -31,6 +31,12 @@ Matrix::Matrix()
 	clear();
 }
 
+Matrix::Matrix(double e[16])
+{
+	for(int i = 0; i < 16; i++)
+		f[i] = e[i];
+}
+
 /**
  * sets to zero every item of the matrix
  **/

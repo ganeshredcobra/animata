@@ -45,13 +45,16 @@ class Playback : public Fl_Gl_Window
 {
 	private:
 
-		Camera		*camera;			///< Camera which displays the playback window's picture. It's \a parent is set to AnimataWindow::camera.
-		Layer		*rootLayer;			///< The root of all layers, same as AnimataWindow::rootLayer.
+		Camera		*camera;				///< Camera which displays the playback window's picture. It's \a parent is set to AnimataWindow::camera.
+		/*
+		Layer		*rootLayer;				///< The root of all layers, same as AnimataWindow::rootLayer.
+		*/
+		std::vector<Layer *> *allLayers;	///< Every layer on the scene, same as AnimataWindow::allLayers.
 
-		bool		fullscreen;			///< fullscreen flag
-		int			ox, oy, ow, oh;		///< last position of the playback window before it has been but to fullscreen
+		bool		fullscreen;				///< fullscreen flag
+		int			ox, oy, ow, oh;			///< last position of the playback window before it has been but to fullscreen
 
-		void		*glContext;			///< OpenGL context of this window
+		void		*glContext;				///< OpenGL context of this window
 
 	public:
 
@@ -76,7 +79,10 @@ class Playback : public Fl_Gl_Window
 		 * Sets the \a rootLayer to the given one.
 		 * \param	r	The new rootLayer.
 		 */
+		/*
 		inline void setRootLayer(Layer *r) { rootLayer = r; }
+		*/
+		inline void setAllLayers(std::vector<Layer *> *l) { allLayers = l; }
 };
 
 #endif
