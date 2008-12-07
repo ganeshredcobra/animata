@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0108 
+version 1.0109 
 header_name {.h} 
 code_name {.cpp}
 decl {class Fl_Eval_Slider;} {public
@@ -17,7 +17,7 @@ class AnimataUI {open
       label animata
       callback {if (Fl::event()==FL_SHORTCUT && Fl::event_key()==FL_Escape) 
    return; // ignore Escape} open
-      xywh {419 53 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
+      xywh {364 53 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
       code0 {\#include <stdlib.h>}
       code1 {\#include "animata.h"}
       code2 {\#include <FL/Fl_File_Chooser.H>}
@@ -249,7 +249,7 @@ o->clear();}
           }
         }
         Fl_Group {} {
-          label {&3 Skeleton}
+          label {&3 Skeleton} open
           tooltip {Create the skeleton in this tab.} xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7
           code0 {o->resizable(NULL);}
         } {
@@ -283,10 +283,10 @@ o->clear();}
             callback cb_Create
             tooltip {(D)} xywh {15 625 90 20} type Radio box BORDER_BOX down_box BORDER_BOX shortcut 0x64 color 30 selection_color 3 labelsize 10 labelcolor 7 when 1
           }
-          Fl_Tabs skeletonPrefTabs {
+          Fl_Tabs skeletonPrefTabs {open
             xywh {135 535 640 110} box NO_BOX color 30 selection_color 30
           } {
-            Fl_Group jointPrefs {
+            Fl_Group jointPrefs {open
               xywh {135 535 570 110} color 30 selection_color 30
             } {
               Fl_Box {} {
@@ -461,7 +461,7 @@ settings.gravityY = cos(a);}
           }
         }
         Fl_Group {} {
-          label {&5 Layer}
+          label {&5 Layer} open
           tooltip {Set up layering in this tab.} xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {
@@ -545,7 +545,7 @@ for (int i = n; i >= 1; i--)
 layers->redraw();}
             tooltip {(D)} xywh {15 625 90 20} box BORDER_BOX down_box BORDER_BOX shortcut 0x64 color 30 selection_color 3 labelsize 10 labelcolor 7
           }
-          Fl_Group {} {
+          Fl_Group {} {open
             xywh {135 535 570 110} box BORDER_BOX color 30 selection_color 30
           } {
             Fl_Box {} {
@@ -700,7 +700,7 @@ else
         xywh {0 20 640 480} box BORDER_BOX color 0 selection_color 0
         class AnimataWindow
       }
-      Fl_Group layers {
+      Fl_Group layers {open
         private xywh {640 20 220 501} color 22 selection_color 22 labeltype NO_LABEL labelcolor 32
         code0 {\#include "Layer.h"}
       } {
@@ -720,7 +720,21 @@ if (n)
 	}
 }
 
-window->redraw();} open
+/*
+int l = layerTree->num_selected();
+Layer *layers = new Layer[l];
+Layer *actLayer = layers;
+for (int i = 0; i < l; i++)
+{
+	Flu_Tree_Browser::Node* n = layerTree->get_selected(i);
+	actLayer = (Layer *)n->user_data();
+	actLayer++;
+}
+editorBox->setSelectedLayers(layers, l);
+delete [] layers;
+*/
+
+window->redraw();} open selected
           xywh {640 20 215 501} box BORDER_BOX color 30 selection_color 31 labeltype NO_LABEL labelcolor 7 when 1
           code0 {\#include "FLU/Flu_Tree_Browser.h"}
           code1 {layerTree->auto_branches(true); layerTree->insertion_mode(FLU_INSERT_BACK);}
@@ -733,8 +747,7 @@ window->redraw();} open
     code {fileChooser = new Fl_File_Chooser(".", "Image Files (*.{jpg,png})", 1, "choose");
 playback = new Playback(0, 0, 640, 480);
 playback->getCamera()->setParent(editorBox->getCamera());
-//editorBox->getCamera()->setClone(playback->getCamera()->setCloned());} {selected
-    }
+//editorBox->getCamera()->setClone(playback->getCamera()->setCloned());} {}
   }
   Function {show()} {} {
     code {settings.mode = ANIMATA_MODE_TEXTURE_POSITION;
@@ -795,7 +808,8 @@ delete playback;} {}
   }
   decl {Fl_File_Chooser *fileChooser;} {public
   }
-  Function {refreshLayerTree(Layer *root)} {} {
+  Function {refreshLayerTree(Layer *root)} {open
+  } {
     code {clearLayerTree();
 
 Flu_Tree_Browser::Node* rootNode = layerTree->get_root();
@@ -810,7 +824,10 @@ for(unsigned i = 0; i < root->getLayers()->size(); i++)
   addLayerNodeRecursive(l, rootNode);
 }
 
+/*
 playback->setRootLayer(root);
+*/
+playback->setAllLayers(editorBox->getAllLayers());
 
 layers->redraw();} {}
   }

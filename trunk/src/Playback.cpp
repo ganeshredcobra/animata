@@ -36,7 +36,8 @@ Playback::Playback(int x, int y, int w, int h, const char* l) :
 	Fl_Gl_Window(x, y, w, h, l)
 {
 	camera = new Camera();
-	rootLayer = NULL;
+	// rootLayer = NULL;
+	allLayers = NULL;
 
 	fullscreen = 0;
 	this->resizable(this);
@@ -71,13 +72,23 @@ void Playback::draw()
 	// playbackwindow too
 	// camera->setupViewport();
 
-	glClearColor(0, 0, 0, 0);
+	glClearColor(1, 0, 0, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	camera->setupModelView();
 
-	if(rootLayer)
+	/*
+	if (rootLayer)
 		rootLayer->draw(RENDER_FEEDBACK | RENDER_OUTPUT | RENDER_TEXTURE | RENDER_WIREFRAME);
+	*/
+	if (allLayers)
+	{
+		std::vector<Layer *>::iterator l = allLayers->begin();
+		for (; l < allLayers->end(); l++)
+		{
+			(*l)->drawWithoutRecursion(RENDER_FEEDBACK | RENDER_OUTPUT | RENDER_TEXTURE | RENDER_WIREFRAME);
+		}
+	}
 }
 
 /**

@@ -81,17 +81,28 @@ void Camera::setSize(int w, int h)
 		target.x = width  / 2;
 		target.y = height / 2;
 
+		setAspect(width, height);
+
+		if (parent)
+		{
+			target = *parent->getTarget();
+			distance = parent->getDistance();
+			fov = parent->getFOV();
+		}
+
 		init = true;
 	}
 
-	setAspect(width, height);
+	// setAspect(width, height);
+	aspect = height > 0 ? (double)width / (double)height : 1.0;
 
-	if(parent)
+	if (parent)
 	{
 		int pw = parent->getWidth();
 		int ph = parent->getHeight();
 
-		setAspect(pw, ph);
+		// setAspect(pw, ph);
+		aspect = ph > 0 ? (double)pw / (double)ph : 1.0;
 
 		if(width / aspect > height)
 		{
@@ -103,7 +114,6 @@ void Camera::setSize(int w, int h)
 			pictureWidth = width;
 			pictureHeight = (int)(pictureWidth / aspect);
 		}
-
 	}
 
 	setupPerspective();

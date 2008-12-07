@@ -32,6 +32,7 @@ class Matrix
 		float f[16];			///< items of the matrix in one dimension to adapt to the openGL convencion
 
 		Matrix();
+		Matrix(double e[16]);
 
 		void clear();			///< zero matrix
 		void loadIdentity();	///< indentity matrix

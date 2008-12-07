@@ -74,7 +74,7 @@ class Layer
 
 		int deleteSublayer(Layer *layer);
 
-		void draw(int mode);
+		void drawWithoutRecursion(int mode);
 
 		void simulate(int times = 1);
 
@@ -109,20 +109,20 @@ class Layer
 		inline void setParent(Layer *p) { parent = p; }
 
 		/// Returns x position.
-		inline float getX(void) { return x; }
+		inline float getX(void) const { return x; }
 		/// Returns y position.
-		inline float getY(void) { return y; }
+		inline float getY(void) const { return y; }
 		/// Returns z position.
-		inline float getZ(void) { return z; }
+		inline float getZ(void) const { return z; }
 		/// Returns scale.
-		inline float getScale(void) { return scale; }
+		inline float getScale(void) const { return scale; }
 		/// Returns alpha.
-		inline float getAlpha(void) { return alpha; }
+		inline float getAlpha(void) const { return alpha; }
 
 		float getAccumulatedAlpha(void);
 
 		/// Returns visibility.
-		inline bool getVisibility() { return visible; }
+		inline bool getVisibility() const { return visible; }
 
 		/// Sets x position.
 		inline void setX(float x) { this->x = x; calcTransformationMatrix(); }
@@ -158,6 +158,8 @@ class Layer
 		void scaleAroundPoint(float s, float ox, float oy);
 
 		void setup(float x, float y, float z, float alpha, float scale);
+		
+		inline static bool zorder(const Layer *a, const Layer *b) { return a->getZ() > b->getZ(); }
 };
 
 #endif
