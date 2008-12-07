@@ -114,6 +114,8 @@ class Layer
 		inline float getY(void) const { return y; }
 		/// Returns z position.
 		inline float getZ(void) const { return z; }
+		/// Returns cummulated z position.
+		inline float getTotalDepth() const { return transformation.f[14]; }
 		/// Returns scale.
 		inline float getScale(void) const { return scale; }
 		/// Returns alpha.
@@ -159,7 +161,8 @@ class Layer
 
 		void setup(float x, float y, float z, float alpha, float scale);
 		
-		inline static bool zorder(const Layer *a, const Layer *b) { return a->getZ() > b->getZ(); }
+		inline static bool zorder(const Layer *a, const Layer *b)
+			{ return a->getTotalDepth() > b->getTotalDepth(); }
 };
 
 #endif
