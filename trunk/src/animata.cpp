@@ -1067,8 +1067,14 @@ void AnimataWindow::handleMouseDrag(void)
 void AnimataWindow::handleMouseWheel(void)
 {
 	float d = camera->getDistance() + Fl::event_dy();
-	camera->setDistance(d);
-	ui->playback->getCamera()->setDistance(d);
+	const float MIN_CAMERA_DISTANCE = 0.1;
+
+	/* do not allow a negative distance which flips the whole image */
+	if (d > MIN_CAMERA_DISTANCE)
+	{
+		camera->setDistance(d);
+		ui->playback->getCamera()->setDistance(d);
+	}
 }
 
 /**
