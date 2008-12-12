@@ -93,7 +93,7 @@ class Camera
 		 * \retval	int	Height of the picture.
 		 */
 		inline int getHeight() { return height; }
-		
+
 		/**
 		 * Returns the distance from the camera-target.
 		 * \retval	float	Distance from the target.
