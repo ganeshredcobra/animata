@@ -23,6 +23,8 @@
 
 #include "Face.h"
 
+using namespace Animata;
+
 void Face::move(float dx, float dy)
 {
 	v[0]->coord.x += dx;

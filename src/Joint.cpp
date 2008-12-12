@@ -29,6 +29,8 @@
 #include "animata.h"
 #include "animataUI.h"
 
+using namespace Animata;
+
 /**
  * Creates a joint at the (x, y) coordinate.
  **/
@@ -84,7 +86,7 @@ void Joint::simulate(void)
  **/
 void Joint::draw(int mouseOver, int active)
 {
-	drawJoint(this, mouseOver, active);
+	Primitives::drawJoint(this, mouseOver, active);
 }
 
 /**

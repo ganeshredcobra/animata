@@ -26,6 +26,11 @@
 
 #include "Vector3D.h"
 
+using namespace std;
+
+namespace Animata
+{
+
 /// Camera class, manages projection and modelview matrices.
 class Camera
 {
@@ -111,6 +116,8 @@ class Camera
 		 */
 		inline void setFOV(float f) { fov = f; }
 };
+
+} /* namespace Animata */
 
 #endif
 

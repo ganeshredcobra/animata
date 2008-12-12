@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0109 
+version 1.0108 
 header_name {.h} 
 code_name {.cpp}
 decl {class Fl_Eval_Slider;} {public
@@ -17,7 +17,7 @@ class AnimataUI {open
       label animata
       callback {if (Fl::event()==FL_SHORTCUT && Fl::event_key()==FL_Escape) 
    return; // ignore Escape} open
-      xywh {364 53 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
+      xywh {462 53 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
       code0 {\#include <stdlib.h>}
       code1 {\#include "animata.h"}
       code2 {\#include <FL/Fl_File_Chooser.H>}
@@ -129,7 +129,7 @@ for (int i = 0; i < n; ++i)
 	}
 }
 
-editorBox->take_focus();} open
+editorBox->take_focus();}
         private xywh {0 500 2048 160} box BORDER_BOX color 21 selection_color 3 align 0 resizable
       } {
         Fl_Group imagePanel {
@@ -249,7 +249,7 @@ o->clear();}
           }
         }
         Fl_Group {} {
-          label {&3 Skeleton} open
+          label {&3 Skeleton}
           tooltip {Create the skeleton in this tab.} xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7
           code0 {o->resizable(NULL);}
         } {
@@ -283,10 +283,10 @@ o->clear();}
             callback cb_Create
             tooltip {(D)} xywh {15 625 90 20} type Radio box BORDER_BOX down_box BORDER_BOX shortcut 0x64 color 30 selection_color 3 labelsize 10 labelcolor 7 when 1
           }
-          Fl_Tabs skeletonPrefTabs {open
+          Fl_Tabs skeletonPrefTabs {
             xywh {135 535 640 110} box NO_BOX color 30 selection_color 30
           } {
-            Fl_Group jointPrefs {open
+            Fl_Group jointPrefs {
               xywh {135 535 570 110} color 30 selection_color 30
             } {
               Fl_Box {} {
@@ -461,7 +461,7 @@ settings.gravityY = cos(a);}
           }
         }
         Fl_Group {} {
-          label {&5 Layer} open
+          label {&5 Layer}
           tooltip {Set up layering in this tab.} xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {
@@ -545,7 +545,7 @@ for (int i = n; i >= 1; i--)
 layers->redraw();}
             tooltip {(D)} xywh {15 625 90 20} box BORDER_BOX down_box BORDER_BOX shortcut 0x64 color 30 selection_color 3 labelsize 10 labelcolor 7
           }
-          Fl_Group {} {open
+          Fl_Group {} {
             xywh {135 535 570 110} box BORDER_BOX color 30 selection_color 30
           } {
             Fl_Box {} {
@@ -579,7 +579,7 @@ editorBox->setLayerPrefsFromUI(PREFS_LAYER_VISIBILITY, &tempStorage);}
           }
         }
         Fl_Group {} {
-          label {&6 Camera} open
+          label {&6 Camera}
           tooltip {Set up cameras in this tab.} xywh {0 525 2048 135} box FLAT_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {}
@@ -700,7 +700,7 @@ else
         xywh {0 20 640 480} box BORDER_BOX color 0 selection_color 0
         class AnimataWindow
       }
-      Fl_Group layers {open
+      Fl_Group layers {
         private xywh {640 20 220 501} color 22 selection_color 22 labeltype NO_LABEL labelcolor 32
         code0 {\#include "Layer.h"}
       } {
@@ -734,7 +734,7 @@ editorBox->setSelectedLayers(layers, l);
 delete [] layers;
 */
 
-window->redraw();} open selected
+window->redraw();} open
           xywh {640 20 215 501} box BORDER_BOX color 30 selection_color 31 labeltype NO_LABEL labelcolor 7 when 1
           code0 {\#include "FLU/Flu_Tree_Browser.h"}
           code1 {layerTree->auto_branches(true); layerTree->insertion_mode(FLU_INSERT_BACK);}
@@ -743,6 +743,10 @@ window->redraw();} open selected
           class Flu_Tree_Browser
         } {}
       }
+      Fl_Group extra_includes_etc {open
+        private xywh {2048 2048 0 0}
+        code0 {using namespace Animata;}
+      } {}
     }
     code {fileChooser = new Fl_File_Chooser(".", "Image Files (*.{jpg,png})", 1, "choose");
 playback = new Playback(0, 0, 640, 480);
@@ -957,7 +961,8 @@ textcolor_ = FL_FOREGROUND_COLOR;} {}
   } {
     code {return eval(Fl_Slider::value());} {}
   }
-  Function {value(float f)} {} {
+  Function {value(float f)} {selected
+  } {
     code {Fl_Slider::value(evalinv(f));} {}
   }
 } 

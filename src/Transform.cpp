@@ -23,6 +23,8 @@
 
 #include "Transform.h"
 
+using namespace Animata;
+
 double Transform::modelview[16];
 double Transform::projection[16];
 GLint Transform::viewport[4];

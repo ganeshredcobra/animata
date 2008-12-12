@@ -24,6 +24,8 @@
 #include "Playback.h"
 #include "animataUI.h"
 
+using namespace Animata;
+
 /**
  * Creates a new playback window.
  * \param x \e x position of window.
@@ -72,7 +74,7 @@ void Playback::draw()
 	// playbackwindow too
 	// camera->setupViewport();
 
-	glClearColor(1, 0, 0, 0);
+	glClearColor(0, 0, 0, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	camera->setupModelView();
@@ -83,7 +85,7 @@ void Playback::draw()
 	*/
 	if (allLayers)
 	{
-		std::vector<Layer *>::iterator l = allLayers->begin();
+		vector<Layer *>::iterator l = allLayers->begin();
 		for (; l < allLayers->end(); l++)
 		{
 			(*l)->drawWithoutRecursion(RENDER_FEEDBACK | RENDER_OUTPUT | RENDER_TEXTURE | RENDER_WIREFRAME);

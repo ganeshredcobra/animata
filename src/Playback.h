@@ -38,6 +38,11 @@
 #include "Layer.h"
 #include "animata.h"
 
+using namespace std;
+
+namespace Animata
+{
+
 /// Playback window class.
 /// Show the same sized image as the main application window,
 /// but can display different primitive types as the actives in the main window.
@@ -84,6 +89,8 @@ class Playback : public Fl_Gl_Window
 		*/
 		inline void setAllLayers(std::vector<Layer *> *l) { allLayers = l; }
 };
+
+} /* namespace Animata */
 
 #endif
 

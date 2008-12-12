@@ -26,23 +26,13 @@
 
 #include <vector>
 
+using namespace std;
+
+namespace Animata
+{
+
 class Edge;
 class QuadEdge;
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-extern Edge *make_edge(void);
-extern void kill_edges(void);
-extern void splice(Edge *a, Edge *b);
-extern void delete_edge(Edge *e);
-extern Edge* connect_edge(Edge *a, Edge *b);
-extern void swap(Edge *e);
-
-#ifdef __cplusplus
-}
-#endif
 
 class Edge
 {
@@ -69,20 +59,28 @@ class Edge
 		int org(void);
 		int dest(void);
 		void endpoints(int orig, int dest);
+
+		static Edge *make_edge(void);
+		static void kill_edges(void);
+		static void splice(Edge *a, Edge *b);
+		static void delete_edge(Edge *e);
+		static Edge* connect_edge(Edge *a, Edge *b);
+		static void swap(Edge *e);
 };
 
 class QuadEdge
 {
-	friend Edge *make_edge(void);
-	friend void kill_edges(void);
-	friend void delete_edge(Edge *e);
+	friend class Edge;
 	friend class Subdivision;
+
 	private:
 		Edge e[4];
-		static std::vector<QuadEdge *> *qe_array;
+		static vector<QuadEdge *> *qe_array;
 	public:
 		QuadEdge();
 };
+
+} /* namespace Animata */
 
 #endif
 

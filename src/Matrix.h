@@ -24,6 +24,9 @@
 #ifndef __MATRIX_H__
 #define __MATRIX_H__
 
+namespace Animata
+{
+
 // class storing 4x4 float matrix
 class Matrix
 {
@@ -50,6 +53,8 @@ class Matrix
 
 		void print();
 };
+
+} /* namespace Animata */
 
 #endif
 

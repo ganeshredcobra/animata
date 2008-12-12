@@ -32,6 +32,8 @@
 #include "Bone.h"
 #include "Primitives.h"
 
+using namespace Animata;
+
 /**
  * Constructs a bone from the two given joints.
  * \param j0 pointer to joint 0
@@ -56,7 +58,7 @@ Bone::Bone(Joint *j0, Joint *j1)
 	selected = false;
 
 	dsts = weights = sa = ca = NULL;
-	attachedVertices = new std::vector<Vertex *>;
+	attachedVertices = new vector<Vertex *>;
 
 	attachRadiusMult = 1.0;
 	falloff = 1.0;
@@ -234,7 +236,7 @@ void Bone::release(void)
  **/
 void Bone::draw(int mouseOver, int active)
 {
-	drawBone(this, mouseOver, active);
+	Primitives::drawBone(this, mouseOver, active);
 
 	// FIXME: screws up selection
 	if (ui->settings.mode == ANIMATA_MODE_ATTACH_VERTICES)
@@ -247,11 +249,11 @@ void Bone::draw(int mouseOver, int active)
 
 		if (selected)
 		{
-			drawSelectionCircle(cx, cy, r);
+			Primitives::drawSelectionCircle(cx, cy, r);
 			for (unsigned i = 0; i < attachedVertices->size(); i++)
 			{
 				Vertex *v = (*attachedVertices)[i];
-				drawVertexAttached(v);
+				Primitives::drawVertexAttached(v);
 			}
 		}
 	}
@@ -311,7 +313,7 @@ float Bone::getViewRadius()
  * Attaches vertices from given vector to the bone.
  * \param verts pointer to vector of vertices
  **/
-void Bone::attachVertices(std::vector<Vertex *> *verts)
+void Bone::attachVertices(vector<Vertex *> *verts)
 {
 	unsigned count = verts->size();
 
@@ -379,7 +381,7 @@ void Bone::attachVertices(std::vector<Vertex *> *verts)
  * \param ca array of cosinus angles
  * \param sa array of sinus angles
  **/
-void Bone::attachVertices(std::vector<Vertex *> *verts, float *dsts,
+void Bone::attachVertices(vector<Vertex *> *verts, float *dsts,
 		float *weights, float *ca, float *sa)
 {
 	unsigned count = verts->size();
@@ -504,7 +506,7 @@ void Bone::disattachVertices(void)
  * \return attached vertices, their weight and distance from the bone centre
  *			as arrays
  **/
-std::vector<Vertex *> *Bone::getAttachedVertices(float **dsts, float **weights,
+vector<Vertex *> *Bone::getAttachedVertices(float **dsts, float **weights,
 		float **ca, float **sa)
 {
 	*dsts = this->dsts;

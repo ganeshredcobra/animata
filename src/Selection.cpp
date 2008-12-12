@@ -21,10 +21,12 @@
 
 */
 
+#include <stdio.h>
+
 #include "Selection.h"
 #include "Transform.h"
 
-#include <stdio.h>
+using namespace Animata;
 
 /**
  * Creates a new selection object which is responsible for picking, selection and feedback.

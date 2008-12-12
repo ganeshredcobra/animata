@@ -34,6 +34,8 @@
 
 #include "Camera.h"
 
+using namespace Animata;
+
 /**
  * Creates a new camera with default parameters.
  * - \a target = (0, 0, 0)

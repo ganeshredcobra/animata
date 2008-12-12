@@ -32,6 +32,8 @@
 
 #define MIN_SCALE 0.1f
 
+using namespace Animata;
+
 int Layer::layerCount = 0;
 
 /**

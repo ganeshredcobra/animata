@@ -26,6 +26,9 @@
 
 #include "Vector2D.h"
 
+namespace Animata
+{
+
 /// A point that builds up a Face.
 class Vertex
 {
@@ -53,6 +56,8 @@ class Vertex
 		/// Inverts the selection state of the Vertex.
 		void flipSelection(void);
 };
+
+} /* namespace Animata */
 
 #endif
 

@@ -29,6 +29,8 @@
 #include "animataUI.h"
 #include "IO.h"
 
+using namespace Animata;
+
 /* template to find the index of a given element in a vector
  * returns the index or -1 if not a member
  */
@@ -43,13 +45,13 @@ int index(const InputIterator& begin, const InputIterator& end,
 /**
  * Creates XML objects for all the bones in a skeleton.
  **/
-void IO::saveBones(TiXmlElement *parent, std::vector<Bone *> *bones,
-	std::vector<Joint *> *joints, std::vector<Vertex *> *vertices)
+void IO::saveBones(TiXmlElement *parent, vector<Bone *> *bones,
+	vector<Joint *> *joints, vector<Vertex *> *vertices)
 {
 	TiXmlElement *bonesXML = new TiXmlElement("bones");
 	parent->LinkEndChild(bonesXML);
 
-	std::vector<Bone *>::iterator i = bones->begin();
+	vector<Bone *>::iterator i = bones->begin();
 	for (; i < bones->end(); i++)
 	{
 		Bone *b = *i;
@@ -76,7 +78,7 @@ void IO::saveBones(TiXmlElement *parent, std::vector<Bone *> *bones,
 
 		// save attached vertices
 		float *dsts, *weights, *ca, *sa;
-		std::vector<Vertex *> *attachedVertices =
+		vector<Vertex *> *attachedVertices =
 			b->getAttachedVertices(&dsts, &weights, &ca, &sa);
 		int count = attachedVertices->size();
 		if (!count) // no vertices attached
@@ -104,8 +106,8 @@ void IO::saveBones(TiXmlElement *parent, std::vector<Bone *> *bones,
  **/
 void IO::saveSkeleton(TiXmlElement *parent, Skeleton *s, Mesh *m)
 {
-	std::vector<Joint *> *joints = s->getJoints();
-	std::vector<Bone *> *bones = s->getBones();
+	vector<Joint *> *joints = s->getJoints();
+	vector<Bone *> *bones = s->getBones();
 
 	if (joints->empty() && bones->empty())
 		return;
@@ -118,7 +120,7 @@ void IO::saveSkeleton(TiXmlElement *parent, Skeleton *s, Mesh *m)
 		TiXmlElement *jointsXML = new TiXmlElement("joints");
 		skeletonXML->LinkEndChild(jointsXML);
 
-		std::vector<Joint *>::iterator i = joints->begin();
+		vector<Joint *>::iterator i = joints->begin();
 		for(; i < joints->end(); i++)
 		{
 			Joint *j = *i;
@@ -144,9 +146,9 @@ void IO::saveSkeleton(TiXmlElement *parent, Skeleton *s, Mesh *m)
 /**
  * Creates XML objects for all the faces in a mesh.
  **/
-void IO::saveFaces(TiXmlElement *parent, std::vector<Face *> *faces, std::vector<Vertex *> *vertices)
+void IO::saveFaces(TiXmlElement *parent, vector<Face *> *faces, vector<Vertex *> *vertices)
 {
-	std::vector<Face *>::iterator i = faces->begin();
+	vector<Face *>::iterator i = faces->begin();
 	for (; i < faces->end(); i++)
 	{
 		Face *f = *i;
@@ -167,8 +169,8 @@ void IO::saveFaces(TiXmlElement *parent, std::vector<Face *> *faces, std::vector
  **/
 void IO::saveMesh(TiXmlElement *parent, Mesh *m)
 {
-	std::vector<Vertex *> *vertices = m->getVertices();
-	std::vector<Face *> *faces = m->getFaces();
+	vector<Vertex *> *vertices = m->getVertices();
+	vector<Face *> *faces = m->getFaces();
 
 	if (vertices->empty() && faces->empty())
 		return;
@@ -251,7 +253,7 @@ void IO::saveLayer(TiXmlElement *parent, Layer *layer)
 
 	parent->LinkEndChild(layerXML);
 
-	std::vector<Layer *> *sublayers = layer->getLayers();
+	vector<Layer *> *sublayers = layer->getLayers();
 	if (!(sublayers->empty()))
 	{
 		saveLayers(layerXML, sublayers);
@@ -261,9 +263,9 @@ void IO::saveLayer(TiXmlElement *parent, Layer *layer)
 /**
  * Creates the objects of layers in the XML structure.
  **/
-void IO::saveLayers(TiXmlElement *parent, std::vector<Layer *> *layers)
+void IO::saveLayers(TiXmlElement *parent, vector<Layer *> *layers)
 {
-	std::vector<Layer *>::iterator l = layers->begin();
+	vector<Layer *>::iterator l = layers->begin();
 	for (; l < layers->end(); l++)
 	{
 		saveLayer(parent, (*l));
@@ -339,7 +341,7 @@ void IO::loadSkeleton(TiXmlNode *parent, Skeleton *skeleton, Mesh *m)
 	if (bonesNode == NULL)
 		return;
 	TiXmlNode *boneNode = NULL;
-	std::vector<Joint*> *joints = skeleton->getJoints();
+	vector<Joint*> *joints = skeleton->getJoints();
 	while ((boneNode = bonesNode->IterateChildren(boneNode)))
 	{
 		TiXmlElement *b = boneNode->ToElement();
@@ -387,9 +389,9 @@ void IO::loadSkeleton(TiXmlNode *parent, Skeleton *skeleton, Mesh *m)
 			continue;
 		TiXmlNode *vertexNode = NULL;
 		// vector to hold vertices to be attached
-		std::vector<Vertex *> *vertsToAttach = new std::vector<Vertex *>;
+		vector<Vertex *> *vertsToAttach = new vector<Vertex *>;
 		// all vertices in mesh
-		std::vector<Vertex *> *vertices = m->getVertices();
+		vector<Vertex *> *vertices = m->getVertices();
 		// iterate over children to find all vertices
 		while ((vertexNode = attachedNode->IterateChildren(vertexNode)))
 		{
@@ -499,7 +501,7 @@ void IO::loadMesh(TiXmlNode *parent, Mesh *mesh)
 		QUERY_CRITICAL_ATTR(f, "v1", v1);
 		QUERY_CRITICAL_ATTR(f, "v2", v2);
 
-		std::vector<Vertex*> *vertices = mesh->getVertices();
+		vector<Vertex*> *vertices = mesh->getVertices();
 		int vertexCount = vertices->size();
 		if ((v0 >= vertexCount) || (v1 >= vertexCount) || (v2 >= vertexCount))
 			continue;
@@ -627,7 +629,7 @@ Layer *IO::loadLayer(TiXmlNode *layerNode, Layer *layerParent /* = NULL */)
  * \param layerParent pointer to the parent of current level layers
  * \return stores the layers structure in the layers vector
  **/
-void IO::loadLayers(TiXmlNode *parent, std::vector<Layer *> *layers,
+void IO::loadLayers(TiXmlNode *parent, vector<Layer *> *layers,
 	Layer *layerParent)
 {
 	TiXmlNode *layerNode  = parent->FirstChild("layer");

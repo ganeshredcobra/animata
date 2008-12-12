@@ -24,6 +24,9 @@
 #ifndef __VECTOR3D_H__
 #define __VECTOR3D_H__
 
+namespace Animata
+{
+
 class Matrix;
 
 class Vector3D
@@ -51,6 +54,8 @@ class Vector3D
 		void normalize(void);
 		float size(void);
 };
+
+} /* namespace Animata */
 
 #endif
 

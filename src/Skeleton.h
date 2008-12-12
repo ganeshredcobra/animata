@@ -32,6 +32,11 @@
 #include "Bone.h"
 #include "Preferences.h"
 
+using namespace std;
+
+namespace Animata
+{
+
 /// Skeleton attached to the mesh
 class Skeleton : public Drawable
 {
@@ -70,7 +75,7 @@ class Skeleton : public Drawable
 
 		void simulate(int times = 1);
 
-		void attachVertices(std::vector<Vertex *> *verts);
+		void attachVertices(vector<Vertex *> *verts);
 		void disattachVertices(void);
 		void disattachSelectedVertex(Vertex *v);
 
@@ -82,17 +87,19 @@ class Skeleton : public Drawable
 		inline Bone *getPointedBone(void) { return pBone; }
 
 		/// Returns skeleton joints.
-		inline std::vector<Joint *> *getJoints(void) { return joints; }
+		inline vector<Joint *> *getJoints(void) { return joints; }
 		/// Returns skeleton bones.
-		inline std::vector<Bone *> *getBones(void) { return bones; }
+		inline vector<Bone *> *getBones(void) { return bones; }
 
 	private:
-		std::vector<Joint *> *joints;
-		std::vector<Bone *> *bones;
+		vector<Joint *> *joints;
+		vector<Bone *> *bones;
 
 		Joint	*pJoint;	/**< joint below the cursor */
 		Bone	*pBone;		/**< bone below the cursor */
 };
+
+} /* namespace Animata */
 
 #endif
 

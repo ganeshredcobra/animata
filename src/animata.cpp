@@ -32,7 +32,13 @@
 #include "Transform.h"
 
 AnimataUI *ui;
-Selection *selector;
+
+using namespace Animata;
+
+namespace Animata
+{
+	Selection *selector;
+}
 
 AnimataSettings::AnimataSettings()
 {
@@ -161,7 +167,7 @@ void AnimataWindow::cleanup(void)
 void AnimataWindow::addToAllLayers(Layer *l)
 {
 	allLayers->push_back(l);
-	std::sort(allLayers->begin(), allLayers->end(), Layer::zorder);
+	sort(allLayers->begin(), allLayers->end(), Layer::zorder);
 }
 
 /**
@@ -170,7 +176,7 @@ void AnimataWindow::addToAllLayers(Layer *l)
  **/
 void AnimataWindow::deleteFromAllLayers(Layer *layer)
 {
-	std::vector<Layer *>::iterator pos;
+	vector<Layer *>::iterator pos;
 
 	// find position of layer in vector
 	pos = std::find(allLayers->begin(), allLayers->end(), layer);
@@ -186,7 +192,7 @@ void AnimataWindow::deleteFromAllLayers(Layer *layer)
  **/
 void AnimataWindow::deleteFromAllBones(Bone *bone)
 {
-	std::vector<Bone *>::iterator pos;
+	vector<Bone *>::iterator pos;
 
 	// find position of bone in vector
 	pos = std::find(allBones->begin(), allBones->end(), bone);
@@ -202,7 +208,7 @@ void AnimataWindow::deleteFromAllBones(Bone *bone)
  **/
 void AnimataWindow::deleteFromAllJoints(Joint *joint)
 {
-	std::vector<Joint *>::iterator pos;
+	vector<Joint *>::iterator pos;
 
 	// find position of joint in vector
 	pos = std::find(allJoints->begin(), allJoints->end(), joint);
@@ -218,7 +224,7 @@ void AnimataWindow::deleteFromAllJoints(Joint *joint)
  **/
 void AnimataWindow::deleteFromOSCJoints(Joint *joint)
 {
-	std::vector<Joint *>::iterator pos;
+	vector<Joint *>::iterator pos;
 
 	// find position of joint in vector
 	pos = std::find(oscJoints->begin(), oscJoints->end(), joint);
@@ -236,10 +242,10 @@ void AnimataWindow::saveScene(const char *filename)
 void AnimataWindow::loadScene(const char *filename)
 {
 	cleanup();
-	allLayers = new std::vector<Layer *>;
-	allBones = new std::vector<Bone *>;
-	allJoints = new std::vector<Joint *>;
-	oscJoints = new std::vector<Joint *>;
+	allLayers = new vector<Layer *>;
+	allBones = new vector<Bone *>;
+	allJoints = new vector<Joint *>;
+	oscJoints = new vector<Joint *>;
 
 	Layer *layer = io->load(filename);
 
@@ -287,7 +293,7 @@ void AnimataWindow::importScene(const char *filename)
 
 		#if 0
 		// set parent of imported root level layers to the current layer
-		std::vector<Layer *>::iterator l = layers->begin();
+		vector<Layer *>::iterator l = layers->begin();
 		for (; l < layers->end(); l++)
 		{
 			(*l)->setParent(cLayer);
@@ -310,10 +316,10 @@ void AnimataWindow::newScene(void)
 {
 	cleanup();
 
-	allLayers = new std::vector<Layer *>;
-	allBones = new std::vector<Bone *>;
-	allJoints = new std::vector<Joint *>;
-	oscJoints = new std::vector<Joint *>;
+	allLayers = new vector<Layer *>;
+	allBones = new vector<Bone *>;
+	allJoints = new vector<Joint *>;
+	oscJoints = new vector<Joint *>;
 
 	rootLayer = new Layer();
 
@@ -383,7 +389,7 @@ void AnimataWindow::drawScene(void)
 	// rootLayer->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
 	// rootLayer->draw(RENDER_WIREFRAME);
 
-	std::vector<Layer *>::iterator l = allLayers->begin();
+	vector<Layer *>::iterator l = allLayers->begin();
 	for (; l < allLayers->end(); l++)
 	{
 		(*l)->drawWithoutRecursion(RENDER_FEEDBACK | RENDER_TEXTURE);
@@ -465,20 +471,12 @@ void AnimataWindow::draw()
 		case ANIMATA_MODE_CREATE_TRIANGLE:
 			if (pointedVertex)
 			{
-				/*
-				drawFaceWhileConnecting(pointedVertex->coord.x, pointedVertex->coord.y,
-										transMouse.x, transMouse.y);
-				*/
-				drawFaceWhileConnecting(pointedVertex->view.x, pointedVertex->view.y,
+				Primitives::drawFaceWhileConnecting(pointedVertex->view.x, pointedVertex->view.y,
 										mouseX, h() - mouseY);
 			}
 			if (pointedVertex && pointedPrevVertex)
 			{
-				/*
-				drawFaceWhileConnecting(pointedVertex->coord.x, pointedVertex->coord.y,
-										pointedPrevVertex->coord.x, pointedPrevVertex->coord.y);
-				*/
-				drawFaceWhileConnecting(pointedVertex->view.x, pointedVertex->view.y,
+				Primitives::drawFaceWhileConnecting(pointedVertex->view.x, pointedVertex->view.y,
 										pointedPrevVertex->view.x, pointedPrevVertex->view.y);
 
 			}
@@ -487,11 +485,7 @@ void AnimataWindow::draw()
 		case ANIMATA_MODE_CREATE_BONE:
 			if (pointedJoint)
 			{
-				/*
-				drawBoneWhileConnecting(pointedJoint->x, pointedJoint->y,
-										transMouse.x, transMouse.y);
-				*/
-				drawBoneWhileConnecting(pointedJoint->vx, pointedJoint->vy,
+				Primitives::drawBoneWhileConnecting(pointedJoint->vx, pointedJoint->vy,
 										mouseX, h() - mouseY);
 			}
 			break;
@@ -513,7 +507,7 @@ void AnimataWindow::draw()
 				cMesh->clearSelection();
 
 			// drawSelectionBox(transDragMouse.x, transDragMouse.y, transMouse.x, transMouse.y);
-			drawSelectionBox(dragMouseX, h() - dragMouseY, mouseX, h() - mouseY);
+			Primitives::drawSelectionBox(dragMouseX, h() - dragMouseY, mouseX, h() - mouseY);
 
 			// use view coordinates as vertices are drawn on an ortho layer
 			selector->doSelect(cMesh, Selection::SELECT_VERTEX,
@@ -537,7 +531,7 @@ void AnimataWindow::draw()
 				cSkeleton->clearSelection();
 
 			// drawSelectionBox(transDragMouse.x, transDragMouse.y, transMouse.x, transMouse.y);
-			drawSelectionBox(dragMouseX, h() - dragMouseY, mouseX, h() - mouseY);
+			Primitives::drawSelectionBox(dragMouseX, h() - dragMouseY, mouseX, h() - mouseY);
 
 			// use view coordinates as joints are drawn on an ortho layer
 			selector->doSelect(cSkeleton, Selection::SELECT_JOINT,
@@ -1059,7 +1053,7 @@ void AnimataWindow::handleMouseDrag(void)
 
 		case ANIMATA_MODE_LAYER_DEPTH:
 			cLayer->depth(viewDist.y);
-			std::sort(allLayers->begin(), allLayers->end(), Layer::zorder);
+			sort(allLayers->begin(), allLayers->end(), Layer::zorder);
 			break;
 
 		default:
@@ -1244,7 +1238,7 @@ void AnimataWindow::setAttachUIPrefs(Bone *b)
  **/
 void AnimataWindow::setLayerPrefsFromUI(enum ANIMATA_PREFERENCES prefParam, void *value)
 {
-	// std::vector<Layer *>::iterator l = selectedLayers.begin();
+	// vector<Layer *>::iterator l = selectedLayers.begin();
 
 	switch (prefParam)
 	{

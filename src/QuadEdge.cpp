@@ -26,6 +26,8 @@
 #include <vector>
 #include "QuadEdge.h"
 
+using namespace Animata;
+
 QuadEdge::QuadEdge()
 {
 	e[0].num = 0;
@@ -125,12 +127,12 @@ void Edge::endpoints(int orig, int dest)
 
 // ----- basic topological operators
 
-std::vector<QuadEdge *> *QuadEdge::qe_array = NULL;
+vector<QuadEdge *> *QuadEdge::qe_array = NULL;
 
-Edge *make_edge(void)
+Edge *Edge::make_edge(void)
 {
 	if (QuadEdge::qe_array == NULL)
-		QuadEdge::qe_array = new std::vector<QuadEdge *>;
+		QuadEdge::qe_array = new vector<QuadEdge *>;
 
 	QuadEdge *ql = new QuadEdge;
 	QuadEdge::qe_array->push_back(ql);
@@ -138,11 +140,11 @@ Edge *make_edge(void)
 	return ql->e;
 }
 
-void kill_edges(void)
+void Edge::kill_edges(void)
 {
 	if (QuadEdge::qe_array)
 	{
-		std::vector<QuadEdge *>::iterator q = QuadEdge::qe_array->begin();
+		vector<QuadEdge *>::iterator q = QuadEdge::qe_array->begin();
 		for (; q < QuadEdge::qe_array->end(); q++)
 			delete *q;
 		QuadEdge::qe_array->clear();
@@ -160,7 +162,7 @@ void kill_edges(void)
  * to break them apart. see guibas and stolfi (1985) p.96 for more details and
  * illustrations.
  */
-void splice(Edge *a, Edge *b)
+void Edge::splice(Edge *a, Edge *b)
 {
 	Edge *alpha = a->onext()->rot();
 	Edge *beta  = b->onext()->rot();
@@ -176,14 +178,14 @@ void splice(Edge *a, Edge *b)
 	beta->next = t4;
 }
 
-void delete_edge(Edge *e)
+void Edge::delete_edge(Edge *e)
 {
 	splice(e, e->oprev());
 	splice(e->sym(), e->sym()->oprev());
 
 	QuadEdge *q = (QuadEdge *)(e - e->num);		// quad-edge pointer of edge
 
-	std::vector<QuadEdge *>::iterator qi = QuadEdge::qe_array->begin();
+	vector<QuadEdge *>::iterator qi = QuadEdge::qe_array->begin();
 	for (; qi < QuadEdge::qe_array->end(); qi++)
 	{
 		if (*qi == q)
@@ -202,7 +204,7 @@ void delete_edge(Edge *e)
    left face after the connection is complete.
    additionally, the data pointers of the new edge are set.
    */
-Edge* connect_edge(Edge *a, Edge *b)
+Edge* Edge::connect_edge(Edge *a, Edge *b)
 {
 	Edge *e = make_edge();
 	splice(e, a->lnext());
@@ -215,7 +217,7 @@ Edge* connect_edge(Edge *a, Edge *b)
    essentially turns edge e counterclockwise inside its enclosing
    quadrilateral. the data pointers are modified accordingly.
    */
-void swap(Edge *e)
+void Edge::swap(Edge *e)
 {
 	Edge *a = e->oprev();
 	Edge *b = e->sym()->oprev();

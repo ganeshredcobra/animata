@@ -31,6 +31,9 @@
 	#define NULL 0
 #endif
 
+namespace Animata
+{
+
 /// Building element of Mesh. Consists of three Vertex.
 class Face
 {
@@ -81,6 +84,8 @@ class Face
 		 */
 		inline void setVertex(unsigned char i, Vertex *vert) { v[i] = vert; }
 };
+
+} /* namespace Animata */
 
 #endif
 

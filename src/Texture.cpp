@@ -28,6 +28,8 @@
 
 #define MIN_SCALE 0.1f
 
+using namespace Animata;
+
 /**
  * Creates a new texture object with default parameters from the given image parameters.
  * \param	filename		A string which points to the imagefile.

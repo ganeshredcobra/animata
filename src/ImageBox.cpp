@@ -28,6 +28,8 @@
 #include "ImageBox.h"
 #include "animataUI.h"
 
+using namespace Animata;
+
 ImageBox::ImageBox(const char *filename, Fl_Image* i, int x, int y, int w,
 		int h, const char* label) :
 	Fl_Box(x, y, w, h, label)

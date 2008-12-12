@@ -24,6 +24,9 @@
 #ifndef __JOINT_H__
 #define __JOINT_H__
 
+namespace Animata
+{
+
 /// Endpoints of Bone.
 class Joint
 {
@@ -58,6 +61,8 @@ class Joint
 	private:
 		char name[16];
 };
+
+} /* namespace Animata */
 
 #endif
 

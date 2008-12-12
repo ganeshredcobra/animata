@@ -29,6 +29,8 @@
 #include "animataUI.h"
 #include "Transform.h"
 
+using namespace Animata;
+
 /**
  * Creates a new TextureManager object and allocates memory for holding textures in the \a textures vector.
  */

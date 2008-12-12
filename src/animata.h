@@ -54,6 +54,11 @@
 #include "ImageBox.h"
 #include "Preferences.h"
 
+using namespace std;
+
+namespace Animata
+{
+
 /**
  * Operational modes set by pressing buttons on the GUI.
  **/
@@ -159,20 +164,20 @@ class AnimataWindow : public Fl_Gl_Window
 		TextureManager	*textureManager;
 		Layer			*rootLayer; /**< the root of all the layers */
 
-		std::vector<Layer *> selectedLayers;
+		vector<Layer *> selectedLayers;
 
 		/* FIXME: use multimap instead of vectors and store only named elements */
 		/* the following vectors are needed to reach the elements quickly
 		 * without traversing the whole hierarcy recursively */
 		/** vector of all layers without the hierarchical structure */
-		std::vector<Layer *> *allLayers;
+		vector<Layer *> *allLayers;
 		/** vector of all bones without the hierarchical structure */
-		std::vector<Bone *> *allBones;
+		vector<Bone *> *allBones;
 		/** vector of all joints without the hierarchical structure */
-		std::vector<Joint *> *allJoints;
+		vector<Joint *> *allJoints;
 
 		/** vector of all joints needed to be send via OSC */
-		std::vector<Joint *> *oscJoints;
+		vector<Joint *> *oscJoints;
 
 		Layer			*cLayer; /**< current layer */
 		Mesh			*cMesh;	 /**< mesh of current layer */
@@ -302,7 +307,7 @@ class AnimataWindow : public Fl_Gl_Window
 		void addToAllLayers(Layer *l);
 		void deleteFromAllLayers(Layer *layer);
 		/// Returns the vector storing all layers.
-		inline std::vector<Layer *> *getAllLayers() { return allLayers; }
+		inline vector<Layer *> *getAllLayers() { return allLayers; }
 
 		/** Adds bone to vector of all bones.
 		 * \param b bone pointer to add
@@ -310,7 +315,7 @@ class AnimataWindow : public Fl_Gl_Window
 		inline void addToAllBones(Bone *b) { allBones->push_back(b); }
 		void deleteFromAllBones(Bone *bone);
 		/// Returns the vector storing all bones.
-		inline std::vector<Bone *> *getAllBones() { return allBones; }
+		inline vector<Bone *> *getAllBones() { return allBones; }
 
 		/** Adds joint to vector of all joints.
 		 * \param j joint pointer to add
@@ -319,7 +324,7 @@ class AnimataWindow : public Fl_Gl_Window
 		/// Deletes joint from the vector of all joints.
 		void deleteFromAllJoints(Joint *joint);
 		/// Returns the vector storing all joints.
-		inline std::vector<Joint *> *getAllJoints() { return allJoints; }
+		inline vector<Joint *> *getAllJoints() { return allJoints; }
 
 		/** Adds joint to vector of OSC joints.
 		 * \param j joint pointer to add
@@ -328,17 +333,19 @@ class AnimataWindow : public Fl_Gl_Window
 		/// Deletes joint from the vector of OSC joints.
 		void deleteFromOSCJoints(Joint *joint);
 		/// Returns the vector storing OSC joints.
-		inline std::vector<Joint *> *getOSCJoints() { return oscJoints; }
+		inline vector<Joint *> *getOSCJoints() { return oscJoints; }
 
 		void lock(void);
 		void unlock(void);
 };
 
-class AnimataUI;
-extern AnimataUI* ui;
-
 class Selection;
 extern Selection* selector;
+
+} /* namespace Animata */
+
+class AnimataUI;
+extern AnimataUI* ui;
 
 #endif
 

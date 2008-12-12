@@ -34,6 +34,9 @@
 
 #include "Vector3D.h"
 
+namespace Animata
+{
+
 /// Transforms points between screen and world coordinate-systems.
 class Transform
 {
@@ -52,6 +55,8 @@ class Transform
 		static Vector3D project(float x, float y, float z);
 		static float getDepth(float x, float y);
 };
+
+} /* namespace Animata */
 
 #endif
 
