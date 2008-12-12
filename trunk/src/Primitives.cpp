@@ -27,29 +27,32 @@
 #include "Bone.h"
 #include "Joint.h"
 
-static float fillColorR = 0.5f;
-static float fillColorG = 0.5f;
-static float fillColorB = 0.5f;
-static float fillColorA = 0.7f;
+using namespace Animata;
 
-static float strokeColorR = 1.0f;
-static float strokeColorG = 1.0f;
-static float strokeColorB = 1.0f;
-static float strokeColorA = 1.0F;
+float Primitives::fillColorR = 0.5f;
+float Primitives::fillColorG = 0.5f;
+float Primitives::fillColorB = 0.5f;
+float Primitives::fillColorA = 0.7f;
 
-static bool doStroke = true;
-static bool doFill = false;
-static float strokeW = 1;
+float Primitives::strokeColorR = 1.0f;
+float Primitives::strokeColorG = 1.0f;
+float Primitives::strokeColorB = 1.0f;
+float Primitives::strokeColorA = 1.0F;
 
-static float boneSize = 5;
-static float jointSize = 5;
-static float vertexSize = 5;
-static float border = 4;
-static int dAlpha = 100;
+bool Primitives::doStroke = true;
+bool Primitives::doFill = false;
+float Primitives::strokeW = 1;
+
+float Primitives::boneSize = 5;
+float Primitives::jointSize = 5;
+float Primitives::vertexSize = 5;
+float Primitives::border = 4;
+int Primitives::dAlpha = 100;
+
 
 ///////////////////////////////    BONE     //////////////////////////////////
 
-void drawBone(Bone *b, int mouseOver, int active)
+void Primitives::drawBone(Bone *b, int mouseOver, int active)
 {
 /*
 	float x1 = b->j0->x;
@@ -117,7 +120,7 @@ void drawBone(Bone *b, int mouseOver, int active)
 	}
 }
 
-void drawBoneWhileConnecting(float x1, float y1, float x2, float y2)
+void Primitives::drawBoneWhileConnecting(float x1, float y1, float x2, float y2)
 {
 	stroke(true);
 	strokeWeight((boneSize + border) );
@@ -130,7 +133,7 @@ void drawBoneWhileConnecting(float x1, float y1, float x2, float y2)
 
 ///////////////////////////////    JOINT    //////////////////////////////////
 
-void drawJoint(Joint *j, int mouseOver, int active)
+void Primitives::drawJoint(Joint *j, int mouseOver, int active)
 {
 /*
 	float x = j->x;
@@ -180,7 +183,7 @@ void drawJoint(Joint *j, int mouseOver, int active)
 
 ///////////////////////////////    VERTEX   //////////////////////////////////
 
-void drawVertex(Vertex *v, int mouseOver, int active)
+void Primitives::drawVertex(Vertex *v, int mouseOver, int active)
 {
 /*
 	float x = v->coord.x;
@@ -222,7 +225,7 @@ void drawVertex(Vertex *v, int mouseOver, int active)
 	drawRect(x, y, vertexSize);
 }
 
-void drawVertexAttached(Vertex *v)
+void Primitives::drawVertexAttached(Vertex *v)
 {
 /*
 	float x = v->coord.x;
@@ -242,7 +245,7 @@ void drawVertexAttached(Vertex *v)
 
 ///////////////////////////////    FACE     //////////////////////////////////
 
-void drawFace(Face *face, int mouseOver /* = 0 */, int active)
+void Primitives::drawFace(Face *face, int mouseOver /* = 0 */, int active)
 {
 /*
 	float x1 = face->v[0]->coord.x;
@@ -277,7 +280,7 @@ void drawFace(Face *face, int mouseOver /* = 0 */, int active)
 	drawTriangle(x1, y1, x2, y2, x3, y3);
 }
 
-void drawFaceWhileConnecting(float x1, float y1, float x2, float y2)
+void Primitives::drawFaceWhileConnecting(float x1, float y1, float x2, float y2)
 {
 	stroke(true);
 	strokeWeight(1);
@@ -285,22 +288,22 @@ void drawFaceWhileConnecting(float x1, float y1, float x2, float y2)
 	drawLine(x1, y1, x2, y2);
 }
 
-void fill(bool b)
+void Primitives::fill(bool b)
 {
 	doFill = b;
 }
 
-void stroke(bool b)
+void Primitives::stroke(bool b)
 {
 	doStroke = b;
 }
 
-void strokeWeight(float w)
+void Primitives::strokeWeight(float w)
 {
 	strokeW=w;
 }
 
-void drawRect(float x, float y, float size)
+void Primitives::drawRect(float x, float y, float size)
 {
 	float x1=x - size/2;
 	float y1=y - size/2;
@@ -320,7 +323,7 @@ void drawRect(float x, float y, float size)
 	}
 }
 
-void drawSelectionBox(float x1, float y1, float x2, float y2)
+void Primitives::drawSelectionBox(float x1, float y1, float x2, float y2)
 {
 	glLineWidth(1);
 	glLineStipple(1, 0xAAAA);
@@ -335,7 +338,7 @@ void drawSelectionBox(float x1, float y1, float x2, float y2)
 	glDisable(GL_LINE_STIPPLE);
 }
 
-void drawSelectionCircle(float x, float y, float r)
+void Primitives::drawSelectionCircle(float x, float y, float r)
 {
 	glLineWidth(1.5);
 	glLineStipple(1, 0xAAAA);
@@ -354,7 +357,7 @@ void drawSelectionCircle(float x, float y, float r)
 	glDisable(GL_LINE_STIPPLE);
 }
 
-void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3)
+void Primitives::drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3)
 {
 	if (doFill)
 	{
@@ -373,7 +376,7 @@ void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3)
 	}
 }
 
-void drawLine(float x1, float y1, float x2, float y2)
+void Primitives::drawLine(float x1, float y1, float x2, float y2)
 {
 	if (doStroke)
 	{
@@ -386,7 +389,7 @@ void drawLine(float x1, float y1, float x2, float y2)
 	}
 }
 
-void drawCircle(float x, float y, float r)
+void Primitives::drawCircle(float x, float y, float r)
 {
 	const int num = 8;
 	static float ca[num+1], sa[num+1];
@@ -421,7 +424,7 @@ void drawCircle(float x, float y, float r)
 	{
 		for(int i = 0; i < num; i++)
 		{
-			drawLine(x + r*ca[i], y + r*sa[i],x + r*ca[i+1], y + r*sa[i+1]);
+			Primitives::drawLine(x + r*ca[i], y + r*sa[i],x + r*ca[i+1], y + r*sa[i+1]);
 		}
 	}
 }

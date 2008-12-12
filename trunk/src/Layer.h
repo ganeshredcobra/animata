@@ -28,6 +28,11 @@
 #include "Mesh.h"
 #include "Matrix.h"
 
+using namespace std;
+
+namespace Animata
+{
+
 /**
  * Layer holding Skeleton and Mesh data
  **/
@@ -160,10 +165,12 @@ class Layer
 		void scaleAroundPoint(float s, float ox, float oy);
 
 		void setup(float x, float y, float z, float alpha, float scale);
-		
+
 		inline static bool zorder(const Layer *a, const Layer *b)
 			{ return a->getTotalDepth() > b->getTotalDepth(); }
 };
+
+} /* namespace Animata */
 
 #endif
 

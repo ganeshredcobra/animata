@@ -24,6 +24,9 @@
 #ifndef __PREFERENCES_H__
 #define __PREFERENCES_H__
 
+namespace Animata
+{
+
 /**
  * Preferences set from the UI.
  **/
@@ -38,6 +41,8 @@ enum ANIMATA_PREFERENCES
 	PREFS_LAYER_ALPHA,
 	PREFS_LAYER_VISIBILITY
 };
+
+}
 
 #endif
 

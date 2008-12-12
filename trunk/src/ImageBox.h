@@ -33,6 +33,9 @@
 	#define PATH_MAX 4096
 #endif
 
+namespace Animata
+{
+
 class ImageBox : public Fl_Box
 {
 		Fl_Image* origImage;
@@ -55,6 +58,8 @@ class ImageBox : public Fl_Box
 
 		inline char *getFilename() { return filename; }
 };
+
+} /* namespace Animata */
 
 #endif
 

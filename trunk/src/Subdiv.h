@@ -28,6 +28,9 @@
 #include "QuadEdge.h"
 #include "Mesh.h"
 
+namespace Animata
+{
+
 class Mesh;
 typedef void (Mesh::*FACE_PROC)(int p0, int p1, int p2);
 
@@ -66,13 +69,7 @@ class Subdivision
 		void get_faces(FACE_PROC face_proc, Mesh *m);
 };
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#ifdef __cplusplus
-}
-#endif
+} /* namespace Animata */
 
 #endif
 

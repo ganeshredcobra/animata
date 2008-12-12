@@ -24,6 +24,9 @@
 #ifndef __DRAWABLE_H__
 #define __DRAWABLE_H__
 
+namespace Animata
+{
+
 /// This class gets inherited by primitives which can be selected by Selection::doSelection()
 class Drawable
 {
@@ -56,6 +59,8 @@ class Drawable
 		 */
 		virtual void circleSelect(unsigned i, int type, int xc, int yc, float r) = 0;
 };
+
+} /* namespace Animata */
 
 #endif
 

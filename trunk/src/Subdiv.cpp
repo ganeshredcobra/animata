@@ -29,6 +29,8 @@
 
 #include "Subdiv.h"
 
+using namespace Animata;
+
 // computes the normalized line equation through the points p0 and p1.
 aLine::aLine(Vector2D *p0, Vector2D *p1)
 {
@@ -97,15 +99,15 @@ Subdivision::Subdivision(int p_count, Vector2D *points)
 	points[p_count+2].x = w/2 - w*10;
 	points[p_count+2].y = h/2 + h*10;
 
-	Edge *ea = make_edge();
+	Edge *ea = Edge::make_edge();
 	ea->endpoints(p_count, p_count+1);
-	Edge *eb = make_edge();
-	splice(ea->sym(), eb);
+	Edge *eb = Edge::make_edge();
+	Edge::splice(ea->sym(), eb);
 	eb->endpoints(p_count+1, p_count+2);
-	Edge *ec = make_edge();
-	splice(eb->sym(), ec);
+	Edge *ec = Edge::make_edge();
+	Edge::splice(eb->sym(), ec);
 	ec->endpoints(p_count+2, p_count);
-	splice(ec->sym(), ea);
+	Edge::splice(ec->sym(), ea);
 	start_edge = ea;
 }
 
@@ -151,7 +153,7 @@ int Subdivision::in_circle(const Vector2D *a, const Vector2D *b,
  **/
 void Subdivision::kill(void)
 {
-	kill_edges();
+	Edge::kill_edges();
 	if (edge_length)
 	{
 		free(edge_length);
@@ -249,19 +251,19 @@ void Subdivision::insert_site(int i)
 	else if (on_edge(p, e))
 	{
 		e = e->oprev();
-		delete_edge(e->onext());
+		Edge::delete_edge(e->onext());
 		}
 
 	// connect the new point to the vertices of the containing
 	// triangle (or quadrilateral, if the new point fell on an
 	// existing edge)
-	Edge *base = make_edge();
+	Edge *base = Edge::make_edge();
 	base->endpoints(e->org(), i);
-	splice(base, e);
+	Edge::splice(base, e);
 	start_edge = base;
 	do
 	{
-		base = connect_edge(e, base->sym());
+		base = Edge::connect_edge(e, base->sym());
 		e = base->oprev();
 	} while (e->lnext() != start_edge);
 	// examine suspect edges to ensure that the Delaunay condition
@@ -272,7 +274,7 @@ void Subdivision::insert_site(int i)
 		if (right_of(&points[t->dest()], e) &&
 			in_circle(&points[e->org()], &points[t->dest()], &points[e->dest()], p))
 		{
-			swap(e);
+			Edge::swap(e);
 			e = e->oprev();
 		}
 		else if (e->onext() == start_edge)  // no more suspect edges

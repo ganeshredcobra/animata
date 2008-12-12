@@ -40,6 +40,11 @@
 #define OSC_RECEIVE_PORT 7110
 #define OSC_SEND_PORT 7111
 
+using namespace std;
+
+namespace Animata
+{
+
 /// Handles OSC messages.
 class OSCListener : public osc::OscPacketListener
 {
@@ -122,5 +127,8 @@ class OSCSender
 		void unlock(void);
 
 };
+
+} /* namespace Animata */
+
 #endif
 

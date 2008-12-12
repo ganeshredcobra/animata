@@ -34,6 +34,9 @@
 
 #include "Vector2D.h"
 
+namespace Animata
+{
+
 /// Represent a texture that can be attached to a Mesh.
 class Texture
 {
@@ -120,6 +123,8 @@ class Texture
 
 		Texture *clone();
 };
+
+} /* namespace Animata */
 
 #endif
 

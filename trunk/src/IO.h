@@ -36,22 +36,27 @@
 		if (t->QueryValueAttribute(name, &outValue) != TIXML_SUCCESS) \
 			outValue = defaultValue;
 
+using namespace std;
+
+namespace Animata
+{
+
 /// Class to save and load animata scenes.
 class IO
 {
 	private:
 		void saveLayer(TiXmlElement *parent, Layer *layer);
-		void saveLayers(TiXmlElement *parent, std::vector<Layer *> *layers);
+		void saveLayers(TiXmlElement *parent, vector<Layer *> *layers);
 		void saveTexture(TiXmlElement *parent, Texture *t);
 		void saveMesh(TiXmlElement *parent, Mesh *m);
-		void saveFaces(TiXmlElement *parent, std::vector<Face *> *faces,
-				std::vector<Vertex *> *vertices);
+		void saveFaces(TiXmlElement *parent, vector<Face *> *faces,
+				vector<Vertex *> *vertices);
 		void saveSkeleton(TiXmlElement *parent, Skeleton *s, Mesh *m);
-		void saveBones(TiXmlElement *parent, std::vector<Bone *> *bones,
-				std::vector<Joint *> *joints, std::vector<Vertex *> *vertices);
+		void saveBones(TiXmlElement *parent, vector<Bone *> *bones,
+				vector<Joint *> *joints, vector<Vertex *> *vertices);
 
 		Layer *loadLayer(TiXmlNode *layerNode, Layer *layerParent = NULL);
-		void loadLayers(TiXmlNode *parent, std::vector<Layer *> *layers,
+		void loadLayers(TiXmlNode *parent, vector<Layer *> *layers,
 					Layer *layerParent);
 		void loadMesh(TiXmlNode *parent, Mesh *mesh);
 		void loadTexture(TiXmlNode *textureNode, Mesh *mesh);
@@ -66,6 +71,8 @@ class IO
 		/// Loads scene.
 		Layer *load(const char *filename);
 };
+
+} /* namespace Animata */
 
 #endif
 

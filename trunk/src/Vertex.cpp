@@ -24,9 +24,11 @@
 #include "Vertex.h"
 #include "Primitives.h"
 
+using namespace Animata;
+
 void Vertex::draw(int mouseOver, int active)
 {
-	drawVertex(this, mouseOver, active);
+	Primitives::drawVertex(this, mouseOver, active);
 	/*
 	if (mouseOver)
 		drawVertexMouseOver(this);

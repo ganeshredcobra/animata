@@ -29,15 +29,17 @@
 #include "Skeleton.h"
 #include "Transform.h"
 
+using namespace Animata;
+
 /**
  * Creates a skeleton with no joints and bones.
  **/
 Skeleton::Skeleton()
 {
-	joints = new std::vector<Joint*>;
+	joints = new vector<Joint*>;
 	pJoint = NULL;
 
-	bones = new std::vector<Bone *>;
+	bones = new vector<Bone *>;
 	pBone = NULL;
 }
 
@@ -48,7 +50,7 @@ Skeleton::~Skeleton()
 {
 	if (joints)
 	{
-		std::vector<Joint *>::iterator j = joints->begin();
+		vector<Joint *>::iterator j = joints->begin();
 		for (; j < joints->end(); j++)
 			delete *j;	/* free joints from memory */
 		joints->clear(); /* clear all vector elements */
@@ -57,7 +59,7 @@ Skeleton::~Skeleton()
 
 	if (bones)
 	{
-		std::vector<Bone *>::iterator b = bones->begin();
+		vector<Bone *>::iterator b = bones->begin();
 		for (; b < bones->end(); b++)
 			delete *b;	/* free bones from memory */
 		bones->clear(); /* clear all vector elements */
@@ -356,14 +358,14 @@ void Skeleton::deleteSelectedJoint(void)
 		if ((bone->j0 == selJoint) ||
 			(bone->j1 == selJoint))
 		{
-			std::vector<Bone *>::iterator boneIter = bones->begin() + i;
+			vector<Bone *>::iterator boneIter = bones->begin() + i;
 			delete bone;
 			bones->erase(boneIter);
 		}
 	}
 
 	/* delete the joint */
-	std::vector<Joint *>::iterator iter = joints->begin() + selected->name;
+	vector<Joint *>::iterator iter = joints->begin() + selected->name;
 	/* delete the joint from vector of all joints */
 	if (ui) // FIXME: ui should not be NULL
 		ui->editorBox->deleteFromAllJoints(*iter);
@@ -397,7 +399,7 @@ void Skeleton::deleteSelectedBone(void)
 		return;
 
 	/* delete the bone and references to it*/
-	std::vector<Bone *>::iterator iter = bones->begin() + selected->name;
+	vector<Bone *>::iterator iter = bones->begin() + selected->name;
 	/* delete the bone from vector of all bones */
 	if (ui) // FIXME: ui should not be NULL
 		ui->editorBox->deleteFromAllBones(*iter);
@@ -429,7 +431,7 @@ void Skeleton::clearSelection(void)
  * \param verts pointer to the vertices vector holding the vertices to
  * be attached
  **/
-void Skeleton::attachVertices(std::vector<Vertex *> *verts)
+void Skeleton::attachVertices(vector<Vertex *> *verts)
 {
 	Bone *selectedBone = NULL;
 

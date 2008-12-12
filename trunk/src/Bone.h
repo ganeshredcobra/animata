@@ -33,6 +33,11 @@
 #define BONE_DEFAULT_LENGTH_MULT_MAX 1
 #define BONE_MINIMAL_WEIGHT .01
 
+using namespace std;
+
+namespace Animata
+{
+
 /// Building element of Skeleton, the base of the physical simulation.
 class Bone
 {
@@ -52,9 +57,9 @@ class Bone
 		const char *getName(void);
 		void setName(const char *str);
 
-		void attachVertices(std::vector<Vertex *> *verts);
+		void attachVertices(vector<Vertex *> *verts);
 
-		void attachVertices(std::vector<Vertex *> *verts, float *dsts,
+		void attachVertices(vector<Vertex *> *verts, float *dsts,
 			float *weights, float *ca, float *sa);
 
 		/// Selects attached vertices.
@@ -64,7 +69,7 @@ class Bone
 		void disattachVertex(Vertex *v);
 
 		/// Returns the vector of attached vertices.
-		std::vector<Vertex *> *getAttachedVertices(float **dsts,
+		vector<Vertex *> *getAttachedVertices(float **dsts,
 			float **weights, float **ca, float **sa);
 
 		/// Returns number of attached vertices.
@@ -129,7 +134,7 @@ class Bone
 		char name[16]; //< name of bone
 
 		/// list of attached vertices
-		std::vector<Vertex *> *attachedVertices;
+		vector<Vertex *> *attachedVertices;
 
 		float *dsts; ///< vertex distances from bone centre
 		/** array of cosinus values of the angles that the segments
@@ -163,6 +168,8 @@ class Bone
 		/// change bone length multiplier with time
 		void animateLengthMult(float t);
 };
+
+} /* namespace Animata */
 
 #endif
 

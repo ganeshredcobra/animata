@@ -37,6 +37,11 @@
 #include "Layer.h"
 #include "TextureManager.h"
 
+using namespace std;
+
+namespace Animata
+{
+
 /// Describes a picked primitive under the mouse cursor with its type and name.
 struct SelectItem
 {
@@ -128,6 +133,8 @@ class Selection
 		 */
 		inline void cancelPickLayer() { pickLayer = NULL; }
 };
+
+} /* namespace Animata */
 
 #endif
 

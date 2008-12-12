@@ -25,6 +25,8 @@
 #include <float.h>
 #include "Vector2D.h"
 
+using namespace Animata;
+
 Vector2D::Vector2D()
 {
 	x = y = 0.f;

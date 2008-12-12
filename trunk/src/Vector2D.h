@@ -24,6 +24,9 @@
 #ifndef __VECTOR2D_H__
 #define __VECTOR2D_H__
 
+namespace Animata
+{
+
 class Vector2D
 {
 	public:
@@ -51,6 +54,8 @@ class Vector2D
 		void normalize(void);
 		float size(void);
 };
+
+} /* namespace Animata */
 
 #endif
 

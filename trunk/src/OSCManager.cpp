@@ -28,6 +28,8 @@
 
 #include "OSCManager.h"
 
+using namespace Animata;
+
 OSCListener::OSCListener()
 {
 	thread = 0;
@@ -64,11 +66,11 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			// FIXME: locking?, bones should not be deleted while this is
 			// running
 			lock();
-			std::vector<Bone *> *bones = ui->editorBox->getAllBones();
+			vector<Bone *> *bones = ui->editorBox->getAllBones();
 
 			int found = 0;
 			// try to find exact match for bone names first
-			std::vector<Bone *>::iterator b = bones->begin();
+			vector<Bone *>::iterator b = bones->begin();
 			for (; b < bones->end(); b++)
 			{
 				const char *boneName = (*b)->getName();
@@ -85,7 +87,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			// if exact match is not found try regular expression match
 			if (!found)
 			{
-				std::vector<Bone *>::iterator b = bones->begin();
+				vector<Bone *>::iterator b = bones->begin();
 				for (; b < bones->end(); b++)
 				{
 					const char *boneName = (*b)->getName();
@@ -111,11 +113,11 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			// FIXME: locking?, joints should not be deleted while this is
 			// running
 			lock();
-			std::vector<Joint *> *joints = ui->editorBox->getAllJoints();
+			vector<Joint *> *joints = ui->editorBox->getAllJoints();
 
 			int found = 0;
 			// try to find exact match for joint names first
-			std::vector<Joint *>::iterator j = joints->begin();
+			vector<Joint *>::iterator j = joints->begin();
 			for (; j < joints->end(); j++)
 			{
 				const char *jointName = (*j)->getName();
@@ -133,7 +135,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			// if exact match is not found try regular expression match
 			if (!found)
 			{
-				std::vector<Joint *>::iterator j = joints->begin();
+				vector<Joint *>::iterator j = joints->begin();
 				for (; j < joints->end(); j++)
 				{
 					const char *jointName = (*j)->getName();
@@ -158,11 +160,11 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			args >> namePattern >> val >> osc::EndMessage;
 
 			// get all layers
-			std::vector<Layer *> *layers = ui->editorBox->getAllLayers();
+			vector<Layer *> *layers = ui->editorBox->getAllLayers();
 
 			int found = 0;
 			// try to find exact match for layer names first
-			std::vector<Layer *>::iterator l = layers->begin();
+			vector<Layer *>::iterator l = layers->begin();
 			for (; l < layers->end(); l++)
 			{
 				const char *layerName = (*l)->getName();
@@ -180,7 +182,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			// if exact match is not found try regular expression match
 			if (!found)
 			{
-				std::vector<Layer *>::iterator l = layers->begin();
+				vector<Layer *>::iterator l = layers->begin();
 				for (; l < layers->end(); l++)
 				{
 					const char *layerName = (*l)->getName();
@@ -197,7 +199,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 
 			if (!found)
 			{
-				std::cerr << "OSC error: " << m.AddressPattern() << ": "
+				cerr << "OSC error: " << m.AddressPattern() << ": "
 					<< "layer is not found" << "\n";
 			}
 		}
@@ -209,11 +211,11 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			args >> namePattern >> val >> osc::EndMessage;
 
 			// get all layers
-			std::vector<Layer *> *layers = ui->editorBox->getAllLayers();
+			vector<Layer *> *layers = ui->editorBox->getAllLayers();
 
 			int found = 0;
 			// try to find exact match for layer names first
-			std::vector<Layer *>::iterator l = layers->begin();
+			vector<Layer *>::iterator l = layers->begin();
 			for (; l < layers->end(); l++)
 			{
 				const char *layerName = (*l)->getName();
@@ -230,7 +232,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			// if exact match is not found try regular expression match
 			if (!found)
 			{
-				std::vector<Layer *>::iterator l = layers->begin();
+				vector<Layer *>::iterator l = layers->begin();
 				for (; l < layers->end(); l++)
 				{
 					const char *layerName = (*l)->getName();
@@ -247,7 +249,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 
 			if (!found)
 			{
-				std::cerr << "OSC error: " << m.AddressPattern() << ": "
+				cerr << "OSC error: " << m.AddressPattern() << ": "
 					<< "layer is not found" << "\n";
 			}
 		}
@@ -260,11 +262,11 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			args >> namePattern >> x >> y >> osc::EndMessage;
 
 			// get all layers
-			std::vector<Layer *> *layers = ui->editorBox->getAllLayers();
+			vector<Layer *> *layers = ui->editorBox->getAllLayers();
 
 			int found = 0;
 			// try to find exact match for layer names first
-			std::vector<Layer *>::iterator l = layers->begin();
+			vector<Layer *>::iterator l = layers->begin();
 			for (; l < layers->end(); l++)
 			{
 				const char *layerName = (*l)->getName();
@@ -282,7 +284,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			// if exact match is not found try regular expression match
 			if (!found)
 			{
-				std::vector<Layer *>::iterator l = layers->begin();
+				vector<Layer *>::iterator l = layers->begin();
 				for (; l < layers->end(); l++)
 				{
 					const char *layerName = (*l)->getName();
@@ -300,7 +302,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 
 			if (!found)
 			{
-				std::cerr << "OSC error: " << m.AddressPattern() << ": "
+				cerr << "OSC error: " << m.AddressPattern() << ": "
 					<< "layer is not found" << "\n";
 			}
 		}
@@ -313,11 +315,11 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			args >> namePattern >> x >> y >> osc::EndMessage;
 
 			// get all layers
-			std::vector<Layer *> *layers = ui->editorBox->getAllLayers();
+			vector<Layer *> *layers = ui->editorBox->getAllLayers();
 
 			int found = 0;
 			// try to find exact match for layer names first
-			std::vector<Layer *>::iterator l = layers->begin();
+			vector<Layer *>::iterator l = layers->begin();
 			for (; l < layers->end(); l++)
 			{
 				const char *layerName = (*l)->getName();
@@ -334,7 +336,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			// if exact match is not found try regular expression match
 			if (!found)
 			{
-				std::vector<Layer *>::iterator l = layers->begin();
+				vector<Layer *>::iterator l = layers->begin();
 				for (; l < layers->end(); l++)
 				{
 					const char *layerName = (*l)->getName();
@@ -351,7 +353,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 
 			if (!found)
 			{
-				std::cerr << "OSC error: " << m.AddressPattern() << ": "
+				cerr << "OSC error: " << m.AddressPattern() << ": "
 					<< "layer is not found" << "\n";
 			}
 		}
@@ -359,7 +361,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 	catch (osc::Exception& e)
 	{
 		// any parsing errors get thrown as exceptions
-		std::cerr << "OSC error: " << m.AddressPattern() << ": "
+		cerr << "OSC error: " << m.AddressPattern() << ": "
 			<< e.what() << "\n";
 	}
 }
@@ -709,10 +711,10 @@ void OSCSender::threadTask(void)
 	{
 		ops->Clear();
 		(*ops) << osc::BeginBundle();
-		std::vector<Joint *> *oscJoints = ui->editorBox->getOSCJoints();
+		vector<Joint *> *oscJoints = ui->editorBox->getOSCJoints();
 		if (oscJoints != NULL)
 		{
-			std::vector<Joint *>::iterator ji = oscJoints->begin();
+			vector<Joint *>::iterator ji = oscJoints->begin();
 			for (; ji < oscJoints->end(); ji++)
 			{
 				Joint *j = *ji;

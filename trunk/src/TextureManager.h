@@ -28,12 +28,17 @@
 #include "Texture.h"
 #include "ImageBox.h"
 
+using namespace std;
+
+namespace Animata
+{
+
 /// Holds and manages textures.
 class TextureManager
 {
 	private:
 
-		std::vector<Texture*>* textures;	///< textures vector holding all the textures
+		vector<Texture*>* textures;	///< textures vector holding all the textures
 
 		Texture *pTexture;					///< texture below the mouse cursor
 		Texture *activeTexture;				///< texture attached to the mesh on currently active layer
@@ -61,7 +66,7 @@ class TextureManager
 		 * Returns the \a textures vector holding all the textures uploaded to the manager.
 		 * \retval	std::vector<Texture*>* Texture vector.
 		 */
-		inline std::vector<Texture*>* getTextures() { return textures; }
+		inline vector<Texture*>* getTextures() { return textures; }
 		/**
 		 * Returns texture currently under the mouse cursor.
 		 * \retval Texture* Texture below the mouse cursor.
@@ -73,6 +78,8 @@ class TextureManager
 		 */
 		inline Texture *getActiveTexture() { return activeTexture; }
 };
+
+} /* namespace Animata */
 
 #endif
 

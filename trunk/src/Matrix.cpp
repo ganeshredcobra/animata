@@ -26,6 +26,8 @@
 #include <stdio.h>
 #include <math.h>
 
+using namespace Animata;
+
 Matrix::Matrix()
 {
 	clear();

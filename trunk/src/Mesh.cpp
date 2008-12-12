@@ -38,13 +38,15 @@
 	#include <GL/gl.h>
 #endif
 
+using namespace Animata;
+
 /**
  * Creates a new default mesh without an attached texture.
  */
 Mesh::Mesh()
 {
-	vertices = new std::vector<Vertex*>;
-	faces = new std::vector<Face*>;
+	vertices = new vector<Vertex*>;
+	faces = new vector<Face*>;
 
 	attachedTexture = NULL;
 	pVertex = NULL;
@@ -60,7 +62,7 @@ Mesh::~Mesh()
 {
 	if (vertices)
 	{
-		std::vector<Vertex *>::iterator v = vertices->begin();
+		vector<Vertex *>::iterator v = vertices->begin();
 		for (; v < vertices->end(); v++)
 			delete *v;					// free vertices from memory
 		vertices->clear();				// clear all vector elements
@@ -132,7 +134,7 @@ void Mesh::addFace(Vertex *v0, Vertex *v1, Vertex *v2)
  */
 void Mesh::clearFaces(void)
 {
-	std::vector<Face *>::iterator f = faces->begin();
+	vector<Face *>::iterator f = faces->begin();
 	for (; f < faces->end(); f++)
 		delete *f;				// free faces from memory
 	faces->clear();				// clear all vector elements
@@ -228,7 +230,7 @@ void Mesh::triangulateSelected(void)
 			Face *face = (*faces)[i];
 			if ((face->v[0] == v) || (face->v[1] == v) || (face->v[2] == v))
 			{
-				std::vector<Face *>::iterator faceIter = faces->begin() + i;
+				vector<Face *>::iterator faceIter = faces->begin() + i;
 				delete face;
 				faces->erase(faceIter);
 			}
@@ -411,12 +413,12 @@ static bool triangleSortPredicate(Face *a, Face *b)
 
 void Mesh::sortFaces(void)
 {
-	std::sort(faces->begin(), faces->end(), triangleSortPredicate);
+	sort(faces->begin(), faces->end(), triangleSortPredicate);
 }
 
-void Mesh::sortFaces(std::vector<Face *>::iterator begin, std::vector<Face *>::iterator end)
+void Mesh::sortFaces(vector<Face *>::iterator begin, vector<Face *>::iterator end)
 {
-	std::sort(begin, end, triangleSortPredicate);
+	sort(begin, end, triangleSortPredicate);
 }
 
 /**
@@ -424,7 +426,7 @@ void Mesh::sortFaces(std::vector<Face *>::iterator begin, std::vector<Face *>::i
  * \param ppv Pointer to the vertex pointer.
  * \return Returns a pointer and an iterator to it, or NULL if no vertex is found.
  */
-std::vector<Vertex *>::iterator Mesh::getSelectedVertex(Vertex **ppv /* = NULL */)
+vector<Vertex *>::iterator Mesh::getSelectedVertex(Vertex **ppv /* = NULL */)
 {
 	unsigned char hit = selector->getHitCount();
 	SelectItem *selected = selector->getSelected();
@@ -452,7 +454,7 @@ std::vector<Vertex *>::iterator Mesh::getSelectedVertex(Vertex **ppv /* = NULL *
  */
 void Mesh::deleteSelectedVertex(void)
 {
-	std::vector<Vertex *>::iterator iter;
+	vector<Vertex *>::iterator iter;
 	Vertex *selVertex = NULL;
 
 	iter = getSelectedVertex(&selVertex);
@@ -470,7 +472,7 @@ void Mesh::deleteSelectedVertex(void)
 			(face->v[1] == selVertex) ||
 			(face->v[2] == selVertex))
 		{
-			std::vector<Face *>::iterator faceIter = faces->begin() + i;
+			vector<Face *>::iterator faceIter = faces->begin() + i;
 			delete face;
 			faces->erase(faceIter);
 		}
@@ -493,13 +495,13 @@ void Mesh::deleteSelectedVertex(void)
 void Mesh::deleteSelectedFace(Face *f)
 {
 	/* delete the face */
-	std::vector<Face *>::iterator iter = faces->begin();
+	vector<Face *>::iterator iter = faces->begin();
 	for (unsigned i = 0; i < faces->size(); i++)
 	{
 		Face *face = (*faces)[i];
 		if (face == f)
 		{
-			std::vector<Face *>::iterator faceIter = faces->begin() + i;
+			vector<Face *>::iterator faceIter = faces->begin() + i;
 			delete face;
 			faces->erase(faceIter);
 			break;
@@ -555,9 +557,9 @@ int Mesh::moveSelectedVertices(float dx, float dy)
  * Returns every selected vertex of the mesh in a newly allocated std::vector.
  * \retval	std::vector<Vertex *>	Vector of the selected vertices.
  */
-std::vector<Vertex *> *Mesh::getSelectedVertices()
+vector<Vertex *> *Mesh::getSelectedVertices()
 {
-	std::vector<Vertex *> *selectedVertices = new std::vector<Vertex *>;
+	vector<Vertex *> *selectedVertices = new vector<Vertex *>;
 
 	for (unsigned i = 0; i < vertices->size(); i++)
 	{
@@ -716,9 +718,9 @@ void Mesh::draw(int mode, int active)
 			glLoadName(i);
 
 			if(mode & RENDER_OUTPUT)
-				drawFace(face);
+				Primitives::drawFace(face);
 			else
-				drawFace(face, face == pFace, active);
+				Primitives::drawFace(face, face == pFace, active);
 		}
 		glPopName();
 	}

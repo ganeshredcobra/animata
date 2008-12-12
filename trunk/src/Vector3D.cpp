@@ -26,6 +26,8 @@
 #include "Vector3D.h"
 #include "Matrix.h"
 
+using namespace Animata;
+
 Vector3D::Vector3D()
 {
 	x = y = z = 0.f;

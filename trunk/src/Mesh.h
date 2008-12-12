@@ -32,13 +32,18 @@
 #include "Texture.h"
 #include "Drawable.h"
 
+using namespace std;
+
+namespace Animata
+{
+
 /// Represents an image which can be manipulated by a Skeleton.
 class Mesh : public Drawable
 {
 	private:
 
-		std::vector<Vertex*>	*vertices;					///< vertices building up the mesh
-		std::vector<Face*>		*faces;						///< faces formed from vertices, representing the texture
+		vector<Vertex*>	*vertices;					///< vertices building up the mesh
+		vector<Face*>		*faces;						///< faces formed from vertices, representing the texture
 
 		Texture					*attachedTexture;			///< texture attached to the mesh
 
@@ -53,8 +58,8 @@ class Mesh : public Drawable
 		void triangulateAll(void);
 
 		void sortFaces(void);
-		void sortFaces(std::vector<Face *>::iterator begin,
-						std::vector<Face *>::iterator end);
+		void sortFaces(vector<Face *>::iterator begin,
+						vector<Face *>::iterator end);
 	public:
 
 		Mesh();
@@ -67,7 +72,7 @@ class Mesh : public Drawable
 
 		int moveSelectedVertices(float dx, float dy);
 		void clearSelection(void);
-		std::vector<Vertex *> *getSelectedVertices();
+		vector<Vertex *> *getSelectedVertices();
 
 		void setVertexViewCoords(float *coords, unsigned int size);
 
@@ -86,14 +91,14 @@ class Mesh : public Drawable
 		 * Returns the vertices of the mesh.
 		 * \retval std::vector<Vertex *> Vertices of the mesh.
 		 */
-		inline std::vector<Vertex *> *getVertices(void) { return vertices; }
+		inline vector<Vertex *> *getVertices(void) { return vertices; }
 		/**
 		 * Returns the faces of the mesh.
 		 * \retval std::vector<Face *> Faces of the mesh.
 		 */
-		inline std::vector<Face *> *getFaces(void) { return faces; }
+		inline vector<Face *> *getFaces(void) { return faces; }
 
-		std::vector<Vertex *>::iterator getSelectedVertex(Vertex **ppv = NULL);
+		vector<Vertex *>::iterator getSelectedVertex(Vertex **ppv = NULL);
 
 		void addFace(Vertex *v0, Vertex *v1, Vertex *v2);
 		void clearFaces(void);
@@ -128,6 +133,8 @@ class Mesh : public Drawable
 		virtual void select(unsigned i, int type);
 		virtual void circleSelect(unsigned i, int type, int xc, int yc, float r);
 };
+
+} /* namespace Animata */
 
 #endif
 
