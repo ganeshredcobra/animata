@@ -663,7 +663,7 @@ int OSCListener::patternMatch(const char *str, const char *p)
 }
 
 
-OSCSender::OSCSender(char *hostName)
+OSCSender::OSCSender(const char *hostName)
 {
 	thread = 0;
 	IpEndpointName host(hostName, OSC_SEND_PORT);
