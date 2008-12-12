@@ -72,7 +72,7 @@ void Joint::setName(const char *str)
  **/
 void Joint::simulate(void)
 {
-	if (ui->settings.gravity == 1 & !fixed & !dragged)
+	if ((ui->settings.gravity == 1) & (!fixed) & (!dragged))
 	{
 		x += ui->settings.gravityForce * ui->settings.gravityX;
 		y += ui->settings.gravityForce * ui->settings.gravityY;

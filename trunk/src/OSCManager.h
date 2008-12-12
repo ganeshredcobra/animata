@@ -113,7 +113,7 @@ class OSCSender
 
 	public:
 
-		OSCSender(char *host);
+		OSCSender(const char *host);
 		~OSCSender();
 
 		/// Starts OSC sender in a new thread.
