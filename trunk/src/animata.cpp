@@ -1066,15 +1066,11 @@ void AnimataWindow::handleMouseDrag(void)
 
 void AnimataWindow::handleMouseWheel(void)
 {
-	float d = camera->getDistance() + Fl::event_dy();
-	const float MIN_CAMERA_DISTANCE = 0.1;
+	Vector3D target(camera->getTarget());
 
-	/* do not allow a negative distance which flips the whole image */
-	if (d > MIN_CAMERA_DISTANCE)
-	{
-		camera->setDistance(d);
-		ui->playback->getCamera()->setDistance(d);
-	}
+	target.z += Fl::event_dy();
+	camera->setTarget(&target);
+	ui->playback->getCamera()->setTarget(&target);
 }
 
 /**

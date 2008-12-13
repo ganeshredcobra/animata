@@ -177,16 +177,12 @@ void Layer::drawWithoutRecursion(int mode)
 	GLint viewport[4];
 	glGetIntegerv(GL_VIEWPORT, viewport);
 
-	// this will also translate and scale sublayers
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	/*
-	glTranslatef(x, y, z);
-	glScalef(scale, scale, 1);
-	*/
 	glMultMatrixf(transformation.f);
 
-	float distance = ui->editorBox->getCamera()->getDistance();
+	Camera *cam = ui->editorBox->getCamera();
+	float camZ = cam->getTarget()->z - cam->getDistance();
 
 	/* if we are in mesh editing mode only draw the current layer */
 	if ((((ui->settings.mode >= ANIMATA_MODE_CREATE_VERTEX) &&
@@ -205,7 +201,7 @@ void Layer::drawWithoutRecursion(int mode)
 		 (ui->settings.mode == ANIMATA_MODE_NONE)) ||
 		mode & RENDER_OUTPUT) &&
 		/* don't draw the layer if its behind the camera */
-		-transformation[14] < distance)
+		(transformation[14] > camZ))
 	{
 		mesh->setTextureAlpha(getAccumulatedAlpha());
 
@@ -238,19 +234,6 @@ void Layer::drawWithoutRecursion(int mode)
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-
-	/*
-	// then draw sublayers
-	std::vector<Layer *>::iterator l = layers->begin();
-	for (; l < layers->end(); l++)
-	{
-		// draw a single sublayer
-		(*l)->draw(mode);
-	}
-
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-	*/
 }
 
 /**
@@ -306,7 +289,6 @@ void Layer::calcTransformationMatrix()
 Layer *Layer::makeLayer()
 {
 	Layer *l = new Layer(this);
-	//l->setParent(this);
 
 	if (!layers)
 		layers = new std::vector<Layer *>;

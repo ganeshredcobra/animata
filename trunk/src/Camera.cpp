@@ -200,8 +200,8 @@ void Camera::setupModelView()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	gluLookAt(target.x, target.y, -distance,
-			  target.x, target.y, 0,
+	gluLookAt(target.x, target.y, target.z - distance,
+			  target.x, target.y, target.z,
 			  upvector.x, upvector.y, upvector.z);
 }
 
