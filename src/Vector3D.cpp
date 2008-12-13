@@ -40,6 +40,13 @@ Vector3D::Vector3D(float x, float y, float z)
 	this->z = z;
 }
 
+Vector3D::Vector3D(Vector3D *p)
+{
+	this->x = p->x;
+	this->y = p->y;
+	this->z = p->z;
+}
+
 int Vector3D::operator == (Vector3D &p)
 {
 	return (((x - p.x)*(x - p.x) + (y - p.y)*(y - p.y) + (z - p.z)*(z - p.z)) < FLT_EPSILON);

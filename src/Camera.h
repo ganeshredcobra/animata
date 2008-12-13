@@ -81,7 +81,7 @@ class Camera
 		 */
 		inline Vector3D *getTarget() { return &target; }
 
-		inline void setTarget(Vector3D *t) { target.x = t->x; target.y = t->y; }
+		inline void setTarget(Vector3D *t) { target.x = t->x; target.y = t->y; target.z = t->z; }
 
 		/**
 		 * Returns the width at the distance from the target of the camera picture.
