@@ -980,7 +980,7 @@ void AnimataWindow::handleMouseDrag(void)
 	if (!Fl::event_button1())
 	{
 		Vector3D *target = camera->getTarget();
-		Vector3D cameraTarget(target->x - worldDist.x, target->y - worldDist.y, 0);
+		Vector3D cameraTarget(target->x - worldDist.x, target->y - worldDist.y, target->z);
 		camera->setTarget(&cameraTarget);
 		ui->playback->getCamera()->setTarget(&cameraTarget);
 	}
