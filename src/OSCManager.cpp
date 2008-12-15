@@ -157,7 +157,16 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			osc::ReceivedMessageArgumentStream args = m.ArgumentStream();
 			const char *namePattern;
 			bool val;
-			args >> namePattern >> val >> osc::EndMessage;
+
+			osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin();
+			namePattern = (arg++)->AsString();
+			/* parameter can be boolean or int */
+			if (arg->IsBool())
+				val = (arg++)->AsBool();
+			else
+				val = (1 == (arg++)->AsInt32());
+			if( arg != m.ArgumentsEnd() )
+				throw osc::ExcessArgumentException();
 
 			// get all layers
 			vector<Layer *> *layers = ui->editorBox->getAllLayers();
