@@ -1,6 +1,7 @@
 2008- - 0.004
 	* camera movement by mouse
 	* keyboard shortcuts (bakercp)
+	* layers are sorted according to their z coordinate
 
 2008-03-25 Gabor Papp <gabor at kitchenbudapest hu> - 0.003
 	* first public release
