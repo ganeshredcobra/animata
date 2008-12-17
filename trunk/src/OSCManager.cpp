@@ -108,7 +108,20 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			osc::ReceivedMessageArgumentStream args = m.ArgumentStream();
 			const char *namePattern;
 			float x, y;
-			args >> namePattern >> x >> y >> osc::EndMessage;
+			//args >> namePattern >> x >> y >> osc::EndMessage;
+			osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin();
+			namePattern = (arg++)->AsString();
+			/* parameters can be float or int */
+			if (arg->IsInt32())
+				x = (arg++)->AsInt32();
+			else
+				x = (arg++)->AsFloat();
+			if (arg->IsInt32())
+				y = (arg++)->AsInt32();
+			else
+				y = (arg++)->AsFloat();
+			if (arg != m.ArgumentsEnd())
+				throw osc::ExcessArgumentException();
 
 			// FIXME: locking?, joints should not be deleted while this is
 			// running
@@ -165,7 +178,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				val = (arg++)->AsBool();
 			else
 				val = (1 == (arg++)->AsInt32());
-			if( arg != m.ArgumentsEnd() )
+			if (arg != m.ArgumentsEnd())
 				throw osc::ExcessArgumentException();
 
 			// get all layers
@@ -268,7 +281,20 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			const char *namePattern;
 			float x;
 			float y;
-			args >> namePattern >> x >> y >> osc::EndMessage;
+			//args >> namePattern >> x >> y >> osc::EndMessage;
+			osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin();
+			namePattern = (arg++)->AsString();
+			/* parameters can be float or int */
+			if (arg->IsInt32())
+				x = (arg++)->AsInt32();
+			else
+				x = (arg++)->AsFloat();
+			if (arg->IsInt32())
+				y = (arg++)->AsInt32();
+			else
+				y = (arg++)->AsFloat();
+			if (arg != m.ArgumentsEnd())
+				throw osc::ExcessArgumentException();
 
 			// get all layers
 			vector<Layer *> *layers = ui->editorBox->getAllLayers();
@@ -321,7 +347,20 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			const char *namePattern;
 			float x;
 			float y;
-			args >> namePattern >> x >> y >> osc::EndMessage;
+			//args >> namePattern >> x >> y >> osc::EndMessage;
+			osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin();
+			namePattern = (arg++)->AsString();
+			/* parameters can be float or int */
+			if (arg->IsInt32())
+				x = (arg++)->AsInt32();
+			else
+				x = (arg++)->AsFloat();
+			if (arg->IsInt32())
+				y = (arg++)->AsInt32();
+			else
+				y = (arg++)->AsFloat();
+			if (arg != m.ArgumentsEnd())
+				throw osc::ExcessArgumentException();
 
 			// get all layers
 			vector<Layer *> *layers = ui->editorBox->getAllLayers();
