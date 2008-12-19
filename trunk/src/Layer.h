@@ -142,8 +142,7 @@ class Layer
 		/// Sets alpha.
 		inline void setAlpha(float alpha) { this->alpha = alpha; }
 
-		/// Sets visibility.
-		inline void setVisibility(bool v) { visible = v; }
+		void setVisibility(bool v);
 
 		/**
 		 * Moves layer.

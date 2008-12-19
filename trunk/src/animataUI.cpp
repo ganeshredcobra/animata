@@ -434,7 +434,7 @@ for (int i = n; i >= 1; i--)
     int r = parent->deleteSublayer(layer);
     if (r) // error deleting sublayer
     {
-      fprintf(stderr, "error deleting %s (%x)\n", layer->getName(), layer);
+      fprintf(stderr, "error deleting from all layers %s (%x)\n", layer->getName(), layer);
       continue;
     }
     selector->cancelPickLayer();
