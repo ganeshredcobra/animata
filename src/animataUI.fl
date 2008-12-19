@@ -17,7 +17,7 @@ class AnimataUI {open
       label animata
       callback {if (Fl::event()==FL_SHORTCUT && Fl::event_key()==FL_Escape) 
    return; // ignore Escape} open
-      xywh {462 53 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
+      xywh {419 53 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
       code0 {\#include <stdlib.h>}
       code1 {\#include "animata.h"}
       code2 {\#include <FL/Fl_File_Chooser.H>}
@@ -123,13 +123,15 @@ int n = g->children();
 for (int i = 0; i < n; ++i)
 {
 	Fl_Button *b = (Fl_Button *)(g->child(i));
-	if (b->value())
+	if (b->value() &&
+		(b != playback_show_hide)) /* don't call the callback of view/show,
+						because it makes the output window flash */
 	{
 		b->do_callback();
 	}
 }
 
-editorBox->take_focus();}
+editorBox->take_focus();} open
         private xywh {0 500 2048 160} box BORDER_BOX color 21 selection_color 3 align 0 resizable
       } {
         Fl_Group imagePanel {
@@ -584,7 +586,7 @@ editorBox->setLayerPrefsFromUI(PREFS_LAYER_VISIBILITY, &tempStorage);}
           code0 {o->resizable(NULL);}
         } {}
         Fl_Group {} {
-          label {&7 View}
+          label {&7 View} open
           tooltip {Set up views in this tab.} xywh {0 525 2048 135} box BORDER_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {
@@ -678,7 +680,7 @@ else
               code0 {o->do_callback();}
             }
           }
-          Fl_Check_Button {} {
+          Fl_Check_Button playback_show_hide {
             label {show / hide}
             callback {if(o->value())
 {
@@ -690,7 +692,7 @@ else
 {
   playback->hide();
   //playback->clear_visible();
-}}
+}} selected
             tooltip {(S)} xywh {140 525 95 25} down_box BORDER_BOX shortcut 0x73 color 30 selection_color 3 labelcolor 7
           }
         }
@@ -961,8 +963,7 @@ textcolor_ = FL_FOREGROUND_COLOR;} {}
   } {
     code {return eval(Fl_Slider::value());} {}
   }
-  Function {value(float f)} {selected
-  } {
+  Function {value(float f)} {} {
     code {Fl_Slider::value(evalinv(f));} {}
   }
 } 
