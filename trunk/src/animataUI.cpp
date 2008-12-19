@@ -118,7 +118,9 @@ int n = g->children();
 for (int i = 0; i < n; ++i)
 {
 	Fl_Button *b = (Fl_Button *)(g->child(i));
-	if (b->value())
+	if (b->value() &&
+		(b != playback_show_hide)) /* don't call the callback of view/show,
+						because it makes the output window flash */
 	{
 		b->do_callback();
 	}
@@ -434,7 +436,7 @@ for (int i = n; i >= 1; i--)
     int r = parent->deleteSublayer(layer);
     if (r) // error deleting sublayer
     {
-      fprintf(stderr, "error deleting from all layers %s (%x)\n", layer->getName(), layer);
+      fprintf(stderr, "error deleting %s (%x)\n", layer->getName(), layer);
       continue;
     }
     selector->cancelPickLayer();
@@ -499,7 +501,7 @@ void AnimataUI::cb_Vertex(Fl_Check_Button* o, long v) {
   ((AnimataUI*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_Vertex_i(o,v);
 }
 
-void AnimataUI::cb_show_i(Fl_Check_Button* o, void*) {
+void AnimataUI::cb_playback_show_hide_i(Fl_Check_Button* o, void*) {
   if(o->value())
 {
   //playback->border(0); 
@@ -512,8 +514,8 @@ else
   //playback->clear_visible();
 };
 }
-void AnimataUI::cb_show(Fl_Check_Button* o, void* v) {
-  ((AnimataUI*)(o->parent()->parent()->parent()->user_data()))->cb_show_i(o,v);
+void AnimataUI::cb_playback_show_hide(Fl_Check_Button* o, void* v) {
+  ((AnimataUI*)(o->parent()->parent()->parent()->user_data()))->cb_playback_show_hide_i(o,v);
 }
 
 void AnimataUI::cb_layerTree_i(Flu_Tree_Browser*, void*) {
@@ -1364,15 +1366,15 @@ AnimataUI::AnimataUI() {
           } // Fl_Check_Button* o
           o->end();
         } // Fl_Group* o
-        { Fl_Check_Button* o = new Fl_Check_Button(140, 525, 95, 25, "show / hide");
-          o->tooltip("(S)");
-          o->down_box(FL_BORDER_BOX);
-          o->shortcut(0x73);
-          o->color((Fl_Color)30);
-          o->selection_color((Fl_Color)3);
-          o->labelcolor(FL_BACKGROUND2_COLOR);
-          o->callback((Fl_Callback*)cb_show);
-        } // Fl_Check_Button* o
+        { playback_show_hide = new Fl_Check_Button(140, 525, 95, 25, "show / hide");
+          playback_show_hide->tooltip("(S)");
+          playback_show_hide->down_box(FL_BORDER_BOX);
+          playback_show_hide->shortcut(0x73);
+          playback_show_hide->color((Fl_Color)30);
+          playback_show_hide->selection_color((Fl_Color)3);
+          playback_show_hide->labelcolor(FL_BACKGROUND2_COLOR);
+          playback_show_hide->callback((Fl_Callback*)cb_playback_show_hide);
+        } // Fl_Check_Button* playback_show_hide
         o->resizable(NULL);
         o->end();
       } // Fl_Group* o

@@ -190,8 +190,11 @@ private:
   static void cb_layerVisible(Fl_Check_Button*, long);
   void cb_Vertex_i(Fl_Check_Button*, long);
   static void cb_Vertex(Fl_Check_Button*, long);
-  void cb_show_i(Fl_Check_Button*, void*);
-  static void cb_show(Fl_Check_Button*, void*);
+public:
+  Fl_Check_Button *playback_show_hide;
+private:
+  void cb_playback_show_hide_i(Fl_Check_Button*, void*);
+  static void cb_playback_show_hide(Fl_Check_Button*, void*);
 public:
   AnimataWindow *editorBox;
 private:
