@@ -181,7 +181,11 @@ void AnimataWindow::deleteFromAllLayers(Layer *layer)
 	// find position of layer in vector
 	pos = std::find(allLayers->begin(), allLayers->end(), layer);
 	if (pos == allLayers->end()) // not a member
+	{
+		fprintf(stderr, "error deleting %s (%x)\n", layer->getName(), layer);
+
 		return;
+	}
 
 	allLayers->erase(pos);
 }

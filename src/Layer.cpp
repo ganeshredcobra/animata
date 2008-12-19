@@ -365,3 +365,16 @@ float Layer::getAccumulatedAlpha(void)
 	}
 }
 
+/**
+ * Sets visibility recursively.
+ * \param v visibility parameter
+ **/
+void Layer::setVisibility(bool v)
+{
+	visible = v;
+
+	vector<Layer *>::iterator l = layers->begin();
+	for (; l < layers->end(); l++)
+		(*l)->setVisibility(v);
+}
+

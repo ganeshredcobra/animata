@@ -3,8 +3,7 @@ Introduction
 -----------
 
 Animata is a real-time animation software, designed to create interactive
-background projections for concerts, theatre and dance performances, and
-promotional screenings.
+background projections for concerts, theatre and dance performances.
 
 The peculiarity of the software is that the animation - the movement of the
 puppets, the changes of the background - is generated in real-time, making
@@ -34,8 +33,15 @@ Installing
 
 Animata requires:
 
-fltk (1.1.x)	http://www.fltk.org/
+FLTK (1.1.x)	http://www.fltk.org/
 
+On Windows Animata is compiled from Cygwin (http://cygwin.org/).
+
+On OSX install FLTK from MacPorts
+(http://www.macports.org/).
+
+In most Linux distributions an FLTK package is available. Animata is known to
+compile in Fedora, and Ubuntu (8.04, 8.10).
 
 To build Animata, type:
 
@@ -43,8 +49,8 @@ scons
 
 To run the software, type ./animata in the build directory.
 
-
-On OS X you can also open Animata.xcodeproj and compile and run the Animata Target.
+On OS X you can create an application bundle using "scons --app", or you can
+also open Animata.xcodeproj and compile and run the Animata Target from XCode.
 
 
 Where to get more information
