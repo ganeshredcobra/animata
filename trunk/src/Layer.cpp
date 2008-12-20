@@ -69,6 +69,14 @@ Layer::Layer(Layer *p)
  **/
 Layer::~Layer()
 {
+	/* remove from all layers */
+	if (ui)
+	{
+		ui->editorBox->lock();
+		ui->editorBox->deleteFromAllLayers(this);
+		ui->editorBox->unlock();
+	}
+
 	delete mesh;
 	delete skeleton;
 
@@ -335,15 +343,8 @@ int Layer::deleteSublayer(Layer *layer)
 	if (pos == layers->end()) // not a member
 		return -1;
 
-	if (ui) // FIXME: ui should not be NULL
-	{
-		ui->editorBox->lock();
-		ui->editorBox->deleteFromAllLayers(layer);
-	}
 	layers->erase(pos);
 	delete layer;
-	if (ui)
-		ui->editorBox->unlock();
 
 	return 0;
 }
