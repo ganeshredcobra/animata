@@ -54,6 +54,7 @@ class IO
 		void saveSkeleton(TiXmlElement *parent, Skeleton *s, Mesh *m);
 		void saveBones(TiXmlElement *parent, vector<Bone *> *bones,
 				vector<Joint *> *joints, vector<Vertex *> *vertices);
+		void saveSettings(TiXmlElement *parent);
 
 		Layer *loadLayer(TiXmlNode *layerNode, Layer *layerParent = NULL);
 		void loadLayers(TiXmlNode *parent, vector<Layer *> *layers,

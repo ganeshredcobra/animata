@@ -123,8 +123,6 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			if (arg != m.ArgumentsEnd())
 				throw osc::ExcessArgumentException();
 
-			// FIXME: locking?, joints should not be deleted while this is
-			// running
 			lock();
 			vector<Joint *> *joints = ui->editorBox->getAllJoints();
 
@@ -182,6 +180,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				throw osc::ExcessArgumentException();
 
 			// get all layers
+			lock();
 			vector<Layer *> *layers = ui->editorBox->getAllLayers();
 
 			int found = 0;
@@ -224,6 +223,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				cerr << "OSC error: " << m.AddressPattern() << ": "
 					<< "layer is not found" << "\n";
 			}
+			unlock();
 		}
 		else if (strcmp(m.AddressPattern(), "/layeralpha") == 0)
 		{
@@ -233,6 +233,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			args >> namePattern >> val >> osc::EndMessage;
 
 			// get all layers
+			lock();
 			vector<Layer *> *layers = ui->editorBox->getAllLayers();
 
 			int found = 0;
@@ -274,6 +275,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				cerr << "OSC error: " << m.AddressPattern() << ": "
 					<< "layer is not found" << "\n";
 			}
+			unlock();
 		}
 		else if (strcmp(m.AddressPattern(), "/layerpos") == 0)
 		{
@@ -297,6 +299,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				throw osc::ExcessArgumentException();
 
 			// get all layers
+			lock();
 			vector<Layer *> *layers = ui->editorBox->getAllLayers();
 
 			int found = 0;
@@ -340,6 +343,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				cerr << "OSC error: " << m.AddressPattern() << ": "
 					<< "layer is not found" << "\n";
 			}
+			unlock();
 		}
 		else if (strcmp(m.AddressPattern(), "/layerdeltapos") == 0)
 		{
@@ -363,6 +367,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				throw osc::ExcessArgumentException();
 
 			// get all layers
+			lock();
 			vector<Layer *> *layers = ui->editorBox->getAllLayers();
 
 			int found = 0;
@@ -404,6 +409,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				cerr << "OSC error: " << m.AddressPattern() << ": "
 					<< "layer is not found" << "\n";
 			}
+			unlock();
 		}
 	}
 	catch (osc::Exception& e)

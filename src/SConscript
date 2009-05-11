@@ -62,9 +62,9 @@ env.Append(LINKFLAGS = LINKFLAGS)
 # fix flags
 try:
 	if STATIC:
-		flags = env.ParseFlags('!fltk-config --cxxflags --ldstaticflags --use-images --use-gl')
+		flags = env.ParseFlags('!/opt/local/bin/fltk-config --cxxflags --ldstaticflags --use-images --use-gl')
 	else:
-		flags = env.ParseFlags('!fltk-config --cxxflags --ldflags --use-images --use-gl')
+		flags = env.ParseFlags('!/opt/local/bin/fltk-config --cxxflags --ldflags --use-images --use-gl')
 except:
 	print "error: 'fltk' must be installed!"
 	Exit(1)
@@ -123,7 +123,8 @@ if platform == 'darwin':
 import os
 if platform == 'posix':
 	env['ENV']['DISPLAY'] = os.environ['DISPLAY']
-	env['ENV']['LIBGL_DRIVERS_PATH'] = os.environ['LIBGL_DRIVERS_PATH']
+	if 'LIBGL_DRIVERS_PATH' in os.environ:
+		env['ENV']['LIBGL_DRIVERS_PATH'] = os.environ['LIBGL_DRIVERS_PATH']
 
 env.AlwaysBuild(env.Alias('run', [TARGET], '%s' % env.File(TARGET).abspath))
 
