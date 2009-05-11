@@ -41,14 +41,13 @@ Installing on Windows
 On Windows Animata is compiled from Cygwin (http://cygwin.org/).
 
 Cygwin packages: python, subversion, fltk-devel, libjpeg-devel, libjpg62
-libpng12, libpng12-devel
+libpng12, libpng12-devel, gcc-core, gcc-g++
 
 Download the Scons tarball from http://scons.org, and copy it to your cygwin
 home directory. Then type:
 tar -zxvf scons-1.2.0.tar.gz
 cd scons-1.2.0
 python setup.py install
-
 
 Installing on OSX
 -----------------
@@ -64,6 +63,9 @@ Installing on Linux
 
 In most Linux distributions an FLTK package is available. Animata is known to
 compile in Fedora, and Ubuntu (8.04, 8.10).
+
+Generic build instructions
+--------------------------
 
 To build Animata, type:
 
