@@ -43,6 +43,13 @@ On Windows Animata is compiled from Cygwin (http://cygwin.org/).
 Cygwin packages: python, subversion, fltk-devel, libjpeg-devel, libjpg62
 libpng12, libpng12-devel
 
+Download the Scons tarball from http://scons.org, and copy it to your cygwin
+home directory. Then type:
+tar -zxvf scons-1.2.0.tar.gz
+cd scons-1.2.0
+python setup.py install
+
+
 Installing on OSX
 -----------------
 
