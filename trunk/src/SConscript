@@ -62,9 +62,9 @@ env.Append(LINKFLAGS = LINKFLAGS)
 # fix flags
 try:
 	if STATIC:
-		flags = env.ParseFlags('!/opt/local/bin/fltk-config --cxxflags --ldstaticflags --use-images --use-gl')
+		flags = env.ParseFlags('!fltk-config --cxxflags --ldstaticflags --use-images --use-gl')
 	else:
-		flags = env.ParseFlags('!/opt/local/bin/fltk-config --cxxflags --ldflags --use-images --use-gl')
+		flags = env.ParseFlags('!fltk-config --cxxflags --ldflags --use-images --use-gl')
 except:
 	print "error: 'fltk' must be installed!"
 	Exit(1)
