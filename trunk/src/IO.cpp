@@ -273,6 +273,16 @@ void IO::saveLayers(TiXmlElement *parent, vector<Layer *> *layers)
 }
 
 /**
+ * Creates the settings object in the XML structure.
+ **/
+void IO::saveSettings(TiXmlElement *parent)
+{
+	TiXmlElement *settingsXML = new TiXmlElement("settings");
+
+	parent->LinkEndChild(settingsXML);
+}
+
+/**
  * Saves scene in XML.
  * \param filename filename to save to
  * \param rootLayer pointer to the main vector of layers

@@ -35,10 +35,25 @@ Animata requires:
 
 FLTK (1.1.x)	http://www.fltk.org/
 
+Installing on Windows
+---------------------
+
 On Windows Animata is compiled from Cygwin (http://cygwin.org/).
+
+Cygwin packages: python, subversion, fltk-devel, libjpeg-devel, libjpg62
+libpng12, libpng12-devel
+
+Installing on OSX
+-----------------
 
 On OSX install FLTK from MacPorts
 (http://www.macports.org/).
+
+On OS X you can create an application bundle using "scons --app", or you can
+also open Animata.xcodeproj and compile and run the Animata Target from XCode.
+
+Installing on Linux
+-------------------
 
 In most Linux distributions an FLTK package is available. Animata is known to
 compile in Fedora, and Ubuntu (8.04, 8.10).
@@ -48,9 +63,6 @@ To build Animata, type:
 scons 
 
 To run the software, type ./animata in the build directory.
-
-On OS X you can create an application bundle using "scons --app", or you can
-also open Animata.xcodeproj and compile and run the Animata Target from XCode.
 
 
 Where to get more information
