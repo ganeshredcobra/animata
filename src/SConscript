@@ -61,10 +61,15 @@ env.Append(LINKFLAGS = LINKFLAGS)
 
 # fix flags
 try:
+	# detect the location of fltk-config - scons cannot find it on osx otherwise?
+	import os
+	file = os.popen('which fltk-config')
+	fltk_config_bin = file.read().strip()
+	file.close()
 	if STATIC:
-		flags = env.ParseFlags('!fltk-config --cxxflags --ldstaticflags --use-images --use-gl')
+		flags = env.ParseFlags('!%s --cxxflags --ldstaticflags --use-images --use-gl' % fltk_config_bin)
 	else:
-		flags = env.ParseFlags('!fltk-config --cxxflags --ldflags --use-images --use-gl')
+		flags = env.ParseFlags('!%s --cxxflags --ldflags --use-images --use-gl' % fltk_config_bin)
 except:
 	print "error: 'fltk' must be installed!"
 	Exit(1)
