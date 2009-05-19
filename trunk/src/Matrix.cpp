@@ -169,6 +169,7 @@ Matrix& Matrix::operator *= (Matrix& m)
 //				f[i*4 + j] += m[i*4 + k] * (*temp)[k*4 + j];
 				f[i*4 + j] += (*temp)[i*4 + k] * m[k*4 + j];
 
+	delete temp;
 	return *this;
 }
 
