@@ -132,6 +132,7 @@ void IO::saveSkeleton(TiXmlElement *parent, Skeleton *s, Mesh *m)
 			jointXML->SetDoubleAttribute("y", j->y);
 			jointXML->SetAttribute("fixed", j->fixed);
 			jointXML->SetAttribute("selected", j->selected);
+			jointXML->SetAttribute("osc", j->osc);
 
 			jointsXML->LinkEndChild(jointXML);
 		}
@@ -326,6 +327,7 @@ void IO::loadSkeleton(TiXmlNode *parent, Skeleton *skeleton, Mesh *m)
 		const char *name;
 		float x, y;
 		int selected;
+		int osc;
 		int fixed;
 		jointCount++;
 		/* if there's a critical error the joint is skipped */
@@ -334,10 +336,12 @@ void IO::loadSkeleton(TiXmlNode *parent, Skeleton *skeleton, Mesh *m)
 		/* loadedJointCount holds the number of actually loaded joints */
 		loadedJointCount++;
 		QUERY_ATTR(j, "selected", selected, 0);
+		QUERY_ATTR(j, "osc", osc, 0);
 		QUERY_ATTR(j, "fixed", fixed, 0);
 		name = j->Attribute("name"); // can be NULL
 		Joint *joint = skeleton->addJoint(x, y);
 		joint->selected = selected;
+		joint->osc = osc;
 		joint->fixed = fixed;
 		if (name)
 			joint->setName(name);
