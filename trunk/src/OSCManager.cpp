@@ -763,8 +763,6 @@ void OSCSender::threadTask(void)
 {
 	while (threadRunning && (ui != NULL))
 	{
-		ops->Clear();
-		(*ops) << osc::BeginBundle();
 		vector<Joint *> *oscJoints = ui->editorBox->getOSCJoints();
 		if (oscJoints != NULL)
 		{
@@ -772,12 +770,14 @@ void OSCSender::threadTask(void)
 			for (; ji < oscJoints->end(); ji++)
 			{
 				Joint *j = *ji;
-				(*ops) << osc::BeginMessage( "/joint" ) <<
+				ops->Clear();
+				(*ops) << osc::BeginBundleImmediate <<
+					osc::BeginMessage("/joint") <<
 					j->getName() <<
-					j->x << j->y << osc::EndMessage;
+					j->x << j->y << osc::EndMessage <<
+					osc::EndBundle;
+				socket->Send(ops->Data(), ops->Size());
 			}
-			(*ops) << osc::EndBundle;
-			socket->Send(ops->Data(), ops->Size());
 		}
 
 		// send messages 25 times per second approximately
