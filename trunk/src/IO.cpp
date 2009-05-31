@@ -345,6 +345,12 @@ void IO::loadSkeleton(TiXmlNode *parent, Skeleton *skeleton, Mesh *m)
 		joint->fixed = fixed;
 		if (name)
 			joint->setName(name);
+		// add or remove the joint from the vector of joints
+		// needed to be sent via OSC
+		if (osc)
+		{
+			ui->editorBox->addToOSCJoints(joint);
+		}
 	}
 	// skip the loading of bones if there was a problematic joint
 	if (jointCount != loadedJointCount)
