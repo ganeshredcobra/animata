@@ -132,11 +132,11 @@ class Layer
 		inline bool getVisibility() const { return visible; }
 
 		/// Sets x position.
-		inline void setX(float x) { this->x = x; calcTransformationMatrix(); }
+		inline void setX(float x) { this->x = x; /* calcTransformationMatrix(); */ }
 		/// Sets y position.
-		inline void setY(float y) { this->y = y; calcTransformationMatrix(); }
+		inline void setY(float y) { this->y = y; /* calcTransformationMatrix(); */ }
 		/// Sets z position.
-		inline void setZ(float z) { this->z = z; calcTransformationMatrix(); }
+		inline void setZ(float z) { this->z = z; /* calcTransformationMatrix(); */ }
 		/// Sets scale.
 		inline void setScale(float scale) { this->scale = scale; calcTransformationMatrix(); }
 		/// Sets alpha.
