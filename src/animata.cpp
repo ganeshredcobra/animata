@@ -393,7 +393,15 @@ void AnimataWindow::drawScene(void)
 	// rootLayer->draw(RENDER_FEEDBACK | RENDER_TEXTURE);
 	// rootLayer->draw(RENDER_WIREFRAME);
 
+	lock();
 	vector<Layer *>::iterator l = allLayers->begin();
+	for (; l < allLayers->end(); l++)
+	{
+		(*l)->getTransformationMatrix();
+	}
+	unlock();
+
+	l = allLayers->begin();
 	for (; l < allLayers->end(); l++)
 	{
 		(*l)->drawWithoutRecursion(RENDER_FEEDBACK | RENDER_TEXTURE);
@@ -404,7 +412,6 @@ void AnimataWindow::drawScene(void)
 	{
 		(*l)->drawWithoutRecursion(RENDER_WIREFRAME);
 	}
-
 }
 
 /**

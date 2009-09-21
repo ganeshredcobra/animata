@@ -168,7 +168,6 @@ void Layer::scaleAroundPoint(float s, float ox, float oy)
 
 		scale = s;
 	}
-
 	calcTransformationMatrix();
 }
 
@@ -271,6 +270,7 @@ void Layer::calcTransformationMatrix()
 {
 	transformation.loadIdentity();
 	transformation.scale(scale, scale, 1.0f);
+
 	transformation.translate(x, y, z);
 
 	Layer *actLayer = this;
