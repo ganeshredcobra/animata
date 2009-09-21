@@ -397,7 +397,7 @@ void AnimataWindow::drawScene(void)
 	vector<Layer *>::iterator l = allLayers->begin();
 	for (; l < allLayers->end(); l++)
 	{
-		(*l)->getTransformationMatrix();
+		(*l)->calcTransformationMatrix();
 	}
 	unlock();
 
