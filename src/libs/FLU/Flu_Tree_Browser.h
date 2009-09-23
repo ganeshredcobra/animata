@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 //#define USE_FLU_DND
 
@@ -436,23 +437,23 @@ class FLU_EXPORT Flu_Tree_Browser : public Fl_Group
 
   //! Remove the entry identified by path \b fullpath from the tree
   /*! \return the unique id of the removed entry, or \c 0 if no matching entry was found */
-  unsigned int remove( const char *fullpath );
+  uintptr_t remove( const char *fullpath );
 
   //! Remove entry \b name in path \b path from the tree
   /*! \return the unique id of the removed entry, or \c 0 if no matching entry was found */
-  unsigned int remove( const char *path, const char *name );
+  uintptr_t remove( const char *path, const char *name );
 
   //! Remove the entry identified by unique id \b id from the tree
   /*! \return the unique id of the removed entry, or \c 0 if no matching entry was found */
-  unsigned int remove( unsigned int id );
+  uintptr_t remove( unsigned int id );
 
   //! Remove the entry containing the widget \b w from the tree. Note that the widget is automatically destroyed
   /*! \return the unique id of the removed entry, or \c 0 if no matching entry was found */
-  unsigned int remove( Fl_Widget *w );
+  uintptr_t remove( Fl_Widget *w );
 
   //! Remove Node \b n from the tree
   /*! \return the id of \b n on successful removal, or \c 0 if \b n is not in the tree */
-  inline unsigned int remove( Node* n )
+  inline uintptr_t remove( Node* n )
     { if( !n ) return 0; else return remove( n->id() ); }
 
   //! Override of Fl_Widget::resize
@@ -1077,20 +1078,20 @@ class FLU_EXPORT Flu_Tree_Browser : public Fl_Group
 
       //! Remove the entry identified by path \b fullpath from this node
       /*! \return the unique id of the removed entry, or \c 0 if no matching entry was found */
-      inline unsigned int remove( const char *fullpath )
-	{ return( (unsigned int)modify( fullpath, REMOVE, tree->rdata ) ); }
+      inline uintptr_t remove( const char *fullpath )
+	{ return( (uintptr_t) modify( fullpath, REMOVE, tree->rdata ) ); }
 
       //! Remove the entry identified by unique id \b id from this node
       /*! \return the unique id of the removed entry, or \c 0 if no matching entry was found */
-      unsigned int remove( unsigned int id );
+      uintptr_t remove( unsigned int id );
 
       //! Remove the node containing the widget \b w from this node. Note that the widget is automatically destroyed
       /*! \return the unique id of the removed entry, or \c 0 if no matching entry was found */
-      unsigned int remove( Fl_Widget *w );
+      uintptr_t remove( Fl_Widget *w );
 
       //! Remove Node \b n
       /*! \return the id of \b n on successful removal, or \c 0 if \b n is present */
-      inline unsigned int remove( Node* n )
+      inline uintptr_t remove( Node* n )
 	{ if( !n ) return 0; else return remove( n->id() ); }
 
       //! Select this entry and all child entries
