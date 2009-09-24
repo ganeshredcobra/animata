@@ -262,6 +262,7 @@ void AnimataWindow::loadScene(const char *filename)
 
 		oscListener->setRootLayer(rootLayer);
 
+		sort(allLayers->begin(), allLayers->end(), Layer::zorder);
 		if (ui)
 		{
 			//ui->playback->setRootLayer(rootLayer);
