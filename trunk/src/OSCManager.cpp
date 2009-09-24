@@ -283,6 +283,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			const char *namePattern;
 			float x;
 			float y;
+			float z;
 			//args >> namePattern >> x >> y >> osc::EndMessage;
 			osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin();
 			namePattern = (arg++)->AsString();
@@ -295,6 +296,11 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				y = (arg++)->AsInt32();
 			else
 				y = (arg++)->AsFloat();
+			if (m.ArgumentCount() == 4)
+				if (arg->IsInt32())
+					z = (arg++)->AsInt32();
+				else
+					z = (arg++)->AsFloat();
 			if (arg != m.ArgumentsEnd())
 				throw osc::ExcessArgumentException();
 
@@ -315,6 +321,8 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 				{
 					(*l)->setX(x);
 					(*l)->setY(y);
+					if (m.ArgumentCount() == 4)
+						(*l)->setZ(z);
 					found = 1;
 				}
 			}
@@ -341,7 +349,7 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			if (!found)
 			{
 				cerr << "OSC error: " << m.AddressPattern() << ": "
-					<< "layer is not found" << "\n";
+					<< "layer " << namePattern << " is not found" << "\n";
 			}
 			unlock();
 		}
