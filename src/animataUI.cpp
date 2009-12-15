@@ -1455,7 +1455,7 @@ for(int i = 0; i < imagePack->children(); i++)
 		return box;
 }
 
-char *ext = strrchr(filename, '.');
+const char *ext = strrchr(filename, '.');
 Fl_Image *image = NULL;
 
 if (strcmp(ext, ".jpg") == 0)
