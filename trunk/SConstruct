@@ -40,7 +40,7 @@ if platform == 'darwin' and GetOption('app'):
 
 	env['BUILDERS']['DiskImage'] = Builder(action = BuildDmg)
 	# FIXME: remove .svn folders from examples 
-	DMGFILES = [Dir('Animata.app')] #, Dir('examples')]
+	DMGFILES = [Dir('Animata.app'), Dir('examples')]
 	env.Alias('dmg', env.DiskImage('Animata-' + ANIMATA_VERSION + '.dmg',
 		DMGFILES))
 
