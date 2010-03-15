@@ -159,8 +159,8 @@ for(int i = 1; i <= count; i++)
 	loadImage(filename);
 }}
               tooltip {(A)} xywh {15 606 90 20} box BORDER_BOX shortcut 0x61 color 30 selection_color 3 labelsize 10 labelcolor 7
-              code0 {\#include <Fl/Fl_JPEG_Image.H>}
-              code1 {\#include <Fl/Fl_PNG_Image.H>}
+              code0 {\#include <FL/Fl_JPEG_Image.H>}
+              code1 {\#include <FL/Fl_PNG_Image.H>}
               code2 {\#include "ImageBox.h"}
             }
             Fl_Button {} {
