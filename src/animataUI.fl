@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0108 
+version 1.0109 
 header_name {.h} 
 code_name {.cpp}
 decl {class Fl_Eval_Slider;} {public
@@ -11,12 +11,11 @@ class AnimataUI {open
   }
   decl {AnimataSettings settings;} {public
   }
-  Function {AnimataUI()} {open
-  } {
+  Function {AnimataUI()} {} {
     Fl_Window window {
       label animata
       callback {if (Fl::event()==FL_SHORTCUT && Fl::event_key()==FL_Escape) 
-   return; // ignore Escape} open
+   return; // ignore Escape}
       xywh {419 53 855 650} type Double box BORDER_BOX color 0 selection_color 7 resizable
       code0 {\#include <stdlib.h>}
       code1 {\#include "animata.h"}
@@ -131,7 +130,7 @@ for (int i = 0; i < n; ++i)
 	}
 }
 
-editorBox->take_focus();} open
+editorBox->take_focus();}
         private xywh {0 500 2048 160} box BORDER_BOX color 21 selection_color 3 align 0 resizable
       } {
         Fl_Group imagePanel {
@@ -184,7 +183,7 @@ settings.mode = (ANIMATA_MODES)(unsigned)v;
           Fl_Scroll imageScrollArea {open
             xywh {135 535 710 106} box FLAT_BOX color 36 selection_color 36
           } {
-            Fl_Pack imagePack {open
+            Fl_Pack imagePack {
               xywh {140 540 700 80} type HORIZONTAL color 36 selection_color 36
               code0 {o->spacing(10);}
             } {}
@@ -586,7 +585,7 @@ editorBox->setLayerPrefsFromUI(PREFS_LAYER_VISIBILITY, &tempStorage);}
           code0 {o->resizable(NULL);}
         } {}
         Fl_Group {} {
-          label {&7 View} open
+          label {&7 View}
           tooltip {Set up views in this tab.} xywh {0 525 2048 135} box BORDER_BOX color 30 selection_color 30 labelsize 11 labelcolor 7 hide
           code0 {o->resizable(NULL);}
         } {
@@ -692,7 +691,7 @@ else
 {
   playback->hide();
   //playback->clear_visible();
-}} selected
+}}
             tooltip {(S)} xywh {140 525 95 25} down_box BORDER_BOX shortcut 0x73 color 30 selection_color 3 labelcolor 7
           }
         }
@@ -780,7 +779,7 @@ for(int i = 0; i < imagePack->children(); i++)
 		return box;
 }
 
-char *ext = strrchr(filename, '.');
+const char *ext = strrchr(filename, '.');
 Fl_Image *image = NULL;
 
 if (strcmp(ext, ".jpg") == 0)
@@ -805,7 +804,8 @@ imagePack->add(box);
 
 imageScrollArea->redraw();
 
-return box;} {}
+return box;} {selected
+    }
   }
   Function {~AnimataUI()} {} {
     code {delete editorBox;
@@ -814,8 +814,7 @@ delete playback;} {}
   }
   decl {Fl_File_Chooser *fileChooser;} {public
   }
-  Function {refreshLayerTree(Layer *root)} {open
-  } {
+  Function {refreshLayerTree(Layer *root)} {} {
     code {clearLayerTree();
 
 Flu_Tree_Browser::Node* rootNode = layerTree->get_root();
@@ -841,7 +840,7 @@ layers->redraw();} {}
     code {layerTree->clear();
 layerTree->redraw();} {}
   }
-  Function {addLayerNodeRecursive(Layer *layer, Flu_Tree_Browser::Node *node)} {open private
+  Function {addLayerNodeRecursive(Layer *layer, Flu_Tree_Browser::Node *node)} {private
   } {
     code {Flu_Tree_Browser::Node *newNode = node->add(layer->getName());
 
