@@ -297,10 +297,12 @@ void OSCListener::ProcessMessage(const osc::ReceivedMessage& m,
 			else
 				y = (arg++)->AsFloat();
 			if (m.ArgumentCount() == 4)
+			{
 				if (arg->IsInt32())
 					z = (arg++)->AsInt32();
 				else
 					z = (arg++)->AsFloat();
+			}
 			if (arg != m.ArgumentsEnd())
 				throw osc::ExcessArgumentException();
 
